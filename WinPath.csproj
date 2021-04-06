@@ -7,6 +7,7 @@
     <PublishReadyToRun>true</PublishReadyToRun>
     <Version>0.1.0</Version>
     <Authors>ANF-Studios</Authors>
+    <Description>A simple tool to add variables to your Path!</Description>
   </PropertyGroup>
 
   <ItemGroup>
