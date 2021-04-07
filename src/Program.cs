@@ -9,13 +9,22 @@ namespace WinPath
         static void Main(string[] args)
         {
             // Temporary debug code.
-            Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
-            /*Parser.Default.ParseArguments<Options>(args)
+            //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
+            Parser.Default.ParseArguments<Options>(args)
                 .WithParsed<Options>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
-                    else if (options.Value != null && options.AddToUserVariables)
-                        HandleArgument(HandleEventType.UserPath, options);
-                });*/
+                    else if (options.Value != null)
+                    {
+                        if (options.AddToUserVariables && options.AddToSystemVariables)
+                            HandleArgument(HandleEventType.UserAndSystemPath, options);
+                        else if (options.AddToUserVariables)
+                            HandleArgument(HandleEventType.UserPath, options);
+                        else if (options.AddToSystemVariables)
+                            HandleArgument(HandleEventType.SystemPath, options);
+                        else
+                            HandleArgument(HandleEventType.NoUserOrSystemPath);
+                    }
+                });
         }
 
         static void HandleArgument(HandleEventType eventType, Options options = null)
