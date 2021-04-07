@@ -11,16 +11,21 @@ jobs:
 
     runs-on: windows-latest
     
-    strategy:
-      matrix:
-        dotnet: [ '3.1.x', '5.0.x' ]
+    #strategy:
+    #  matrix:
+    #    dotnet: [ '3.1.x', '5.0.x' ]
 
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ matrix.dotnet }}
+        dotnet-version: '5.0.x' #${{ matrix.dotnet }}
+    - name: Add nuget.org as a source
+      run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+    - name: Clear cache
+      shell: cmd
+      run: dotnet clean ./WinPath.csproj --configuration Release && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
