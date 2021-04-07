@@ -38,4 +38,29 @@ Run:
 winpath --system --value ValueToAdd
 ```
 
+## Building and Running
+To build WinPath, you are strongly recommended to be on Windows (though building for other platforms is possible by removing checks that throw an exception if the platform is not Windows). You also require .NET Core 5 to be installed.
+
+Once you are on `Windows`, have `.NET 5.0` SDK, run:
+```pwsh
+dotnet restore
+```
+
+Then, run:
+```pwsh
+dotnet build
+# OR, what I use to publish a release:
+dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true --self-contained false
+# AND, for 32-bit:
+dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true -p:PublishSingleFile=true --self-contained false
+```
+
+To run the executable:
+```pwsh
+dotnet run
+# OR, after you ran dotnet build:
+.\bin\Debug\net5.0\WinPath.exe
+```
+
+
 <!-- Publish using: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true --self-contained false -->
