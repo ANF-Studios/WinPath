@@ -23,7 +23,7 @@ namespace WinPath
             switch (eventType)
             {
                 case HandleEventType.NoValue:
-
+                    System.Console.WriteLine("Please provide a value to be added.");
                     break;
 
                 case HandleEventType.UserPath:
