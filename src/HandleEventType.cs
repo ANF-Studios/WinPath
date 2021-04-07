@@ -5,6 +5,7 @@ namespace WinPath
         NoValue = 0,
         UserPath,
         SystemPath,
-        UserAndSystemPath
+        UserAndSystemPath,
+        NoOrUserPath
     }
 }
