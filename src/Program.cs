@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommandLine;
+
+using WinPath.Library;
 
 namespace WinPath
 {
@@ -6,7 +8,28 @@ namespace WinPath
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // Temporary debug code.
+            Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
+            /*Parser.Default.ParseArguments<Options>(args)
+                .WithParsed<Options>(options => {
+                    if (options.Value == null) HandleArgument(HandleEventType.NoValue);
+                    else if (options.Value != null && options.AddToUserVariables)
+                        HandleArgument(HandleEventType.UserPath, options);
+                });*/
+        }
+
+        static void HandleArgument(HandleEventType eventType, Options options = null)
+        {
+            switch (eventType)
+            {
+                case HandleEventType.NoValue:
+
+                    break;
+
+                case HandleEventType.UserPath:
+                    UserPath.AddToPath(options.Value);
+                    break;
+            }
         }
     }
 }
