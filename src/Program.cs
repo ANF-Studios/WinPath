@@ -10,6 +10,8 @@ namespace WinPath
     {
         static void Main(string[] args)
         {
+            if (!OperatingSystem.IsWindows())
+                throw new PlatformNotSupportedException("WinPath is Windows only!");
             // Temporary debug code.
             //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
             Parser.Default.ParseArguments<Options>(args)
