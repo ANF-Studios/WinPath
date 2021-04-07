@@ -21,6 +21,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ matrix.dotnet }}
+    - name: Clear cache
+      shell: cmd
+      run: dotnet clean ./WinPath.csproj --configuration Release && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
