@@ -38,6 +38,16 @@ namespace WinPath
                 case HandleEventType.UserPath:
                     UserPath.AddToPath(options.Value);
                     break;
+
+                case HandleEventType.SystemPath:
+                    throw new System.NotImplementedException("Cannot add to System Path as it's not implemented.");
+                
+                case HandleEventType.UserAndSystemPath:
+                    throw new System.NotImplementedException("Cannot add to User and System Path as it's not implemented.");
+
+                case HandleEventType.NoUserOrSystemPath:
+                    System.Console.WriteLine("Did not modify any content, exiting...");
+                    break;
             }
         }
     }
