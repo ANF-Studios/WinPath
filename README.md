@@ -62,5 +62,11 @@ dotnet run
 .\bin\Debug\net5.0\WinPath.exe
 ```
 
+## Help and Support
+If you find a bug or something is not working as expected, open an [issue](/issues/new), especially if it's critical to minimize harm/damage if any.
+
+You can also meet me at my Discord server where I am mostly active:
+
+[![Discord server](https://discord.com/api/guilds/732064655396044840/embed.png?style=banner3)](https://discord.gg/fKWpK7A)
 
 <!-- Publish using: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true --self-contained false -->
