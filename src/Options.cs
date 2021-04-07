@@ -10,7 +10,7 @@ namespace WinPath
         [Option('u', "user", Default = false, Required = false, HelpText = "Add it to the user variables.")]
         public bool AddToUserVariables { get; set; }
 
-        [Option('s', "system", Default = false, Required = false, HelpText = "Add it to the sytem variables.")]
+        [Option('s', "system", Default = false, Required = false, HelpText = "Add it to the system variables.")]
         public bool AddToSystemVariables { get; set; }
 
         [Option('b', "backup", Default = false, Required = false, HelpText = "Weather to back up the Path variable to be restored if needed.")]
