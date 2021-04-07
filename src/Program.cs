@@ -1,4 +1,6 @@
-﻿using CommandLine;
+﻿using System;
+
+using CommandLine;
 
 using WinPath.Library;
 
@@ -32,7 +34,7 @@ namespace WinPath
             switch (eventType)
             {
                 case HandleEventType.NoValue:
-                    System.Console.WriteLine("Please provide a value to be added.");
+                    Console.WriteLine("Please provide a value to be added.");
                     break;
 
                 case HandleEventType.UserPath:
@@ -40,13 +42,13 @@ namespace WinPath
                     break;
 
                 case HandleEventType.SystemPath:
-                    throw new System.NotImplementedException("Cannot add to System Path as it's not implemented.");
+                    throw new NotImplementedException("Cannot add to System Path as it's not implemented.");
                 
                 case HandleEventType.UserAndSystemPath:
-                    throw new System.NotImplementedException("Cannot add to User and System Path as it's not implemented.");
+                    throw new NotImplementedException("Cannot add to User and System Path as it's not implemented.");
 
                 case HandleEventType.NoUserOrSystemPath:
-                    System.Console.WriteLine("Did not modify any content, exiting...");
+                    Console.WriteLine("Did not modify any content, exiting...");
                     break;
             }
         }
