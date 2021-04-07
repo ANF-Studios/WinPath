@@ -1,4 +1,3 @@
-<!-- Publish using: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true -->
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
