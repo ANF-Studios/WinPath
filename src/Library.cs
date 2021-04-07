@@ -12,7 +12,14 @@ namespace WinPath.Library
             if (opt != null && opt.BackupPathVariable)
                 UserPath.BackupPath(Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User));
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
-            Environment.SetEnvironmentVariable("Path", path + value + ";", EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable
+            (
+                "Path",
+                (path.EndsWith(";")
+                    ? (path + value + ";" )
+                    : (";" + path + value + ";")),
+                EnvironmentVariableTarget.User
+            );
         }
 
         public static void BackupPath(string pathVariable)
