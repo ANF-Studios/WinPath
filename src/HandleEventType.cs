@@ -6,6 +6,6 @@ namespace WinPath
         UserPath,
         SystemPath,
         UserAndSystemPath,
-        NoOrUserPath
+        NoUserOrSystemPath
     }
 }
