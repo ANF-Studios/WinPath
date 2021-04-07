@@ -56,7 +56,7 @@ dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true -p:PublishSingleF
 ```
 
 To run the executable:
-```pwsh
+```
 dotnet run
 # OR, after you ran dotnet build:
 .\bin\Debug\net5.0\WinPath.exe
