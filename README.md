@@ -63,7 +63,7 @@ dotnet run
 ```
 
 ## Help and Support
-If you find a bug or something is not working as expected, open an [issue](/issues/new), especially if it's critical to minimize harm/damage if any.
+If you find a bug or something is not working as expected, open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), especially if it's critical to minimize harm/damage if any.
 
 You can also meet me at my Discord server where I am mostly active:
 
