@@ -16,7 +16,7 @@ namespace WinPath.Library
             this.includePrereleases = includePrereleases;
         }
 
-        public List<Release> GetReleases()
+        internal List<Release> GetReleases()
         {
             string response = String.Empty;
             List<Release> releases;
