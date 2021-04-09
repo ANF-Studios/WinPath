@@ -16,7 +16,7 @@ namespace WinPath.Library
             this.includePrereleases = includePrereleases;
         }
 
-        public void GetReleases()
+        public List<Release> GetReleases()
         {
             string response = String.Empty;
             List<Release> releases;
@@ -35,13 +35,15 @@ namespace WinPath.Library
                 }
 
                 releases = JsonSerializer.Deserialize<List<Release>>(response);
-                Console.WriteLine(releases[(releases.Count - 1)].Assets[4].DownloadUrl);
+                return releases;
+                //Console.WriteLine(releases[(releases.Count - 1)].Assets[4].DownloadUrl);
             }
             catch (WebException webException)
             {
                 Console.WriteLine("Could not make web request!\n" + webException.Message);
                 Environment.Exit(exitCode: 1);
             }
+            return null;
         }
     }
 
