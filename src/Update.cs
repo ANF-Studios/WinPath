@@ -82,7 +82,7 @@ namespace WinPath.Library
             // If by any chance (which shouldn't be) the foreach loop
             // could not do its task, return the default value; the
             // latest release regardless of if it's a prerelease or not.
-            return releases[(releases.Count - 1)];
+            return releases[^1];
         }
 
         internal Asset GetAssetForProcess(in Release release)
