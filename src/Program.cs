@@ -14,7 +14,7 @@ namespace WinPath
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
             // Temporary debug code.
             //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
-            Parser.Default.ParseArguments<Options>(args)
+            Parser.Default.ParseArguments<Options, UpdateOptions>(args)
                 .WithParsed<Options>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
                     else if (options.Value != null)
@@ -28,6 +28,23 @@ namespace WinPath
                         else
                             HandleArgument(HandleEventType.NoUserOrSystemPath);
                     }
+                })
+                .WithParsed<UpdateOptions>(options => {
+                    Console.WriteLine("Updating WinPath...");
+                    Update update = new Update(options.IncludePrereleases, options.ConfirmDownload);
+                    var releases = update.GetReleases();
+                    Release release = update.FilterRelease(releases);
+                    Console.WriteLine(release.TagName);
+                    ReleaseInfo releaseInfo = new ReleaseInfo
+                    {
+                        ReleaseName = release.ReleaseName,
+                        TagName = release.TagName,
+                        IsPrerelease = release.IsPrerelease,
+                        ReleaseDescription = release.Description,
+                        ReleaseAsset = release.Assets[0] // TODO: Get an approprite exectuable.
+                    };
+                    update.DownloadWinPath(releaseInfo);
+                    update.GetArchitecture(Runtime.ProcessArchitecture);
                 });
         }
 
