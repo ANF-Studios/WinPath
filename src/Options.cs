@@ -16,4 +16,18 @@ namespace WinPath
         [Option('b', "backup", Default = false, Required = false, HelpText = "Weather to back up the Path variable to be restored if needed.")]
         public bool BackupPathVariable { get; set; }
     }
+
+    [Verb("update", HelpText = "Update WinPath to the latest version, optioanlly with/without a prerelease.")]
+    public class UpdateOptions
+    {
+        // TODO: Implement the code for it and then uncomment this section.
+        //[Option('v', "version", HelpText = "Install a specific version of WinPath.")]
+        //public string Version { get; set; }
+
+        [Option('p', "prerelease", Required = false, HelpText = "Weather or not to download a prereleased version.")]
+        public bool IncludePrereleases { get; set; }
+
+        [Option('c', "confirm", Required = false, HelpText = "Confirm the installation and directly install without further confirmations.")]
+        public bool ConfirmDownload { get; set; }
+    }
 }
