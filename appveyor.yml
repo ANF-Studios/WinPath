@@ -15,4 +15,4 @@ test_script:
 - codecov -f "WinPath_coverage.xml.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
-- codecov -f "MyProject_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
+- codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
