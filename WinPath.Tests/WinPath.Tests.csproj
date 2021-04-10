@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinPath.csproj" />
+    <ProjectReference Include="..\WinPath\WinPath.csproj" />
   </ItemGroup>
 
 </Project>
