@@ -85,6 +85,26 @@ namespace WinPath.Library
             return releases[(releases.Count - 1)];
         }
 
+        internal Asset GetAssetForProcess(in Release release)
+        {
+            if (release.Assets.Count < 1)
+            {
+                Console.WriteLine($"There are no executables in release v{release.TagName}! Exiting...");
+                Environment.Exit(1);
+            }
+
+            Asset? processedAsset = null;
+            string architecture = GetArchitecture(RuntimeInformation.ProcessArchitecture).ToLower();
+            release.Assets.ForEach((asset) => {
+                if (IsWindows10() && Environment.Is64BitOperatingSystem)
+                    if (asset.ExecutableName.Contains("win10-x64"))
+                        processedAsset = asset;
+                if (asset.ExecutableName.ToLower().Contains(architecture))
+                    processedAsset = asset;
+            });
+            return (Asset)processedAsset;
+        }
+
         public string GetArchitecture(in Architecture processArchitecture)
         {
             return processArchitecture switch
