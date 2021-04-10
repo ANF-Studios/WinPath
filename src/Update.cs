@@ -45,6 +45,28 @@ namespace WinPath.Library
             }
             return null;
         }
+
+        internal Release FilterRelease(List<Release> releases)
+        {
+            // Reverse the order of the List so that newer releses
+            // appear first in the foreach loop.
+            releases.Reverse();
+
+            foreach (Release release in releases)
+            {
+                if (!release.IsDraft)
+                    continue;
+                if (release.IsPrerelease && includePrereleases)
+                    return release;
+                else if (!(release.IsPrerelease && includePrereleases))
+                    return release;
+            }
+            // If by any chance (which shouldn't be) the foreach loop
+            // could not do its task, return the default value; the
+            // latest release regardless of if it's a prerelease or not.
+            return releases[(releases.Count - 1)];
+        }
+
         public string GetArchitecture(in Architecture processArchitecture)
         {
             return processArchitecture switch
