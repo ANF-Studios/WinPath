@@ -5,8 +5,8 @@
 
     <IsPackable>false</IsPackable>
 
-    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)$(Configuration)\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)$(Configuration)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\$(Configuration)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
