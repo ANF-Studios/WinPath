@@ -69,6 +69,9 @@ namespace WinPath.Library
         [JsonPropertyName("tag_name")]
         public string TagName { get; set; }
 
+        [JsonPropertyName("name")]
+        public string ReleaseName { get; set; }
+
         [JsonPropertyName("draft")]
         public bool IsDraft { get; set; }
 
