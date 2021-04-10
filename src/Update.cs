@@ -45,6 +45,19 @@ namespace WinPath.Library
             }
             return null;
         }
+        public string GetArchitecture(in Architecture processArchitecture)
+        {
+            return processArchitecture switch
+            {
+                Architecture.X64 => Architecture.X64.ToString(),
+                Architecture.X86 => Architecture.X86.ToString(),
+                Architecture.Arm64 => Architecture.Arm64.ToString(),
+                Architecture.Arm => Architecture.Arm.ToString(),
+                _ => throw new PlatformNotSupportedException("WinPath does not support this architecture!")
+            };
+        }
+    }
+
     internal struct ReleaseInfo
     {
         public string ReleaseName { get; set; }
