@@ -37,13 +37,14 @@ namespace WinPath
                     var releases = update.GetReleases();
                     Release release = update.FilterRelease(releases);
                     Console.WriteLine(release.TagName);
+                    Console.WriteLine(update.GetAssetForProcess(release).ExecutableName);
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
                         ReleaseName = release.ReleaseName,
                         TagName = release.TagName,
                         IsPrerelease = release.IsPrerelease,
                         ReleaseDescription = release.Description,
-                        ReleaseAsset = release.Assets[0] // TODO: Get an approprite exectuable.
+                        ReleaseAsset = update.GetAssetForProcess(release)! // TODO: Get an approprite exectuable.
                     };
                     update.DownloadWinPath(releaseInfo);
                     update.GetArchitecture(Runtime.ProcessArchitecture);
