@@ -12,7 +12,7 @@ build:
 
 test_script:
 - OpenCover.Console.exe -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:".\bin\Debug\WinPath.dll -noshadow" -output:".\WinPath_coverage.xml" -oldstyle
-- codecov -f "WinPath_coverage.xml.xml"
+- codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
 - codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
