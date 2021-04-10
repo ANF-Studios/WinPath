@@ -8,8 +8,8 @@
     <Authors>ANF-Studios</Authors>
     <Description>A simple tool to add variables to your Path!</Description>
 
-    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)$(Configuration)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
