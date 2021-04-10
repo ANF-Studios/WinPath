@@ -22,9 +22,6 @@ namespace WinPath.Library
             List<Release> releases;
             try
             {
-                // TODO: Make a web request and download the appropriate arch, refer to:
-                // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.architecture
-
                 using (WebClient webClient = new WebClient())
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
