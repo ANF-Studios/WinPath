@@ -4,6 +4,8 @@ using CommandLine;
 
 using WinPath.Library;
 
+using Runtime = System.Runtime.InteropServices.RuntimeInformation;
+
 namespace WinPath
 {
     class Program
