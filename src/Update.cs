@@ -42,7 +42,9 @@ namespace WinPath.Library
                 using (WebClient webClient = new WebClient())
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
-                    response = webClient.DownloadString("https://api.github.com/repos/ANF-Studios/WinPath/releases");
+                    // FIXME: Change back to its original state.
+                    //response = webClient.DownloadString(Update.releases);
+                    response = System.IO.File.ReadAllText("C:\\Users\\ANF-Studios\\Desktop\\_.json");
                     #if DEBUG
                         Console.WriteLine("Response: " + response);
                     #endif
@@ -104,7 +106,7 @@ namespace WinPath.Library
 
         public string ReleaseDescription { get; set; }
 
-        public Assets ReleaseAsset { get; set; }
+        public Asset ReleaseAsset { get; set; }
     }
 
     internal struct Release
@@ -131,13 +133,13 @@ namespace WinPath.Library
         public string PublishedAt { get; set; }
 
         [JsonPropertyName("assets")]
-        public List<Assets> Assets { get; set; }
+        public List<Asset> Assets { get; set; }
 
         [JsonPropertyName("body")]
         public string Description { get; set; }
     }
 
-    internal struct Assets
+    internal struct Asset
     {
         [JsonPropertyName("name")]
         public string ExecutableName { get; set; }
