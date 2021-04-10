@@ -31,6 +31,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Run Publish script
-      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:UseAppHost --self-contained false
+      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:UseAppHost=true --self-contained false
     - name: Test
       run: dotnet test --no-build --verbosity normal
