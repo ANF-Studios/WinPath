@@ -25,7 +25,7 @@ jobs:
       run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
     - name: Clear cache
       shell: cmd
-      run: dotnet clean ./WinPath.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./WinPath.sln --configuration Release && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
