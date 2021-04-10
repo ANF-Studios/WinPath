@@ -6,6 +6,7 @@ before_build:
 - choco install codecov
 - choco install dotnet-sdk
 - choco install dotnet
+- choco install dotnet4.7.2
 
 build:
   project: WinPath.sln
