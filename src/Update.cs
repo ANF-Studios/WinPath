@@ -18,6 +18,19 @@ namespace WinPath.Library
             this.includePrereleases = includePrereleases;
             this.confirmDownload = confirmDownload;
         }
+
+        internal void DownloadWinPath(in ReleaseInfo releaseInfo)
+        {
+            // TODO: Implement.
+            if (!confirmDownload)
+            {
+                Console.WriteLine("Release Information:");
+                Console.WriteLine($"Title: {releaseInfo.ReleaseName}");
+                Console.WriteLine($"Version: v{releaseInfo.TagName}"
+                    + (releaseInfo.IsPrerelease ? " (Prerelease)" : ""));
+                Console.WriteLine($"Description: {releaseInfo.ReleaseDescription}");
+                Console.WriteLine($"File: {releaseInfo.ReleaseAsset.ExecutableName}");
+            }
         }
 
         internal List<Release> GetReleases()
