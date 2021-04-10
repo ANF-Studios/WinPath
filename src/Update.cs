@@ -45,6 +45,17 @@ namespace WinPath.Library
             }
             return null;
         }
+    internal struct ReleaseInfo
+    {
+        public string ReleaseName { get; set; }
+
+        public string TagName { get; set; }
+
+        public bool IsPrerelease { get; set; }
+
+        public string ReleaseDescription { get; set; }
+
+        public Assets ReleaseAsset { get; set; }
     }
 
     internal struct Release
