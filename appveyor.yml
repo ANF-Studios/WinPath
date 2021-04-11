@@ -23,7 +23,8 @@ test_script:
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
 - cd TestResults/*/
 - ps: $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()))
-- cd $directory[0]
+- ps: echo $directory[0]
+- ps: cd $directory[0]
 - dir
 - pwd
 - codecov -f "WinPath_coverage.xml"
