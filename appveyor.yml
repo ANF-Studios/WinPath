@@ -5,8 +5,6 @@ before_build:
 - choco install opencover.portable
 - choco install codecov
 - choco install dotnet-sdk
-- choco install curl
-#- choco install dotnet
 
 build:
   project: WinPath.sln
