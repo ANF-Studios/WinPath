@@ -31,6 +31,7 @@ test_script:
 - pwd
 - cd "TestResults/"
 - cls
+- echo $0
 - for dir in /*; do cd $dir; done
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
