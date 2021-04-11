@@ -5,6 +5,7 @@ before_build:
 - choco install opencover.portable
 - choco install codecov
 - choco install dotnet-sdk
+- choco install curl
 #- choco install dotnet
 
 build:
@@ -21,13 +22,13 @@ test_script:
 - dotnet tool install --global coverlet.console
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
-- ps: cd C:/projects/WinPath/WinPath.Tests/TestResults/
-- ps: $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()))
-- ps: echo $directory[0]
-- ps: cd $directory[0]
+- pwsh: $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()))
+- pwsh: echo $directory[0]
+- pwsh: [System.IO.File]::WriteAllText($([System.IO.Directory]::GetCurrentDirectory()), $directory[0]);
+- pwsh: Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0]));
 - dir
 - pwd
-- ps: codecov -f "WinPath_coverage.xml"
+- codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
-- codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}\
+- codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
