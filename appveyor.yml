@@ -21,13 +21,7 @@ test_script:
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
 - dotnet tool install --global coverlet.console
 - cd C:\projects\WinPath\WinPath.Tests
-- dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
-#- pwsh: >-
-#    $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()));
-#    echo $directory[0];
-#    [System.IO.File]::WriteAllText($([System.IO.Directory]::GetCurrentDirectory()), $directory[0]);
-#    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0])));
-- dir
+- dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings- dir
 - pwd
 - cd "TestResults/"
 - for /?
@@ -38,4 +32,4 @@ test_script:
 - codecov -f "C:\projects\WinPath\WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
-- codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
+#- codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
