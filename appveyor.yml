@@ -26,7 +26,7 @@ test_script:
     $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()));
     echo $directory[0];
     [System.IO.File]::WriteAllText($([System.IO.Directory]::GetCurrentDirectory()), $directory[0]);
-    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0]));
+    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0])));
 - dir
 - pwd
 - codecov -f "WinPath_coverage.xml"
