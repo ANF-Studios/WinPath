@@ -18,7 +18,9 @@ namespace WinPath.Tests
         public void Test1()
         {
             output.WriteLine("Hello World!");
-            Xunit.Assert.True(true);
+            WinPath.Library.UserPath.AddToPath("foo", new Options { AddToUserVariables = true, });
+            string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+            Xunit.Assert.True(path.EndsWith("foo;"));
         }
     }
 }
