@@ -22,6 +22,8 @@ test_script:
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
 - cd TestResults/*/
+- dir
+- pwd
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
