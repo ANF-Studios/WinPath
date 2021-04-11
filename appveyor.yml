@@ -22,6 +22,7 @@ test_script:
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
 - cd TestResults/*/
+- pwsh --help
 - dir
 - pwd
 - codecov -f "WinPath_coverage.xml"
