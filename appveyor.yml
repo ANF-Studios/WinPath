@@ -12,7 +12,7 @@ build:
   verbosity: minimal
 
 test_script:
-- cp "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Runtime.dll" "%xunit20%\"
+- cp "C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.5\System.Runtime.dll" "%xunit20%\System.Runtime.dll"
 - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\bin\WinPath.Tests\Debug\net5.0\WinPath.Tests.dll -noshadow" -output:".\WinPath_coverage.xml" -oldstyle
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
 - codecov -f "WinPath_coverage.xml"
