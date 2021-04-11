@@ -30,7 +30,7 @@ test_script:
 - dir
 - pwd
 - cd "TestResults/"
-- dir /?
+- for /?
 - for /f "tokens=*" %G in ('dir /b /s "C:\projects\WinPath\WinPath.Tests\TestResults"') do cd %G
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
