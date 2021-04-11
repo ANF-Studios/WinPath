@@ -29,6 +29,7 @@ test_script:
 #    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0])));
 - dir
 - pwd
+- for d in */ ; do echo "$d";done
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
