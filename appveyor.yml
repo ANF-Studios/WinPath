@@ -14,7 +14,7 @@ build:
 test_script:
 - cp "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Console.dll" "C:\projects\WinPath\bin\WinPath.Tests\Debug\net5.0"
 - cd "C:\projects\WinPath"
-- dotnet publish -c Debug --runtime win10-x64 --self-contained true
+#- dotnet publish -c Debug --runtime win10-x64 --self-contained true
 - cp "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Runtime.dll" "%xunit20%\System.Runtime.dll"
 - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\bin\WinPath.Tests\Debug\net5.0\WinPath.Tests.dll -noshadow" -output:".\WinPath_coverage.xml" -oldstyle
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
