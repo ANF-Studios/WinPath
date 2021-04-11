@@ -22,11 +22,11 @@ test_script:
 - dotnet tool install --global coverlet.console
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
-- pwsh: >-
-    $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()));
-    echo $directory[0];
-    [System.IO.File]::WriteAllText($([System.IO.Directory]::GetCurrentDirectory()), $directory[0]);
-    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0])));
+#- pwsh: >-
+#    $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()));
+#    echo $directory[0];
+#    [System.IO.File]::WriteAllText($([System.IO.Directory]::GetCurrentDirectory()), $directory[0]);
+#    Write-Host $([System.IO.File]::ReadAllText($([System.IO.Directory]::GetCurrentDirectory() + $directory[0])));
 - dir
 - pwd
 - codecov -f "WinPath_coverage.xml"
