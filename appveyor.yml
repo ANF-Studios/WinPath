@@ -34,6 +34,7 @@ test_script:
 - for /d %%A in (*) do cd %%A
 - pwd
 - dir
+- move  coverage.opencover.xml C:\projects\WinPath
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
