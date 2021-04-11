@@ -30,7 +30,7 @@ test_script:
 - dir
 - pwd
 - cd "TestResults/"
-- for dir in /*; do cd $dir; done
+- for dir in */*; do cd $dir; done
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
