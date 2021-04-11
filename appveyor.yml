@@ -21,13 +21,13 @@ test_script:
 - dotnet tool install --global coverlet.console
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings
-- cd TestResults/*/
+- ps: cd C:/projects/WinPath/WinPath.Tests/TestResults/
 - ps: $directory = [System.IO.Directory]::GetDirectories($([System.IO.Directory]::GetCurrentDirectory()))
 - ps: echo $directory[0]
 - ps: cd $directory[0]
 - dir
 - pwd
-- codecov -f "WinPath_coverage.xml"
+- ps: codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
 - codecov -f "WinPath_coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}\
