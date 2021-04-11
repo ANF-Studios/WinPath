@@ -31,7 +31,7 @@ test_script:
 - pwd
 - cd "TestResults/"
 - for /?
-- for %%G in ('dir /b /s "C:\projects\WinPath\WinPath.Tests\TestResults"') do cd %%G
+- for /d %A in (*) do cd %%A
 - codecov -f "WinPath_coverage.xml"
 - curl -s https://codecov.io/bash > codecov
 - chmod +x codecov
