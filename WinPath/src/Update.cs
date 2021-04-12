@@ -108,8 +108,7 @@ namespace WinPath.Library
         }
 
         public string GetArchitecture(in Architecture processArchitecture)
-        {
-            return processArchitecture switch
+            => processArchitecture switch
             {
                 Architecture.X64 => Architecture.X64.ToString(),
                 Architecture.X86 => Architecture.X86.ToString(),
@@ -117,7 +116,6 @@ namespace WinPath.Library
                 Architecture.Arm => Architecture.Arm.ToString(),
                 _ => throw new PlatformNotSupportedException("WinPath does not support this architecture!")
             };
-        }
 
         public static bool IsWindows10()
             => ((string)(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion")).GetValue("ProductName")).StartsWith("Windows 10");
