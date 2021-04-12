@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,6 +13,7 @@ namespace WinPath.Library
         private readonly bool includePrereleases;
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
+        private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
 
         public Update(bool includePrereleases, bool confirmDownload)
         {
@@ -36,6 +38,32 @@ namespace WinPath.Library
                     confirmDownload = true;
                 else
                     Environment.Exit(Environment.ExitCode);
+            }
+
+            Directory.CreateDirectory(downloadDirectory);
+
+            Console.WriteLine("\nDownloading " + releaseInfo.ReleaseAsset.ExecutableName + "...");
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
+                    webClient.DownloadFile(releaseInfo.ReleaseAsset.DownloadUrl, downloadDirectory + "WinPath.exe");
+                }
+            }
+            catch (WebException exception)
+            {
+                Console.WriteLine("Couldn't download WinPath due to an error in networking:\n" + exception);
+                Environment.Exit(1);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Couldn't download WinPath:\n" + exception.Message);
+                Environment.Exit(1);
+            }
+            finally
+            {
+                Console.WriteLine("Downloaded WinPath v" + releaseInfo.TagName + "...");
             }
         }
 
@@ -72,7 +100,7 @@ namespace WinPath.Library
         {
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
-            //releases.Reverse();
+            releases.Reverse();
 
             foreach (Release release in releases)
             {
