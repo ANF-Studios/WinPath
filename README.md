@@ -10,6 +10,7 @@
 | GitHub Actions | [![GitHub Actoins .NET](https://github.com/ANF-Studios/WinPath/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ANF-Studios/WinPath/actions/workflows/dotnet.yml) |
 | AppVeyor       | [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/um85ms51acjnnux4?svg=true)](https://ci.appveyor.com/project/ANF-Studios/winpath)                       |
 | CodeCov        | [![CodeCov](https://codecov.io/gh/ANF-Studios/WinPath/branch/master/graph/badge.svg?token=ZDA5DTLQMF)](https://codecov.io/gh/ANF-Studios/WinPath)                            |
+| CodeQL         | [![CodeQL Analysis](https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml/badge.svg)](https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml)     |
 
 ## Usage
 Using WinPath can be a bit tricky as modifying environment variables can cause corruption of your `Path`. **For this reason I will not be responsible for any loss**, I highly recommend you to make a [backup of your registry](https://support.microsoft.com/en-us/topic/how-to-back-up-and-restore-the-registry-in-windows-855140ad-e318-2a13-2829-d428a2ab0692) *and* also always run the `--backup` flag when adding another value to your registry.
