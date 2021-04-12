@@ -19,7 +19,7 @@ test_script:
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
 - dotnet tool install --global coverlet.console
 - cd C:\projects\WinPath\WinPath.Tests
-- dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings --verbosity n
+- dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings --verbosity q
 - pwd
 - cd "TestResults/"
 - for /d %%A in (*) do cd %%A
