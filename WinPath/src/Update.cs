@@ -5,8 +5,6 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using Microsoft.Win32;
-
 namespace WinPath.Library
 {
     public class Update
@@ -117,6 +115,7 @@ namespace WinPath.Library
                 _ => throw new PlatformNotSupportedException("WinPath does not support this architecture!")
             };
 
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public static bool IsWindows10()
             => ((string)(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion")).GetValue("ProductName")).StartsWith("Windows 10");
 
