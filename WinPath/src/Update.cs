@@ -10,7 +10,7 @@ namespace WinPath.Library
     public class Update
     {
         private readonly bool includePrereleases;
-        private readonly bool confirmDownload;
+        private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
 
         public Update(bool includePrereleases, bool confirmDownload)
