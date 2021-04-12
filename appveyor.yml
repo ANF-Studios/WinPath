@@ -17,7 +17,7 @@ test_script:
 #- cp "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Runtime.dll" "%xunit20%\System.Runtime.dll"
 #- OpenCover.Console.exe -register:user -target:".\bin\WinPath.Tests\Debug\net5.0\WinPath.Tests.dll" -output:".\WinPath_coverage.xml" -oldstyle
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
-- dotnet tool install --global coverlet.console
+- dotnet tool install --global coverlet.console --verbosity q
 - cd C:\projects\WinPath\WinPath.Tests
 - dotnet test --collect:"XPlat Code Coverage" --settings coverage.settings --verbosity q
 - pwd
