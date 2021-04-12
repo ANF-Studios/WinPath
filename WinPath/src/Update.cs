@@ -31,6 +31,11 @@ namespace WinPath.Library
                     + $"Description: {releaseInfo.ReleaseDescription}\n"
                     + $"File: {releaseInfo.ReleaseAsset.ExecutableName}\n");
                 Console.Write($"Confirm installation of WinPath v{releaseInfo.TagName} (y/n): ");
+                
+                if ((Console.ReadKey()).Key == ConsoleKey.Y)
+                    confirmDownload = true;
+                else
+                    Environment.Exit(Environment.ExitCode);
             }
         }
 
