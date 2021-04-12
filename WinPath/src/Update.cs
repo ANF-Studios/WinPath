@@ -64,6 +64,25 @@ namespace WinPath.Library
             finally
             {
                 Console.WriteLine("Downloaded WinPath v" + releaseInfo.TagName + "...");
+                Console.WriteLine("Installing WinPath...");
+                if (Environment.Is64BitOperatingSystem)
+                    File.Move(
+                        downloadDirectory
+                        + "WinPath.exe",
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFiles)
+                            + "\\WinPath\\WinPath.exe",
+                        true
+                    );
+                else
+                    File.Move(
+                        downloadDirectory
+                        + "WinPath.exe",
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFilesX86)
+                            + "\\WinPath\\WinPath.exe",
+                        true
+                    );
             }
         }
 
