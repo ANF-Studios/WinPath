@@ -77,8 +77,8 @@ namespace WinPath.Library
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     // FIXME: Change back to its original state.
-                    //response = webClient.DownloadString(Update.releases);
-                    response = System.IO.File.ReadAllText("C:\\Users\\ANF-Studios\\Desktop\\_.json");
+                    response = webClient.DownloadString(Update.releases);
+                    //response = System.IO.File.ReadAllText("C:\\Users\\ANF-Studios\\Desktop\\_.json");
                     #if DEBUG
                         Console.WriteLine("Response: " + response);
                     #endif
