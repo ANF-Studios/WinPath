@@ -24,12 +24,13 @@ namespace WinPath.Library
             // TODO: Implement.
             if (!confirmDownload)
             {
-                Console.WriteLine("Release Information:");
-                Console.WriteLine($"Title: {releaseInfo.ReleaseName}");
-                Console.WriteLine($"Version: v{releaseInfo.TagName}"
-                    + (releaseInfo.IsPrerelease ? " (Prerelease)" : ""));
-                Console.WriteLine($"Description: {releaseInfo.ReleaseDescription}");
-                Console.WriteLine($"File: {releaseInfo.ReleaseAsset.ExecutableName}");
+                Console.WriteLine("Release Information:\n"
+                    + $"Title: {releaseInfo.ReleaseName}\n"
+                    + $"Version: v{releaseInfo.TagName}"
+                    + (releaseInfo.IsPrerelease ? " (Prerelease)\n" : "\n")
+                    + $"Description: {releaseInfo.ReleaseDescription}\n"
+                    + $"File: {releaseInfo.ReleaseAsset.ExecutableName}\n");
+                Console.Write($"Confirm installation of WinPath v{releaseInfo.TagName} (y/n): ");
             }
         }
 
@@ -66,7 +67,7 @@ namespace WinPath.Library
         {
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
-            releases.Reverse();
+            //releases.Reverse();
 
             foreach (Release release in releases)
             {
