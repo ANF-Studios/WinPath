@@ -21,7 +21,7 @@ namespace WinPath.Tests
         //}
 
         [Fact]
-        private void WinPathIsInPath()
+        public void WinPathIsInPath()
         {
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             var isOnPath = path.Contains("%PROGRAMFILES%\\WinPath") || path.Contains("C:\\Program Files\\WinPath");
