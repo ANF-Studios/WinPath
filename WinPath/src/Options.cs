@@ -25,7 +25,7 @@ namespace WinPath
         //[Option('v', "version", HelpText = "Install a specific version of WinPath.")]
         //public string Version { get; set; }
 
-        [Option('p', "prerelease", Required = false, HelpText = "Weather or not to download a prereleased version.")]
+        [Option('p', "prerelease", Required = false, HelpText = "Whether or not to download a prereleased version.")]
         public bool IncludePrereleases { get; set; }
 
         [Option('y', "confirm", Required = false, HelpText = "Confirm the installation and directly install without further confirmations.")]
