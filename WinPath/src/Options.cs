@@ -28,7 +28,7 @@ namespace WinPath
         [Option('p', "prerelease", Required = false, HelpText = "Weather or not to download a prereleased version.")]
         public bool IncludePrereleases { get; set; }
 
-        [Option('c', "confirm", Required = false, HelpText = "Confirm the installation and directly install without further confirmations.")]
+        [Option('y', "confirm", Required = false, HelpText = "Confirm the installation and directly install without further confirmations.")]
         public bool ConfirmDownload { get; set; }
     }
 }
