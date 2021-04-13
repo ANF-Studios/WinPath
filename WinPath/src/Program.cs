@@ -48,7 +48,7 @@ namespace WinPath
                         Updater = release.Assets.Find((asset) => asset.ExecutableName == "WinPath.Updater.exe")
                     };
                     update.DownloadWinPath(releaseInfo);
-                    update.GetArchitecture(Runtime.ProcessArchitecture);
+                    //update.GetArchitecture(Runtime.ProcessArchitecture);
                 });
         }
 
