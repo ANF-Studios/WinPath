@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace WinPath.Library
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
+        private static string updateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
 
         public Update(bool includePrereleases, bool confirmDownload)
         {
@@ -23,7 +25,6 @@ namespace WinPath.Library
 
         internal void DownloadWinPath(in ReleaseInfo releaseInfo)
         {
-            // TODO: Implement.
             if (!confirmDownload)
             {
                 Console.WriteLine("Release Information:\n"
@@ -49,6 +50,7 @@ namespace WinPath.Library
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     webClient.DownloadFile(releaseInfo.ReleaseAsset.DownloadUrl, downloadDirectory + "WinPath.exe");
+                    webClient.DownloadFile(releaseInfo.Updater.DownloadUrl, downloadDirectory + releaseInfo.Updater.ExecutableName);
                 }
             }
             catch (WebException exception)
@@ -65,24 +67,39 @@ namespace WinPath.Library
             {
                 Console.WriteLine("Downloaded WinPath v" + releaseInfo.TagName + "...");
                 Console.WriteLine("Installing WinPath...");
-                if (Environment.Is64BitOperatingSystem)
-                    File.Move(
-                        downloadDirectory
-                        + "WinPath.exe",
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles)
-                            + "\\WinPath\\WinPath.exe",
-                        true
-                    );
+                ProcessStartInfo process = new ProcessStartInfo
+                {
+                    FileName = downloadDirectory + "WinPath.Updater.exe",
+                    UseShellExecute = true,
+                    Verb = "runas",
+                    CreateNoWindow = true
+                };
+                try
+                {
+                    Process.Start(process).WaitForExit();
+                }
+                catch (System.ComponentModel.Win32Exception exception)
+                {
+                    if (exception.NativeErrorCode == 1223)
+                        Console.WriteLine("Could not install WinPath because administrator permissions were not provided!");
+                    else
+                        Console.WriteLine("Could not install WinPath: " + exception.Message);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine("Could not update WinPath: " + exception.Message);
+                }
+                if (File.Exists(updateStatusFile))
+                {
+                    Console.WriteLine("[STATUS] Installed WinPath successfully!");
+                    Environment.ExitCode = 0;
+                }
                 else
-                    File.Move(
-                        downloadDirectory
-                        + "WinPath.exe",
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFilesX86)
-                            + "\\WinPath\\WinPath.exe",
-                        true
-                    );
+                {
+                    Console.WriteLine("[STATUS] Could not update WinPath!");
+                    Environment.ExitCode = 1;
+                }
+                Environment.Exit(Environment.ExitCode);
             }
         }
 
