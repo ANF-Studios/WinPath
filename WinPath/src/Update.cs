@@ -202,6 +202,8 @@ namespace WinPath.Library
         public string ReleaseDescription { get; set; }
 
         public Asset ReleaseAsset { get; set; }
+
+        public Asset Updater { get; set; }
     }
 
     internal struct Release

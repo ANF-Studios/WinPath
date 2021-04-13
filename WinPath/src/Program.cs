@@ -44,7 +44,8 @@ namespace WinPath
                         TagName = release.TagName,
                         IsPrerelease = release.IsPrerelease,
                         ReleaseDescription = release.Description,
-                        ReleaseAsset = update.GetAssetForProcess(release)! // TODO: Get an approprite exectuable.
+                        ReleaseAsset = update.GetAssetForProcess(release)!,
+                        Updater = release.Assets.Find((asset) => asset.ExecutableName == "WinPath.Updater.exe")
                     };
                     update.DownloadWinPath(releaseInfo);
                     update.GetArchitecture(Runtime.ProcessArchitecture);
