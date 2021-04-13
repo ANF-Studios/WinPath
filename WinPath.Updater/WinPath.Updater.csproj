@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <Version>0.1.0</Version>
+    <Authors>ANF-Studios</Authors>
+    <Description>WinPath's Update manager!</Description>
+
+    <OutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\</OutputPath>
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\$(Configuration)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\</OutputPath>
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\$(Configuration)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\</OutputPath>
+    <BaseOutputPath>$(SolutionDir)\bin\$(MSBuildProjectName)\$(Configuration)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+</Project>
