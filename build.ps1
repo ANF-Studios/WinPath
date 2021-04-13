@@ -1,3 +1,18 @@
+function Remove-TestProject
+{
+    if ((Test-Path -Path ".\bin\temp\") -eq $false) {
+        New-Item -Path ".\bin\temp" -ItemType "directory" -Force -Confirm
+    }
+    Copy-Item -Path ".\WinPath.sln" -Destination ".\bin\temp\WinPath.sln" -Force -Confirm
+    dotnet sln remove ".\WinPath.Tests\WinPath.Tests.csproj"
+}
+
+function Add-TestProject
+{
+    Remove-Item -Path ".\WinPath.sln" -Force -Confirm
+    Move-Item -Path ".\bin\temp\WinPath.sln"
+}
+
 function Restore-Packages
 {
     Write-Host "Restoring packages..."
@@ -48,11 +63,11 @@ function Compress-Executables
 function Rename-Executables
 {
     [string[]] $executablesToRename =
-        ".\bin\Release\net5.0\win-x64\publish\WinPath.exe",
-        ".\bin\Release\net5.0\win-x86\publish\WinPath.exe",
-        ".\bin\Release\net5.0\win-arm\publish\WinPath.exe",
-        ".\bin\Release\net5.0\win-arm64\publish\WinPath.exe",
-        ".\bin\Release\net5.0\win10-x64\publish\WinPath.exe"
+        ".\bin\WinPath\net5.0\win-x64\publish\WinPath.exe",
+        ".\bin\WinPath\net5.0\win-x86\publish\WinPath.exe",
+        ".\bin\WinPath\net5.0\win-arm\publish\WinPath.exe",
+        ".\bin\WinPath\net5.0\win-arm64\publish\WinPath.exe",
+        ".\bin\WinPath\net5.0\win10-x64\publish\WinPath.exe"
     Rename-Item -Path $executablesToRename[0] -NewName "WinPath_win-x64.exe"
     Rename-Item -Path $executablesToRename[1] -NewName "WinPath_win-x86.exe"
     Rename-Item -Path $executablesToRename[2] -NewName "WinPath_win-arm.exe"
@@ -65,16 +80,18 @@ function Move-ToOneFolder
     if ((Test-Path -Path ".\bin\dist") -eq ($false)) { New-Item -Path ".\bin\dist\" -ItemType "directory" }
     Rename-Executables
     [string[]] $executables =
-        ".\bin\Release\net5.0\win-x64\publish\WinPath_win-x64.exe",
-        ".\bin\Release\net5.0\win-x86\publish\WinPath_win-x86.exe",
-        ".\bin\Release\net5.0\win-arm\publish\WinPath_win-arm.exe",
-        ".\bin\Release\net5.0\win-arm64\publish\WinPath_win-arm64.exe",
-        ".\bin\Release\net5.0\win10-x64\publish\WinPath_win10-x64.exe"
+        ".\bin\WinPath\net5.0\win-x64\publish\WinPath_win-x64.exe",
+        ".\bin\WinPath\net5.0\win-x86\publish\WinPath_win-x86.exe",
+        ".\bin\WinPath\net5.0\win-arm\publish\WinPath_win-arm.exe",
+        ".\bin\WinPath\net5.0\win-arm64\publish\WinPath_win-arm64.exe",
+        ".\bin\WinPath\net5.0\win10-x64\publish\WinPath_win10-x64.exe",
+        ".\bin\WinPath.Updater\net5.0\win-x86\"
     Move-Item -Path $executables -Destination ".\bin\dist\"
 }
 
-Remove-Item -Path ".\bin\Release\net5.0" -Recurse -Force -Confirm
-Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+#Remove-Item -Path ".\bin\Release\net5.0" -Recurse -Force -Confirm
+#Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+Remove-TestProject
 Restore-Packages
 Build-Win64
 Build-Win32
@@ -82,5 +99,6 @@ Build-WinArm
 Build-WinArm64
 Build-Win10_64
 Move-ToOneFolder
+Add-TestProject
 #Compress-Executables
 Write-Host "All tasks completed!"
