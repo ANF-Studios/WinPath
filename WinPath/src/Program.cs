@@ -8,9 +8,9 @@ using Runtime = System.Runtime.InteropServices.RuntimeInformation;
 
 namespace WinPath
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
