@@ -23,6 +23,9 @@ namespace WinPath.Library
             this.confirmDownload = confirmDownload;
         }
 
+        [DllImport("Shell32.dll", SetLastError = true)]
+        private static extern bool IsUserAnAdmin();
+
         internal void DownloadWinPath(in ReleaseInfo releaseInfo)
         {
             if (!confirmDownload)
@@ -67,6 +70,7 @@ namespace WinPath.Library
             {
                 Console.WriteLine("Downloaded WinPath v" + releaseInfo.TagName + "...");
                 Console.WriteLine("Installing WinPath...");
+
                 ProcessStartInfo process = new ProcessStartInfo
                 {
                     FileName = downloadDirectory + "WinPath.Updater.exe",
@@ -76,6 +80,7 @@ namespace WinPath.Library
                 };
                 try
                 {
+                    Console.WriteLine(IsUserAnAdmin());
                     Process.Start(process).WaitForExit();
                 }
                 catch (System.ComponentModel.Win32Exception exception)
