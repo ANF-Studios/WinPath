@@ -71,16 +71,17 @@ namespace WinPath.Library
                 Console.WriteLine("Downloaded WinPath v" + releaseInfo.TagName + "...");
                 Console.WriteLine("Installing WinPath...");
 
+                bool administratorPermissions = IsUserAnAdmin();
+
                 ProcessStartInfo process = new ProcessStartInfo
                 {
                     FileName = downloadDirectory + "WinPath.Updater.exe",
-                    UseShellExecute = true,
-                    Verb = "runas",
+                    UseShellExecute = !administratorPermissions,
+                    Verb = administratorPermissions ? string.Empty : "runas",
                     CreateNoWindow = true
                 };
                 try
                 {
-                    Console.WriteLine(IsUserAnAdmin());
                     Process.Start(process).WaitForExit();
                 }
                 catch (System.ComponentModel.Win32Exception exception)
