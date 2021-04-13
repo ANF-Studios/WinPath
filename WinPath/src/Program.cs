@@ -16,8 +16,8 @@ namespace WinPath
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
             // Temporary debug code.
             //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
-            Parser.Default.ParseArguments<Options, UpdateOptions>(args)
-                .WithParsed<Options>(options => {
+            Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
+                .WithParsed<AddOptions>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
                     else if (options.Value != null)
                     {
@@ -52,7 +52,7 @@ namespace WinPath
                 });
         }
 
-        static void HandleArgument(HandleEventType eventType, Options options = null)
+        static void HandleArgument(HandleEventType eventType, AddOptions options = null)
         {
             switch (eventType)
             {

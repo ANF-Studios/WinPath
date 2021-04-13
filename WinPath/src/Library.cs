@@ -7,7 +7,7 @@ namespace WinPath.Library
     {
         private static string backupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\PathBackup\\User\\";
 
-        public static void AddToPath(string value, Options opt = null)
+        public static void AddToPath(string value, AddOptions opt = null)
         {
             if (opt != null && opt.BackupPathVariable)
                 UserPath.BackupPath(Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User));

@@ -2,7 +2,8 @@ using CommandLine;
 
 namespace WinPath
 {
-    public class Options
+    [Verb("add", HelpText = "Add a new value to your Path variable.")]
+    public class AddOptions
     {
         [Option('v', "value", Default = null, Required = true, HelpText = "The variable to add to the path.")]
         public string Value { get; set; }
