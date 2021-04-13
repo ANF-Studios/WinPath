@@ -32,7 +32,8 @@ namespace WinPath
                     }
                 })
                 .WithParsed<UpdateOptions>(options => {
-                    System.IO.File.WriteAllText(Update.UpdateStatusFile, string.Empty);
+                    if (System.IO.File.Exists(Update.UpdateStatusFile))
+                        System.IO.File.Delete(Update.UpdateStatusFile);
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update(options.IncludePrereleases, options.ConfirmDownload);
                     var releases = update.GetReleases();
