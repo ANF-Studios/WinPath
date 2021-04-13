@@ -15,8 +15,8 @@ namespace WinPath.Library
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
-        private static string updateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
-
+        public static readonly string UpdateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
+        
         public Update(bool includePrereleases, bool confirmDownload)
         {
             this.includePrereleases = includePrereleases;
@@ -89,7 +89,7 @@ namespace WinPath.Library
                 {
                     Console.WriteLine("Could not update WinPath: " + exception.Message);
                 }
-                if (File.Exists(updateStatusFile))
+                if (File.Exists(UpdateStatusFile))
                 {
                     Console.WriteLine("[STATUS] Installed WinPath successfully!");
                     Environment.ExitCode = 0;
