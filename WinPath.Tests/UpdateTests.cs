@@ -13,12 +13,12 @@ namespace WinPath.Tests
             this.output = output;
         }
 
-        [Fact]
-        public void WinPathDoesUpdate()
-        {
-            WinPath.Program.Main(new string[] { "update", "--prerelease", "--confirm" });
-            Assert.True(System.IO.File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt"));
-        }
+        //[Fact]
+        //public void WinPathDoesUpdate()
+        //{
+        //    WinPath.Program.Main(new string[] { "update", "--prerelease", "--confirm" });
+        //    Assert.True(System.IO.File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt"));
+        //}
 
         [Fact]
         private void WinPathIsInPath()
