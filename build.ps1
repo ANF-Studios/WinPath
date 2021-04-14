@@ -67,7 +67,9 @@ function Rename-Executables
         ".\bin\WinPath\net5.0\win-x86\publish\WinPath.exe",
         ".\bin\WinPath\net5.0\win-arm\publish\WinPath.exe",
         ".\bin\WinPath\net5.0\win-arm64\publish\WinPath.exe",
-        ".\bin\WinPath\net5.0\win10-x64\publish\WinPath.exe"
+        ".\bin\WinPath\net5.0\win10-x64\publish\WinPath.exe",
+        ".\bin\WinPath.Updater\net5.0\win-x86\publish\WinPath.Updater.exe",
+        ".\bin\WinPath.Updater\net5.0\win-arm\publish\WinPath.Updater.exe"
     Rename-Item -Path $executablesToRename[0] -NewName "WinPath_win-x64.exe"
     Rename-Item -Path $executablesToRename[1] -NewName "WinPath_win-x86.exe"
     Rename-Item -Path $executablesToRename[2] -NewName "WinPath_win-arm.exe"
@@ -85,7 +87,8 @@ function Move-ToOneFolder
         ".\bin\WinPath\net5.0\win-arm\publish\WinPath_win-arm.exe",
         ".\bin\WinPath\net5.0\win-arm64\publish\WinPath_win-arm64.exe",
         ".\bin\WinPath\net5.0\win10-x64\publish\WinPath_win10-x64.exe",
-        ".\bin\WinPath.Updater\net5.0\win-x86\"
+        ".\bin\WinPath.Updater\net5.0\win-x86\publish\WinPath.Updater_x86.exe",
+        ".\bin\WinPath.Updater\net5.0\win-arm\publish\WinPath.Updater_arm.exe"
     Move-Item -Path $executables -Destination ".\bin\dist\"
 }
 
