@@ -89,8 +89,7 @@ function Move-ToOneFolder
     Move-Item -Path $executables -Destination ".\bin\dist\"
 }
 
-#Remove-Item -Path ".\bin\Release\net5.0" -Recurse -Force -Confirm
-#Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
 Remove-TestProject
 Restore-Packages
 Build-Win64
