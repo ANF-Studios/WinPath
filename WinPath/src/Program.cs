@@ -4,6 +4,7 @@ using CommandLine;
 
 using WinPath.Library;
 
+using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
 
 namespace WinPath
@@ -35,7 +36,13 @@ namespace WinPath
                     if (System.IO.File.Exists(Update.UpdateStatusFile))
                         System.IO.File.Delete(Update.UpdateStatusFile);
                     Console.WriteLine("Updating WinPath...");
-                    Update update = new Update(options.IncludePrereleases, options.ConfirmDownload);
+                    Update update = new Update
+                    (
+                        options.IncludePrereleases,
+                        options.ConfirmDownload,
+                        (Runtime.OSArchitecture == Architecture.X86
+                            || Runtime.OSArchitecture == Architecture.X64)
+                    );
                     var releases = update.GetReleases();
                     Release release = update.FilterRelease(releases);
                     Console.WriteLine(release.TagName);
