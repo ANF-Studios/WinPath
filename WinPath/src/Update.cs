@@ -12,15 +12,17 @@ namespace WinPath.Library
     public class Update
     {
         private readonly bool includePrereleases;
+        private readonly bool is32Or64BitOperatingSystem;
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
         public static readonly string UpdateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
         
-        public Update(bool includePrereleases, bool confirmDownload)
+        public Update(bool includePrereleases, bool confirmDownload, bool is32Or64BitOperatingSystem)
         {
             this.includePrereleases = includePrereleases;
             this.confirmDownload = confirmDownload;
+            this.is32Or64BitOperatingSystem = is32Or64BitOperatingSystem;
         }
 
         [DllImport("Shell32.dll", SetLastError = true)]
