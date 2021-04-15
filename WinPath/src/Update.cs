@@ -28,7 +28,7 @@ namespace WinPath.Library
         [DllImport("Shell32.dll", SetLastError = true)]
         private static extern bool IsUserAnAdmin();
 
-        internal void DownloadWinPath(in ReleaseInfo releaseInfo)
+        internal void DownloadWinPath(in ReleaseInfo releaseInfo, Action finalJob = null)
         {
             if (!confirmDownload)
             {
@@ -115,6 +115,7 @@ namespace WinPath.Library
                     Console.WriteLine("[STATUS] Could not update WinPath!");
                     Environment.ExitCode = 1;
                 }
+                finalJob?.Invoke();
                 Environment.Exit(Environment.ExitCode);
             }
         }
