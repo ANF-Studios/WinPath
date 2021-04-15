@@ -30,6 +30,7 @@ namespace WinPath.Updater
                         + "\\WinPath\\WinPath.exe",
                         true
                     );
+                Directory.CreateDirectory(updateStatusFile.Trim("status.txt".ToCharArray()));
                 File.WriteAllText(updateStatusFile, string.Empty);
                 Console.WriteLine("WinPath is installed successfully!");
                 Environment.ExitCode = 0;
