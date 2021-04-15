@@ -13,8 +13,7 @@ namespace WinPath.Updater
             {
                 if (Environment.Is64BitOperatingSystem)
                 {
-                    Directory.CreateDirectory
-                    (
+                    Directory.CreateDirectory(
                         //Environment.GetFolderPath(
                         //    Environment.SpecialFolder.ProgramFiles
                         //)
@@ -31,8 +30,7 @@ namespace WinPath.Updater
                 }
                 else
                 {
-                    Directory.CreateDirectory
-                    (
+                    Directory.CreateDirectory(
                         //Environment.GetFolderPath(
                         //    Environment.SpecialFolder.ProgramFilesX86
                         //)
