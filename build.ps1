@@ -1,15 +1,15 @@
 function Remove-TestProject
 {
     if ((Test-Path -Path ".\bin\temp\") -eq $false) {
-        New-Item -Path ".\bin\temp" -ItemType "directory" -Force -Confirm
+        New-Item -Path ".\bin\temp" -ItemType "directory" -Force
     }
-    Copy-Item -Path ".\WinPath.sln" -Destination ".\bin\temp\WinPath.sln" -Force -Confirm
+    Copy-Item -Path ".\WinPath.sln" -Destination ".\bin\temp\WinPath.sln" -Force
     dotnet sln remove ".\WinPath.Tests\WinPath.Tests.csproj"
 }
 
 function Add-TestProject
 {
-    Remove-Item -Path ".\WinPath.sln" -Force -Confirm
+    Remove-Item -Path ".\WinPath.sln" -Force
     Move-Item -Path ".\bin\temp\WinPath.sln"
 }
 
@@ -95,7 +95,7 @@ function Move-ToOneFolder
 }
 
 if ((Test-Path -Path ".\bin\dist") -eq $true) {
-    Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+    Remove-Item -Path ".\bin\dist\" -Recurse -Force
 }
 Remove-TestProject
 Restore-Packages
