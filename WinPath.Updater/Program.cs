@@ -13,6 +13,13 @@ namespace WinPath.Updater
             {
                 if (Environment.Is64BitOperatingSystem)
                 {
+                    Directory.CreateDirectory
+                    (
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFiles
+                        )
+                        + "\\WinPath"
+                    );
                     File.Move(
                         executableDirectory,
                         Environment.GetFolderPath(
@@ -20,17 +27,17 @@ namespace WinPath.Updater
                         )
                         + "\\WinPath\\WinPath.exe",
                         true
-                    );
-                    Directory.CreateDirectory
-                    (
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles
-                        )
-                        + "\\WinPath"
                     );
                 }
                 else
                 {
+                    Directory.CreateDirectory
+                    (
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFilesX86
+                        )
+                        + "\\WinPath"
+                    );
                     File.Move(
                         executableDirectory,
                         Environment.GetFolderPath(
@@ -38,13 +45,6 @@ namespace WinPath.Updater
                         )
                         + "\\WinPath\\WinPath.exe",
                         true
-                    );
-                    Directory.CreateDirectory
-                    (
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFilesX86
-                        )
-                        + "\\WinPath"
                     );
                 }
                 Console.WriteLine("WinPath is installed successfully!");
@@ -53,6 +53,7 @@ namespace WinPath.Updater
             catch (Exception exception)
             {
                 Console.WriteLine("Could not install WinPath: " + exception.Message);
+                Console.ReadKey();
                 File.WriteAllText("log.txt", "Could not install WinPath: " + exception.Message);
                 Environment.ExitCode = 1;
             }
