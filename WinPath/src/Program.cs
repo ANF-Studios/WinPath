@@ -60,7 +60,9 @@ namespace WinPath
                                 : "WinPath.Updater_arm.exe" 
                             ))
                     };
-                    update.DownloadWinPath(releaseInfo);
+                    update.DownloadWinPath(releaseInfo, () => System.IO.Directory.Delete(
+                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\"
+                    ));
                     //update.GetArchitecture(Runtime.ProcessArchitecture);
                 });
         }
