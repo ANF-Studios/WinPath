@@ -41,8 +41,11 @@ namespace WinPath
                         (Runtime.OSArchitecture == Architecture.X86
                             || Runtime.OSArchitecture == Architecture.X64)
                     );
+                    Console.WriteLine("Fetching data from the server...");
                     var releases = update.GetReleases();
+                    Console.WriteLine("Analyzing data...");
                     Release release = update.FilterRelease(releases);
+                    Console.WriteLine("Parsing data...");
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
                         ReleaseName = release.ReleaseName,
