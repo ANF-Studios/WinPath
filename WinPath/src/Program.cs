@@ -59,9 +59,20 @@ namespace WinPath
                                 : "WinPath.Updater_arm.exe" 
                             ))
                     };
-                    update.DownloadWinPath(releaseInfo, () => System.IO.Directory.Delete(
-                        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\"
-                    ));
+                    update.DownloadWinPath(releaseInfo, () => {
+                        foreach (string file in
+                            System.IO.Directory.EnumerateFiles(
+                                $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\"
+                        ))
+                            try
+                            {
+                                System.IO.File.Delete(file);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error cleaning up: " + ex.Message);
+                            }
+                    });
                     //update.GetArchitecture(Runtime.ProcessArchitecture);
                 });
         }
