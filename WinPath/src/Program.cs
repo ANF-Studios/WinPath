@@ -33,8 +33,6 @@ namespace WinPath
                     }
                 })
                 .WithParsed<UpdateOptions>(options => {
-                    if (System.IO.File.Exists(Update.UpdateStatusFile))
-                        System.IO.File.Delete(Update.UpdateStatusFile);
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update
                     (
