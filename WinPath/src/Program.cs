@@ -43,8 +43,6 @@ namespace WinPath
                     );
                     var releases = update.GetReleases();
                     Release release = update.FilterRelease(releases);
-                    Console.WriteLine(release.TagName);
-                    Console.WriteLine(update.GetAssetForProcess(release).ExecutableName);
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
                         ReleaseName = release.ReleaseName,
