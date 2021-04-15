@@ -15,8 +15,6 @@ namespace WinPath
         {
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
-            // Temporary debug code.
-            //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
             Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
                 .WithParsed<AddOptions>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
@@ -73,7 +71,6 @@ namespace WinPath
                                 Console.WriteLine("Error cleaning up: " + ex.Message);
                             }
                     });
-                    //update.GetArchitecture(Runtime.ProcessArchitecture);
                 });
         }
 
