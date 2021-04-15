@@ -6,7 +6,6 @@ namespace WinPath.Updater
     class Program
     {
         private static readonly string executableDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\WinPath.exe";
-        private static readonly string updateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
 
         public static void Main()
         {
@@ -48,8 +47,6 @@ namespace WinPath.Updater
                         + "\\WinPath"
                     );
                 }
-                Directory.CreateDirectory(updateStatusFile.Trim("status.txt".ToCharArray()));
-                File.WriteAllText(updateStatusFile, string.Empty);
                 Console.WriteLine("WinPath is installed successfully!");
                 Environment.ExitCode = 0;
             }
