@@ -93,7 +93,9 @@ function Move-ToOneFolder
     Move-Item -Path $executables -Destination ".\bin\dist\"
 }
 
-Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+if ((Test-Path -Path ".\bin\dist") -eq $true) {
+    Remove-Item -Path ".\bin\dist\" -Recurse -Force -Confirm
+}
 Remove-TestProject
 Restore-Packages
 Build-Win64
