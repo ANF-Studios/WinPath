@@ -16,7 +16,6 @@ namespace WinPath.Library
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
-        public static readonly string UpdateStatusFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt";
         
         public Update(bool includePrereleases, bool confirmDownload, bool is32Or64BitOperatingSystem)
         {
@@ -74,6 +73,7 @@ namespace WinPath.Library
                 Console.WriteLine("Installing WinPath...");
 
                 bool administratorPermissions = IsUserAnAdmin();
+                int processExitCode = 1; // Default to unsuccessful.
 
                 ProcessStartInfo process = new ProcessStartInfo
                 {
@@ -84,7 +84,9 @@ namespace WinPath.Library
                 };
                 try
                 {
-                    Process.Start(process).WaitForExit();
+                    var application = Process.Start(process);
+                    application.WaitForExit();
+                    processExitCode = application.ExitCode;
                 }
                 catch (System.ComponentModel.Win32Exception exception)
                 {
@@ -97,7 +99,7 @@ namespace WinPath.Library
                 {
                     Console.WriteLine("Could not update WinPath: " + exception.Message);
                 }
-                if (File.Exists(UpdateStatusFile))
+                if (processExitCode == 0) // If application exited successfully.
                 {
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User).ToLower();
                     path.Replace("/", "\\");
@@ -110,7 +112,7 @@ namespace WinPath.Library
                     Console.WriteLine("[STATUS] Installed WinPath successfully!");
                     Environment.ExitCode = 0;
                 }
-                else
+                else // If not.
                 {
                     Console.WriteLine("[STATUS] Could not update WinPath!");
                     Environment.ExitCode = 1;
