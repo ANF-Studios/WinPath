@@ -54,7 +54,7 @@ namespace WinPath.Updater
             {
                 Console.WriteLine("Could not install WinPath: " + exception.Message);
                 Console.ReadKey();
-                File.WriteAllText("log.txt", "Could not install WinPath: " + exception.Message);
+                File.WriteAllText(Directory.GetCurrentDirectory() + "log.txt", "Could not install WinPath: " + exception.Message);
                 Environment.ExitCode = 1;
             }
             Environment.Exit(Environment.ExitCode);
