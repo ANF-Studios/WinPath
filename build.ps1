@@ -74,6 +74,7 @@ function Rename-Executables
     Rename-Item -Path $executablesToRename[1] -NewName "WinPath_win-x86.exe"
     Rename-Item -Path $executablesToRename[2] -NewName "WinPath_win-arm.exe"
     Rename-Item -Path $executablesToRename[3] -NewName "WinPath_win-arm64.exe"
+    Rename-Item -Path $executablesToRename[4] -NewName "WinPath_win10-x64.exe"
     Rename-Item -Path $executablesToRename[5] -NewName "WinPath.Updater_x86.exe"
     Rename-Item -Path $executablesToRename[6] -NewName "WinPath.Updater_arm.exe"
 }
