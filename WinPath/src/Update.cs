@@ -55,7 +55,7 @@ namespace WinPath.Library
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     webClient.DownloadFile(releaseInfo.ReleaseAsset.DownloadUrl, downloadDirectory + "WinPath.exe");
-                    webClient.DownloadFile(releaseInfo.Updater.DownloadUrl, downloadDirectory + releaseInfo.Updater.ExecutableName);
+                    webClient.DownloadFile(releaseInfo.Updater.DownloadUrl, downloadDirectory + "WinPath.Updater.exe");
                 }
             }
             catch (WebException exception)
