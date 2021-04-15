@@ -15,17 +15,17 @@ namespace WinPath.Updater
                 {
                     Directory.CreateDirectory
                     (
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles
-                        )
-                        + "\\WinPath"
+                        //Environment.GetFolderPath(
+                        //    Environment.SpecialFolder.ProgramFiles
+                        //)
+                        "C:\\Program Files" + "\\WinPath"
                     );
                     File.Move(
                         executableDirectory,
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles
-                        )
-                        + "\\WinPath\\WinPath.exe",
+                        //Environment.GetFolderPath(
+                        //    Environment.SpecialFolder.ProgramFiles
+                        //)
+                        "C:\\Program Files" + "\\WinPath\\WinPath.exe",
                         true
                     );
                 }
@@ -33,17 +33,17 @@ namespace WinPath.Updater
                 {
                     Directory.CreateDirectory
                     (
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFilesX86
-                        )
-                        + "\\WinPath"
+                        //Environment.GetFolderPath(
+                        //    Environment.SpecialFolder.ProgramFilesX86
+                        //)
+                        "C:\\Program Files (x86)" + "\\WinPath"
                     );
                     File.Move(
                         executableDirectory,
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFilesX86
-                        )
-                        + "\\WinPath\\WinPath.exe",
+                        //Environment.GetFolderPath(
+                        //    Environment.SpecialFolder.ProgramFilesX86
+                        //)
+                        "C:\\Program Files (x86)" + "\\WinPath\\WinPath.exe",
                         true
                     );
                 }
