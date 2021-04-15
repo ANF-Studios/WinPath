@@ -13,6 +13,7 @@ namespace WinPath.Updater
             try
             {
                 if (Environment.Is64BitOperatingSystem)
+                {
                     File.Move(
                         executableDirectory,
                         Environment.GetFolderPath(
@@ -21,7 +22,16 @@ namespace WinPath.Updater
                         + "\\WinPath\\WinPath.exe",
                         true
                     );
+                    Directory.CreateDirectory
+                    (
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFiles
+                        )
+                        + "\\WinPath"
+                    );
+                }
                 else
+                {
                     File.Move(
                         executableDirectory,
                         Environment.GetFolderPath(
@@ -30,6 +40,14 @@ namespace WinPath.Updater
                         + "\\WinPath\\WinPath.exe",
                         true
                     );
+                    Directory.CreateDirectory
+                    (
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFilesX86
+                        )
+                        + "\\WinPath"
+                    );
+                }
                 Directory.CreateDirectory(updateStatusFile.Trim("status.txt".ToCharArray()));
                 File.WriteAllText(updateStatusFile, string.Empty);
                 Console.WriteLine("WinPath is installed successfully!");
