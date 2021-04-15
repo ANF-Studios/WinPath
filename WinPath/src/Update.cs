@@ -87,6 +87,7 @@ namespace WinPath.Library
                     var application = Process.Start(process);
                     application.WaitForExit();
                     processExitCode = application.ExitCode;
+                    Console.WriteLine(application.ExitCode);
                 }
                 catch (System.ComponentModel.Win32Exception exception)
                 {
@@ -114,7 +115,7 @@ namespace WinPath.Library
                 }
                 else // If not.
                 {
-                    Console.WriteLine("[STATUS] Could not update WinPath!");
+                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + downloadDirectory + "log.txt");
                     Environment.ExitCode = 1;
                 }
                 finalJob?.Invoke();
