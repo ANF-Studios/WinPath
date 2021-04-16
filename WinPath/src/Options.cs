@@ -18,7 +18,7 @@ namespace WinPath
         public bool BackupPathVariable { get; set; }
     }
 
-    [Verb("update", HelpText = "Update WinPath to the latest version, optioanlly with/without a prerelease.")]
+    [Verb("update", HelpText = "Update WinPath to the latest version, optioanlly with/without a prerelease. This command can also be used to freshly install, update, and reinstall WinPath.")]
     public class UpdateOptions
     {
         // TODO: Implement the code for it and then uncomment this section.
