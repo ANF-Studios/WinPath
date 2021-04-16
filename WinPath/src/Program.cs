@@ -4,6 +4,7 @@ using CommandLine;
 
 using WinPath.Library;
 
+using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
 
 namespace WinPath
@@ -14,8 +15,6 @@ namespace WinPath
         {
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
-            // Temporary debug code.
-            //Library.UserPath.BackupPath(System.Environment.GetEnvironmentVariable("Path", System.EnvironmentVariableTarget.User));
             Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
                 .WithParsed<AddOptions>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
@@ -32,14 +31,19 @@ namespace WinPath
                     }
                 })
                 .WithParsed<UpdateOptions>(options => {
-                    if (System.IO.File.Exists(Update.UpdateStatusFile))
-                        System.IO.File.Delete(Update.UpdateStatusFile);
                     Console.WriteLine("Updating WinPath...");
-                    Update update = new Update(options.IncludePrereleases, options.ConfirmDownload);
+                    Update update = new Update
+                    (
+                        options.IncludePrereleases,
+                        options.ConfirmDownload,
+                        (Runtime.OSArchitecture == Architecture.X86
+                            || Runtime.OSArchitecture == Architecture.X64)
+                    );
+                    Console.WriteLine("Fetching data from the server...");
                     var releases = update.GetReleases();
+                    Console.WriteLine("Analyzing data...");
                     Release release = update.FilterRelease(releases);
-                    Console.WriteLine(release.TagName);
-                    Console.WriteLine(update.GetAssetForProcess(release).ExecutableName);
+                    Console.WriteLine("Parsing data...");
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
                         ReleaseName = release.ReleaseName,
@@ -47,10 +51,26 @@ namespace WinPath
                         IsPrerelease = release.IsPrerelease,
                         ReleaseDescription = release.Description,
                         ReleaseAsset = update.GetAssetForProcess(release)!,
-                        Updater = release.Assets.Find((asset) => asset.ExecutableName == "WinPath.Updater.exe")
+                        Updater = release.Assets.Find((asset) => asset.ExecutableName == (
+                            update.Is32Or64BitOperatingSystem
+                                ? "WinPath.Updater_x86.exe"
+                                : "WinPath.Updater_arm.exe" 
+                            ))
                     };
-                    update.DownloadWinPath(releaseInfo);
-                    //update.GetArchitecture(Runtime.ProcessArchitecture);
+                    update.DownloadWinPath(releaseInfo, () => {
+                        foreach (string file in
+                            System.IO.Directory.EnumerateFiles(
+                                $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\"
+                        ))
+                            try
+                            {
+                                System.IO.File.Delete(file);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error cleaning up: " + ex.Message);
+                            }
+                    });
                 });
         }
 
