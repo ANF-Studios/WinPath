@@ -3,9 +3,26 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
 
-    <Version>0.2.0</Version>
+    <Version>0.1.0</Version>
     <Authors>ANF-Studios</Authors>
+    <Title>WinPath.Library</Title>
     <Description>WinPath's core library, for others to use!</Description>
+    <Summary>WinPath's core library, for others to use!</Summary>
+    <License>license.txt</License>
+    <LicenseUrl>https://github.com/ANF-Studios/WinPath/blob/master/LICENSE</LicenseUrl>
+    <RepositoryUrl>https://github.com/ANF-Studios/WinPath</RepositoryUrl>
+    <ProjectUrl>https://github.com/ANF-Studios/WinPath/tree/master/WinPath.Library</ProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageTags>WinPath;Environment;Windows;</PackageTags>
+    <PackageProjectUrl>https://github.com/ANF-Studios/WinPath/tree/master/WinPath.Library</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
