@@ -1,0 +1,36 @@
+name: NuGet Publish
+
+on:
+    workflow_dispatch:
+        inputs:
+            confirmPublish:
+                description: "Publish WinPath.Library (Y/N)?"
+                required: true
+                default: "Y"
+
+jobs:
+    nuget-publish:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  source-url: https://api.nuget.org/v3/index.json
+                  dotnet-version: "5.0.x"
+              env:
+                  NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
+            - name: cd into project
+              run: cd .\WinPath.Library
+            - name: Install dependencies
+              run: dir && dotnet restore
+
+            - name: Publish WinPath.Library
+              if: github.event.inputs.confirmPublish == 'Y'
+              run: |
+                  dir
+                  mkdir __out
+                  dotnet pack WinPath.Library.csproj -c Release -o __out --no-restore
+                  rmdir /Q /S __out
