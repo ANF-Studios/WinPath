@@ -20,16 +20,13 @@ jobs:
               with:
                   source-url: https://api.nuget.org/v3/index.json
                   dotnet-version: "5.0.x"
-            - name: cd into project
-              run: cd .\WinPath.Library
             - name: Install dependencies
-              run: dir && dotnet restore
+              run: cd .\WinPath.Library && dotnet restore
 
             - name: Publish WinPath.Library
               if: github.event.inputs.confirmPublish == 'Y'
               run: |
-                  dir
+                  cd .\WinPath.Library
                   mkdir __out
                   dotnet pack WinPath.Library.csproj -c Release -o __out --no-restore
                   dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "github"
-                  rmdir /Q /S __out
