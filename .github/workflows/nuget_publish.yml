@@ -27,7 +27,7 @@ jobs:
 
             - name: Publish WinPath.Library
               if: github.event.inputs.confirmPublish == 'Y'
-              shell: pwsh
+              shell: bash
               run: |
                   cd .\WinPath.Library
                   dotnet build -c Release
