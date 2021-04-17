@@ -27,9 +27,10 @@ jobs:
 
             - name: Publish WinPath.Library
               if: github.event.inputs.confirmPublish == 'Y'
+              shell: pwsh
               run: |
                   cd .\WinPath.Library
                   mkdir __out
                   dotnet build -c Release
                   dotnet pack WinPath.Library.csproj -c Release -o __out
-                  dotnet nuget push ./__out/*.nupkg --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "https://api.nuget.org/v3/index.json"
+                  dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "https://api.nuget.org/v3/index.json"
