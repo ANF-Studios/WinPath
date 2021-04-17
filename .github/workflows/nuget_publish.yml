@@ -20,6 +20,8 @@ jobs:
               with:
                   source-url: https://api.nuget.org/v3/index.json
                   dotnet-version: "5.0.x"
+              env:
+                  NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
             - name: Install dependencies
               run: cd .\WinPath.Library && dotnet restore
 
