@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+
+    <Version>0.2.0</Version>
+    <Authors>ANF-Studios</Authors>
+    <Description>WinPath's core library, for others to use!</Description>
   </PropertyGroup>
 
 </Project>
