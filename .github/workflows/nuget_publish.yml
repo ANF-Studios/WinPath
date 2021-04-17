@@ -30,7 +30,6 @@ jobs:
               shell: pwsh
               run: |
                   cd .\WinPath.Library
-                  mkdir __out
                   dotnet build -c Release
-                  dotnet pack WinPath.Library.csproj -c Release -o __out
-                  dotnet nuget push "./__out/*.nupkg" --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "https://api.nuget.org/v3/index.json"
+                  dotnet pack WinPath.Library.csproj -c Release
+                  dotnet nuget push "*.nupkg" --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "https://api.nuget.org/v3/index.json"
