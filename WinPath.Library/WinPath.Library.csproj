@@ -5,6 +5,7 @@
 
     <Version>0.2.0</Version>
     <Authors>ANF-Studios</Authors>
+    <Title>WinPath.Library</Title>
     <Description>WinPath's core library, for others to use!</Description>
     <Summary>WinPath's core library, for others to use!</Summary>
     <License>license.txt</License>
