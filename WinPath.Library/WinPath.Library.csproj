@@ -7,7 +7,7 @@
     <Authors>ANF-Studios</Authors>
     <Description>WinPath's core library, for others to use!</Description>
     <Summary>WinPath's core library, for others to use!</Summary>
-    <License>..\LICENSE</License>
+    <License>license.txt</License>
     <LicenseUrl>https://github.com/ANF-Studios/WinPath/blob/master/LICENSE</LicenseUrl>
     <RepositoryUrl>https://github.com/ANF-Studios/WinPath</RepositoryUrl>
     <ProjectUrl>https://github.com/ANF-Studios/WinPath/tree/master/WinPath.Library</ProjectUrl>
