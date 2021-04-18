@@ -17,7 +17,7 @@ namespace WinPath.Tests
         [Fact]
         public void AddToUserPath()
         {
-            WinPath.Library.UserPath.AddToPath("foo", new AddOptions { AddToUserVariables = true, });
+            WinPath._Library.UserPath.AddToPath("foo", new AddOptions { AddToUserVariables = true, });
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.EndsWith("foo;");
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
@@ -27,7 +27,7 @@ namespace WinPath.Tests
         [Fact]
         public void AddToUserPathWithBackup()
         {
-            WinPath.Library.UserPath.AddToPath("foo", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
+            WinPath._Library.UserPath.AddToPath("foo", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.EndsWith("foo;");
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
