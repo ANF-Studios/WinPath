@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WinPath\WinPath.csproj" />
+    <ProjectReference Include="..\WinPath\WinPath.Library.csproj" />
   </ItemGroup>
 
 </Project>
