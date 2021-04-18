@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace WinPath.Library
+namespace WinPath._Library
 {
     public class UserPath
     {
