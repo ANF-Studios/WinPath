@@ -31,7 +31,7 @@ jobs:
               run: |
                   cd .\WinPath.Library
                   dotnet build -c Release
-                  dotnet nuget source add --name "GitHub" --source "https://nuget.pkg.github.com/ANF-Studios/WinPath/index.json" --username "ANF-Studios"
+                  dotnet nuget add source --name "GitHub" --source "https://nuget.pkg.github.com/ANF-Studios/WinPath/index.json" --username "ANF-Studios"
                   dotnet pack WinPath.Library.csproj -c Release
                   $nupkg_files = Get-ChildItem . -Filter *.nupkg -Recurse
                   foreach ($nupkg_file in $nupkg_files) { dotnet nuget push $nupkg_file --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "GitHub" }
