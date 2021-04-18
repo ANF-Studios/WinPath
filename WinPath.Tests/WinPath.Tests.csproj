@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WinPath.Library\WinPath.Library.csproj" />
     <ProjectReference Include="..\WinPath\WinPath.csproj" />
-    <ProjectReference Include="..\WinPath\WinPath.Library.csproj" />
   </ItemGroup>
 
 </Project>
