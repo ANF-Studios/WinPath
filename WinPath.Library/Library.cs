@@ -137,7 +137,7 @@ namespace WinPath.Library
         /// <param name="backupDirectory">The directory path to backup to, no need to provide it if you use <see cref="BackupDirectory"/>.</param>
         public virtual void BackupPath(string path, string filename = null, string backupDirectory = null)
         {
-            if (Directory.Exists(backupDirectory ?? this.BackupDirectory))
+            if (!Directory.Exists(backupDirectory ?? this.BackupDirectory))
                 Directory.CreateDirectory(backupDirectory ?? this.BackupDirectory);
             File.WriteAllText((backupDirectory ?? this.BackupDirectory) + (filename ?? this.BackupFilename), path, System.Text.Encoding.UTF8);
         }
