@@ -2,7 +2,7 @@
 
 using CommandLine;
 
-using WinPath.Library;
+using WinPath._Library;
 
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace WinPath.Library
+namespace WinPath._Library
 {
     public class Update
     {
