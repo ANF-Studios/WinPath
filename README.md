@@ -35,6 +35,11 @@ Then, either manually add it, using the [Environment Variables window](https://s
     ```
 3. Open up a **new instance** of your terminal and run `winpath`.
 
+## Usage
+### Usage demo:
+![WinPath's usage demo](https://user-images.githubusercontent.com/68814933/115187380-35f77f00-a0b1-11eb-815e-3cf75d275d12.gif)
+
+
 
 ## Building and Running
 To build WinPath, you are strongly recommended to be on Windows (though building for other platforms is possible by removing checks that throw an exception if the platform is not Windows). You also require .NET Core 5 to be installed.
