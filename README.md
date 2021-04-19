@@ -39,7 +39,26 @@ Then, either manually add it, using the [Environment Variables window](https://s
 ### Usage demo:
 ![WinPath's usage demo](https://user-images.githubusercontent.com/68814933/115187380-35f77f00-a0b1-11eb-815e-3cf75d275d12.gif)
 
+### Adding variables to the `Path`
+Adding variables to the `Path` isn't hard, at all! It's focused on being simple, secure, and safe. We've even set up extra precautions to make sure nothing goes wrong, but you don't need to use those because you're safe, 95% (approx.) of the times!
 
+To add a variable to your `Path`, simply run:
+```ps1
+> winpath add --value foo
+```
+But that won't change anything and you'll get a warning saying `Did not modify any content, exiting...`. That's because you have to run at least either of `--user` or `--system` flag. These flags define which variable type/location to add to. There are two types, concerning WinPath itself, one being the `User` and other being `Machine` or `System`. `User` variables are only limited to the account, whereas `System` variables work on all accounts globally. You can add both as well, but you must supply at least one of them.
+```ps1
+# Add a variable to your user Path.
+> winpath add --user --value foo
+# Add a variable to your system Path.
+> winpath add --system --value bar
+# Add a variable to both user and system Paths.
+> winpath add --system --user --value baz
+```
+You can also backup your *initial* `Path` variable(s) before modifying so that if you're from one of those 5%, you can restore your `Path`. You can do so simply by adding the `--backup` flag when running that command. Currently, as of v0.2.0, WinPath offers no way to restore your `Path` variable(s), you have to do it manually. They're stored in `%APPDATA%\WinPath\` divided into sub folders, you can look at it for yourself. If you need assistance regarding this matter, please do not hesitate to open an issue.
+
+### Updating WinPath
+Updating WinPath is easier than ever. With v0.2.0, you have the `update` command which acts as all the installer, updater, and reinstaller. You can update WinPath by running `winpath update`, it'll ask you for a confirmation, if you want to confirm the installationm, you can add the `-y` (or `--confirm`) flag. If you want to update to a beta/prerelease, you can add the `--prerelease` flag. Prereleases are revisions of WinPath that are generally less stable and are not meant to handle errors properly compared to a distribution build, it may also be a featureless, under-work build. 
 
 ## Building and Running
 To build WinPath, you are strongly recommended to be on Windows (though building for other platforms is possible by removing checks that throw an exception if the platform is not Windows). You also require .NET Core 5 to be installed.
