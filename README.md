@@ -2,9 +2,9 @@
     <h1 >WinPath</h1>
     <p>A simple tool to add variables to your <code>Path</code>!</p>
     <a href="https://github.com/ANF-Studios/WinPath/actions/workflows/dotnet.yml" alt="GitHub Actions | .NET" target="_blank"><img src="https://github.com/ANF-Studios/WinPath/actions/workflows/dotnet.yml/badge.svg" /></a>
-    <a href="https://ci.appveyor.com/project/ANF-Studios/winpath" alt="AppVeyor Build | .NET" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/um85ms51acjnnux4?svg=true" /></a>
     <a href="https://codecov.io/gh/ANF-Studios/WinPath" alt="CodeCov | Code Coverage" target="_blank"><img src="https://codecov.io/gh/ANF-Studios/WinPath/branch/master/graph/badge.svg?token=ZDA5DTLQMF" /></a>
     <a href="https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml" alt="GitHub CodeQL | Security Scan" target="_blank"><img src="https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml/badge.svg" /></a>
+    <a href="https://ci.appveyor.com/project/ANF-Studios/winpath" alt="AppVeyor Build | .NET" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/um85ms51acjnnux4?svg=true" /></a>
 </div>
 
 
