@@ -8,8 +8,8 @@
 </div>
 
 
-## Usage
-### Installation
+## Installation
+### CLI Installation
 To install WinPath download `WinPath_win<optioanl version>-<arch>` where `<optional version>` can either be `10` or nothing. And `<arch>` can be either x86, x64, arm or arm64. If you don't know your pc architecture, you can get help from [this guide](https://winaero.com/check-if-processor-is-32-bit-64-bit-or-arm-in-windows-10/). It's recommended that you download `WinPath_win10-x64` if you're on a 64-bit Windows 10 computer.
 
 After you've downloaded WinPath, you can either manually install it by moving WinPath and adding it to the `Path`, or, you can let WinPath handle that for you by running the `update` command. To do so, open up command prompt in the same directory you have WinPath downloaded and type `.\<the name of the executable> update -p -y` and let everything be handled for you.
@@ -18,8 +18,8 @@ Keep note that if you already have WinPath installed, you only need to run `winp
 
 Using WinPath can be a bit tricky as modifying environment variables can cause corruption of your `Path`. **For this reason I will not be responsible for any loss**, I highly recommend you to make a [backup of your registry](https://support.microsoft.com/en-us/topic/how-to-back-up-and-restore-the-registry-in-windows-855140ad-e318-2a13-2829-d428a2ab0692) *and* also always run the `--backup` flag when adding another value to your registry.
 
-### Adding WinPath to the Path
-There are two ways to do so, you can either:
+### Manual Installation
+In the second option, there are two ways to do so, you can either:
 * Move `WinPath.exe` to `C:\Windows\`.
 
 OR
@@ -35,19 +35,6 @@ Then, either manually add it, using the [Environment Variables window](https://s
     ```
 3. Open up a **new instance** of your terminal and run `winpath`.
 
-### Adding a new value to your path
-
-#### User variables
-Run:
-```ps1
-winpath --user --value ValueToAdd
-```
-
-#### System variables
-Run:
-```ps1
-winpath --system --value ValueToAdd
-```
 
 ## Building and Running
 To build WinPath, you are strongly recommended to be on Windows (though building for other platforms is possible by removing checks that throw an exception if the platform is not Windows). You also require .NET Core 5 to be installed.
