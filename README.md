@@ -84,7 +84,7 @@ Then, run:
 ```
 
 To run the executable:
-```
+```ps1
 > dotnet run
 # OR, after you ran dotnet build:
 > .\bin\Debug\net5.0\WinPath.exe
