@@ -9,6 +9,7 @@
 
 
 <h2 align="center">Installation</h2>
+
 **Before installing WinPath, make sure you have *at least* [`.NET 5`](https://dotnet.microsoft.com/download/dotnet/5.0/runtime)'s *runtime* installed. If not, WinPath would NOT work.**
 
 ### CLI Installation
@@ -65,6 +66,7 @@ You can also backup your *initial* `Path` variable(s) before modifying so that i
 Updating WinPath is easier than ever. With v0.2.0, you have the `update` command which acts as all the installer, updater, and reinstaller. You can update WinPath by running `winpath update`, it'll ask you for a confirmation, if you want to confirm the installationm, you can add the `-y` (or `--confirm`) flag. If you want to update to a beta/prerelease, you can add the `--prerelease` flag. Prereleases are revisions of WinPath that are generally less stable and are not meant to handle errors properly compared to a distribution build, it may also be a featureless, under-work build. 
 
 <h2 align="center">Building and Running</h2>
+
 To build WinPath, you are strongly recommended to be on Windows (though building for other platforms is possible by removing checks that throw an exception if the platform is not Windows). You also require .NET Core 5 to be installed.
 
 Once you are on `Windows`, have `.NET 5.0` SDK, run:
@@ -89,6 +91,7 @@ To run the executable:
 ```
 
 <h2 align="center">Help and Support</h2>
+
 If you find a bug or something is not working as expected, open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), especially if it's critical to minimize harm/damage if any. Refer to [SECURITY.md](/SECURITY.md) for more information.
 
 You can also meet me at my Discord server where I am mostly active:
