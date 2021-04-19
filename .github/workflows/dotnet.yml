@@ -22,6 +22,7 @@ jobs:
       with:
         dotnet-version: '5.0.x' #${{ matrix.dotnet }}
         source-url: https://api.nuget.org/v3/index.json
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #- name: Add nuget.org as a source
     #  run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
     - name: Clear cache
