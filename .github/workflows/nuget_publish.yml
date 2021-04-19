@@ -7,9 +7,14 @@ on:
                 description: "Publish WinPath.Library (Y/N)?"
                 required: true
                 default: "Y"
+            publishToNuGetOrGitHubPackages:
+                description: "Whether to publish to GitHub Packages (GHP) or NuGet (NG)"
+                required: false
+                default: "GHP" # GitHub Packages.
 
 jobs:
     nuget-publish:
+        if: github.event.inputs.confirmPublish == 'Y'
         runs-on: windows-latest
 
         steps:
@@ -25,8 +30,18 @@ jobs:
             - name: Install dependencies
               run: cd .\WinPath.Library && dotnet restore
 
-            - name: Publish WinPath.Library
-              if: github.event.inputs.confirmPublish == 'Y'
+            - name: Publish WinPath.Library to GitHub Packages
+              if: github.event.inputs.publishToNuGetOrGitHubPackages == 'GHP'
+              shell: pwsh
+              run: |
+                  cd .\WinPath.Library
+                  dotnet build -c Release
+                  nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/ANF-Studios/index.json" -UserName ANF-Studios -Password ${{ secrets.GITHUB_TOKEN }}
+                  $nupkg_files = Get-ChildItem . -Filter *.nupkg -Recurse
+                  foreach ($nupkg_file in $nupkg_files) { nuget push $nupkg_file -Source "GitHub" -SkipDuplicate -NoSymbols }
+                  
+            - name: Publish WinPath.Library to NuGet
+              if: github.event.inputs.publishToNuGetOrGitHubPackages == 'NG'
               shell: pwsh
               run: |
                   cd .\WinPath.Library
