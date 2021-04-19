@@ -34,10 +34,3 @@ jobs:
                   nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/ANF-Studios/index.json" -UserName ANF-Studios -Password ${{ secrets.GITHUB_TOKEN }}
                   $nupkg_files = Get-ChildItem . -Filter *.nupkg -Recurse
                   foreach ($nupkg_file in $nupkg_files) { nuget push $nupkg_file -Source "GitHub" -SkipDuplicate -NoSymbols }
-                  
-#nuget add source https://nuget.pkg.github.com/ANF-Studios/WinPath/index.json --name "GitHub" --username "ANF-Studios" --password {{ secrets._GITHUB_PAT }}
-#nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/phanatic/octokit/index.json" -UserName phanatic
-#dotnet pack WinPath.Library.csproj -c Release
-#$nupkg_files = Get-ChildItem . -Filter *.nupkg -Recurse
-#foreach ($nupkg_file in $nupkg_files) { dotnet nuget push $nupkg_file --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "GitHub" }
-#foreach ($nupkg_file in $nupkg_files) { dotnet nuget push $nupkg_file --skip-duplicate --no-symbols true --api-key ${{ secrets.NUGET_TOKEN }} --source "https://api.nuget.org/v3/index.json" }
