@@ -34,7 +34,7 @@ Then, either manually add it, using the [Environment Variables window](https://s
 1. Open up `Command Prompt` in the same directory you've stored `WinPath.exe`.
 2. Run:
     ```ps1
-    winpath.exe --system --value path\to\winpath.exe
+    > winpath.exe --system --value path\to\winpath.exe
     ```
 3. Open up a **new instance** of your terminal and run `winpath`.
 
