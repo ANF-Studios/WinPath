@@ -89,6 +89,38 @@ To run the executable:
 
 <h2 align="center">Help and Support</h2>
 
+<h3 align="center">FAQ</h3>
+
+#### Where can I find information on `WinPath.Library`?
+You can learn about WinPath.Library [here](https://github.com/ANF-Studios/WinPath/tree/master/WinPath.Library).
+
+#### What is WinPath?
+WinPath is a simple tool to add variables to your [`Path`](https://en.wikipedia.org/wiki/PATH_(variable)). It focuses on your safety and ease of use primarily, because sometimes, you might change something not wanted or change (for example delete a value or the entire `Path` itself) or... just find it hard to modify variables. WinPath covers that for you.
+
+#### But, for such a simple task? Why?
+Small and simple things make a difference, it doesn't matter to me by how much. Besides, I started this project originally for myself.
+
+#### Why should I use WinPath?
+You don't need to, it's not one of those "must have" tools, but it's really helpful. ***Especially if you don't have administrator permissions***. That means you won't need any permission to add another variable to your `Path`. That really helps out and is super useful for some of you folks out there.
+
+##### But wait, doesn't that mean WinPath will require UAC access too?
+No. It doesn't. Because Win32 API allows modification of `Path` freely.
+
+#### Why is WinPath Windows only?
+Because of some complexities which will require more time, work, and testing, I will officially not support WinPath builds for platforms other than Windows. *However*, you can always use `WinPath.Library` for all platforms.
+
+#### Is it safe?
+Of course it is. I [dogfood](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) it too, as if I am the client! I just put it here on GitHub so that others could use it too! If that doesn't satisfy you, you can compile your own version and look through the code, it's completely *safe*. Even our [CodeQL reports](https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml) don't find any vulnerabilities either.
+
+#### Why is X like so? Why not Y?
+Because that's how I decided to implement X. If you have a better idea/proposal, please, do open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), but before that, search for similar issues.
+
+#### Should I star WinPath?
+Yes, starring WinPath motivates me to do better and keep working on it, that's also how I know that you appreciate my work.
+
+<br />
+<br />
+
 If you find a bug or something is not working as expected, open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), especially if it's critical to minimize harm/damage if any. Refer to [SECURITY.md](/SECURITY.md) for more information.
 
 You can also meet me at my Discord server where I am mostly active:
