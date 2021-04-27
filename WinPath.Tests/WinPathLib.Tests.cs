@@ -42,6 +42,7 @@ namespace WinPath.Tests
 
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
             output.WriteLine(backupExists ? "Path is backed up" : "Path is NOT backed up");
+            output.WriteLine(userPath.BackupDirectory + userPath.BackupFilename);
             Assert.True((isAddedToThePath && backupExists));
         }
     }
