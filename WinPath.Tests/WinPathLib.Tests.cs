@@ -38,9 +38,11 @@ namespace WinPath.Tests
 
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.EndsWith("foo;");
+            bool backupExists = File.Exists(userPath.BackupDirectory + userPath.BackupFilename);
 
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
-            Assert.True((isAddedToThePath && File.Exists(userPath.BackupDirectory + userPath.BackupFilename)));
+            output.WriteLine(backupExists ? "Path is backed up" : "Path is NOT backed up");
+            Assert.True((isAddedToThePath && backupExists));
         }
     }
 }
