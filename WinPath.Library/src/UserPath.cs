@@ -140,7 +140,7 @@ namespace WinPath.Library
         /// <param name="cancellationToken">This method would not do anything if <see cref="CancellationToken.IsCancellationRequested"/> is true.</param>
         public virtual async Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null)
         {
-            if (!cancellationToken.Value.IsCancellationRequested)
+            if (cancellationToken == null || !cancellationToken.Value.IsCancellationRequested)
             {
                 if (!Directory.Exists(backupDirectory ?? this.BackupDirectory))
                     Directory.CreateDirectory(backupDirectory ?? this.BackupDirectory);
