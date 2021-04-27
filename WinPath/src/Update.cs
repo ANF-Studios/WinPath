@@ -184,7 +184,7 @@ namespace WinPath._Library
             Asset? processedAsset = null;
             string architecture = GetArchitecture(RuntimeInformation.ProcessArchitecture).ToLower();
             release.Assets.ForEach((asset) => {
-                if (IsWindows10() && Environment.Is64BitOperatingSystem)
+                if (OperatingSystem.IsWindowsVersionAtLeast(10) && Environment.Is64BitOperatingSystem)
                     if (asset.ExecutableName.Contains("win10-x64"))
                         processedAsset = asset;
                 if (asset.ExecutableName.ToLower().Contains(architecture))
@@ -202,11 +202,6 @@ namespace WinPath._Library
                 Architecture.Arm => Architecture.Arm.ToString(),
                 _ => throw new PlatformNotSupportedException("WinPath does not support this architecture!")
             };
-
-        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-        public static bool IsWindows10()
-            => ((string)(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion")).GetValue("ProductName")).StartsWith("Windows 10");
-
     }
 
     internal struct ReleaseInfo

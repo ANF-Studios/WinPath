@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 
 using CommandLine;
 
@@ -11,6 +12,9 @@ namespace WinPath
 {
     public class Program
     {
+        [SupportedOSPlatform("windows")]
+        [UnsupportedOSPlatform("browser")]
+
         public static void Main(string[] args)
         {
             if (!OperatingSystem.IsWindows())
