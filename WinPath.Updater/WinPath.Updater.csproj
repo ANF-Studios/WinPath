@@ -28,4 +28,10 @@
     <BaseIntermediateOutputPath>$(SolutionDir)\obj\$(MSBuildProjectName)\$(Configuration)\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+
 </Project>
