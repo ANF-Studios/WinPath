@@ -130,7 +130,7 @@ namespace WinPath.Library
         /// Backups the <c>Path</c> to a file.
         /// </summary>
         /// <remarks>
-        /// Backups the <c>Path</c> to a file. This method calls <see cref="File.WriteAllText(string, string?, System.Text.Encoding)"/>
+        /// Backups the <c>Path</c> to a file. This method calls <see cref="File.WriteAllTextAsync(string, string?, System.Text.Encoding, CancellationToken)"/>
         /// providing either the values from the overload, or defaults to <see cref="BackupDirectory"/> and <see cref="BackupFilename"/>.
         /// This method can also be overridden to suit your needs and backup as you like.
         /// </remarks>
@@ -140,6 +140,11 @@ namespace WinPath.Library
         /// <param name="cancellationToken">This method would not do anything if <see cref="CancellationToken.IsCancellationRequested"/> is true.</param>
         public virtual async Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null)
         {
+            // If cancellationToken is null i.e, it's not provided, continue -- because
+            // IsCancellationRequested is null and hence not true which means this code
+            // would never run.
+            // However, if IsCancellationRequested is true, and of course, cancellationToken
+            // is not null, it would not execute, which is what we want.
             if (cancellationToken == null || !cancellationToken.Value.IsCancellationRequested)
             {
                 if (!Directory.Exists(backupDirectory ?? this.BackupDirectory))
