@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.Versioning;
 
 namespace WinPath.Library
@@ -69,13 +71,13 @@ namespace WinPath.Library
         /// <exception cref="ArgumentNullException">
         /// Exception is thrown when <paramref name="value"/> is null or empty.
         /// </exception>
-        public void AddToPath(string value, bool backup = false, string backupFilename = null)
+        public async Task AddToPath(string value, bool backup = false, string backupFilename = null)
         {
             if (value != null || value != string.Empty)
             {
                 string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
                 if (backup)
-                    BackupPath(initialPath, backupFilename);
+                    await BackupPath(initialPath, backupFilename);
                 Environment.SetEnvironmentVariable(
                     "Path",
                     (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
@@ -105,13 +107,13 @@ namespace WinPath.Library
         /// <exception cref="ArgumentNullException">
         /// Exception is thrown when <paramref name="value"/> is null or empty.
         /// </exception>
-        public void AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false)
+        public async Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false)
         {
             if (value != null || value != string.Empty)
             {
                 string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
                 if (backup)
-                    BackupPath(initialPath, backupFilename, backupDirectory);
+                    await BackupPath(initialPath, backupFilename, backupDirectory);
                 Environment.SetEnvironmentVariable(
                     "Path",
                     (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
@@ -135,11 +137,15 @@ namespace WinPath.Library
         /// <param name="path">The <c>Path</c> variable.</param>
         /// <param name="filename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="backupDirectory">The directory path to backup to, no need to provide it if you use <see cref="BackupDirectory"/>.</param>
-        public virtual void BackupPath(string path, string filename = null, string backupDirectory = null)
+        /// <param name="cancellationToken">This method would not do anything if <see cref="CancellationToken.IsCancellationRequested"/> is true.</param>
+        public virtual async Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null)
         {
-            if (!Directory.Exists(backupDirectory ?? this.BackupDirectory))
-                Directory.CreateDirectory(backupDirectory ?? this.BackupDirectory);
-            File.WriteAllText((backupDirectory ?? this.BackupDirectory) + (filename ?? this.BackupFilename), path, System.Text.Encoding.UTF8);
+            if (!cancellationToken.Value.IsCancellationRequested)
+            {
+                if (!Directory.Exists(backupDirectory ?? this.BackupDirectory))
+                    Directory.CreateDirectory(backupDirectory ?? this.BackupDirectory);
+                await File.WriteAllTextAsync((backupDirectory ?? this.BackupDirectory) + (filename ?? this.BackupFilename), path, System.Text.Encoding.UTF8);
+            }
         }
     }
 }
