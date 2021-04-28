@@ -113,7 +113,7 @@ Because of some complexities which will require more time, work, and testing, I 
 Of course it is. I [dogfood](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) it too, as if I am the client! I just put it here on GitHub so that others could use it too! If that doesn't satisfy you, you can compile your own version and look through the code, it's completely *safe*. Even our [CodeQL reports](https://github.com/ANF-Studios/WinPath/actions/workflows/codeql.yml) don't find any vulnerabilities either.
 
 #### Why is X like so? Why not Y?
-Because that's how I decided to implement X. If you have a better idea/proposal, please, do open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), but before that, search for similar issues.
+Because that's how I decided to implement X. If you have a better idea/proposal, please, do open an [issue](https://github.com/ANF-Studios/WinPath/issues/new/choose), but before that, search for similar issues.
 
 #### Should I star WinPath?
 Yes, starring WinPath motivates me to do better and keep working on it, that's also how I know that you appreciate my work.
@@ -121,7 +121,7 @@ Yes, starring WinPath motivates me to do better and keep working on it, that's a
 <br />
 <br />
 
-If you find a bug or something is not working as expected, open an [issue](https://github.com/ANF-Studios/WinPath/issues/new), especially if it's critical to minimize harm/damage if any. Refer to [SECURITY.md](/SECURITY.md) for more information.
+If you find a bug or something is not working as expected, open an [issue](https://github.com/ANF-Studios/WinPath/issues/new/choose), especially if it's critical to minimize harm/damage if any. Refer to [SECURITY.md](/SECURITY.md) for more information.
 
 You can also meet me at my Discord server where I am mostly active:
 
