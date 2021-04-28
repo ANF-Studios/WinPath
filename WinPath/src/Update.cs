@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace WinPath._Library
+namespace WinPath
 {
     public class Update
     {
@@ -104,12 +104,13 @@ namespace WinPath._Library
                 {
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
                     path.Replace("/", "\\");
-                    if (Environment.Is64BitOperatingSystem)
-                        if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                            UserPath.AddToPath("%PROGRAMFILES%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
-                    else
-                        if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                            UserPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
+                    // FIXME: Implement the new port dependency.
+                    //if (Environment.Is64BitOperatingSystem)
+                    //    if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
+                    //        UserPath.AddToPath("%PROGRAMFILES%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
+                    //else
+                    //    if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
+                    //        UserPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
                     Console.WriteLine("[STATUS] Installed WinPath successfully!");
                     Environment.ExitCode = 0;
                 }
