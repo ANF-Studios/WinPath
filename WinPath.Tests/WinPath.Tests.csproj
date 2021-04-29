@@ -29,8 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinPath.Library\WinPath.Library.csproj" />
+    <!-- <ProjectReference Include="..\WinPath.Library\WinPath.Library.csproj" /> -->
     <ProjectReference Include="..\WinPath\WinPath.csproj" />
+    <PackageReference Include="WinPath.Library" Version="0.2.1" />
   </ItemGroup>
 
 </Project>

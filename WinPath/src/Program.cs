@@ -3,7 +3,7 @@ using System.Runtime.Versioning;
 
 using CommandLine;
 
-using WinPath._Library;
+using WinPath.Library;
 
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
@@ -12,9 +12,13 @@ namespace WinPath
 {
     public class Program
     {
+        private static readonly UserPath userPath = new UserPath
+        {
+            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
+        };
+
         [SupportedOSPlatform("windows")]
         [UnsupportedOSPlatform("browser")]
-
         public static void Main(string[] args)
         {
             if (!OperatingSystem.IsWindows())
@@ -87,7 +91,23 @@ namespace WinPath
                     break;
 
                 case HandleEventType.UserPath:
-                    UserPath.AddToPath(options.Value);
+                    userPath.AddToPath(
+                        options.Value,
+                        options.BackupPathVariable,
+                        DateTime.Now.ToFileTime().ToString()
+                    );
+                    if (Environment.GetEnvironmentVariable(
+                            "Path",
+                            EnvironmentVariableTarget.User)
+                        .EndsWith(
+                            $"{options.Value};"
+                        )
+                    ) Console.WriteLine($"Successfully added `{options.Value}` to the Path!");
+                    else
+                        Console.WriteLine(
+                            "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!"
+                        );
+                    Environment.Exit(Environment.ExitCode);
                     break;
 
                 case HandleEventType.SystemPath:
@@ -101,5 +121,8 @@ namespace WinPath
                     break;
             }
         }
+
+        public static UserPath GetUserPath()
+            => userPath;
     }
 }
