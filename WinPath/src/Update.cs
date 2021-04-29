@@ -102,15 +102,15 @@ namespace WinPath
                 }
                 if (processExitCode == 0) // If application exited successfully.
                 {
+                    WinPath.Library.UserPath userPath = WinPath.Program.GetUserPath();
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
                     path.Replace("/", "\\");
-                    // FIXME: Implement the new port dependency.
-                    //if (Environment.Is64BitOperatingSystem)
-                    //    if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                    //        UserPath.AddToPath("%PROGRAMFILES%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
-                    //else
-                    //    if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                    //        UserPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", new AddOptions { AddToUserVariables = true, BackupPathVariable = true });
+                    if (Environment.Is64BitOperatingSystem)
+                       if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
+                           userPath.AddToPath("%PROGRAMFILES%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
+                    else
+                       if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
+                           userPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
                     Console.WriteLine("[STATUS] Installed WinPath successfully!");
                     Environment.ExitCode = 0;
                 }
