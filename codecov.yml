@@ -12,8 +12,8 @@ coverage:
         threshold: 15%
         base: auto
         paths: 
-          - "./WinPath/"
-          - "./WinPath.Library/"
+          - "./WinPath/**"
+          - "./WinPath.Library/**"
         if_ci_failed: ignore #success, failure, error, ignore
         informational: false
         only_pulls: false
