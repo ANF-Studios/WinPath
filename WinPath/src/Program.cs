@@ -14,7 +14,7 @@ namespace WinPath
     {
         private static readonly UserPath userPath = new UserPath
         {
-            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
+            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
         };
 
         [SupportedOSPlatform("windows")]
@@ -91,22 +91,22 @@ namespace WinPath
                     break;
 
                 case HandleEventType.UserPath:
-                    userPath.AddToPath(
-                        options.Value,
-                        options.BackupPathVariable,
-                        DateTime.Now.ToFileTime().ToString()
-                    );
-                    if (Environment.GetEnvironmentVariable(
-                            "Path",
-                            EnvironmentVariableTarget.User)
-                        .EndsWith(
-                            $"{options.Value};"
-                        )
-                    ) Console.WriteLine($"Successfully added `{options.Value}` to the Path!");
-                    else
-                        Console.WriteLine(
-                            "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!"
+                    if (options != null)
+                    {
+                        userPath.AddToPath(
+                            options.Value,
+                            options.BackupPathVariable,
+                            DateTime.Now.ToFileTime().ToString()
                         );
+                        Console.WriteLine(
+                            @";C:\Users\lysan\AppData\Local\Microsoft\WindowsApps;C:\Users\lysan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Users\lysan\AppData\Roaming\npm;C:\Users\lysan\.dotnet\tools%PROGRAMFILES%\WinPath\;%PROGRAMFILES(X86)%\WinPath\;"
+                                .EndsWith(
+                                    $"{options.Value};"
+                                )
+                                ? $"Successfully added `{options.Value}` to the Path!"
+                                : "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!");
+                    }
+
                     Environment.Exit(Environment.ExitCode);
                     break;
 
