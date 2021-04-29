@@ -13,7 +13,7 @@ namespace WinPath
     public class Update
     {
         private readonly bool includePrereleases;
-        public readonly bool is32Or64BitOperatingSystem;
+        public readonly bool Is32Or64BitOperatingSystem;
         private bool confirmDownload;
         private const string Releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
@@ -22,7 +22,7 @@ namespace WinPath
         {
             this.includePrereleases = includePrereleases;
             this.confirmDownload = confirmDownload;
-            this.is32Or64BitOperatingSystem = is32Or64BitOperatingSystem;
+            this.Is32Or64BitOperatingSystem = is32Or64BitOperatingSystem;
         }
 
         [DllImport("Shell32.dll", SetLastError = true)]
