@@ -12,7 +12,7 @@ namespace WinPath.Tests
 	{
 		private readonly ITestOutputHelper output;
 
-		public LibraryTests(ITestOutputHelper output)
+		public EventType(ITestOutputHelper output)
 		{
 			this.output = output;
 		}
