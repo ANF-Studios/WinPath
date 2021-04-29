@@ -15,10 +15,10 @@ namespace WinPath.Tests
 		{
 			bool valuesAreInOrder =
 				((int)HandleEventType.NoValue == 0)
-			  + ((int)HandleEventType.UserPath == 1)
-			  + ((int)HandleEventType.SystemPath == 2)
-			  + ((int)HandleEventType.UserAndSystemPath == 3)
-			  + ((int)HandleEventType.NoUserOrSystemPath == 4);
+			 && ((int)HandleEventType.UserPath == 1)
+			 && ((int)HandleEventType.SystemPath == 2)
+			 && ((int)HandleEventType.UserAndSystemPath == 3)
+			 && ((int)HandleEventType.NoUserOrSystemPath == 4);
 			Assert.True(valuesAreInOrder);
 		}
 	}
