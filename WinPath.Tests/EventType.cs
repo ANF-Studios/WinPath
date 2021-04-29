@@ -17,8 +17,8 @@ namespace WinPath.Tests
 				(HandleEventType.NoValue == 0)
 			  + (HandleEventType.UserPath == 1)
 			  + (HandleEventType.SystemPath == 2)
-			  + (HandleEventType.UserAndSystemPath = 3)
-			  + (HandleEventType.NoUserOrSystemPath % 4);
+			  + (HandleEventType.UserAndSystemPath == 3)
+			  + (HandleEventType.NoUserOrSystemPath == 4);
 			Assert.True(valuesAreInOrder);
 		}
 	}
