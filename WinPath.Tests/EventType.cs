@@ -10,6 +10,13 @@ namespace WinPath.Tests
 {
 	public class EventType
 	{
+		private readonly ITestOutputHelper output;
+
+		public LibraryTests(ITestOutputHelper output)
+		{
+			this.output = output;
+		}
+
 		[Fact]
 		public void AllValuesAreInOrder()
 		{
@@ -19,6 +26,15 @@ namespace WinPath.Tests
 			 && ((int)HandleEventType.SystemPath == 2)
 			 && ((int)HandleEventType.UserAndSystemPath == 3)
 			 && ((int)HandleEventType.NoUserOrSystemPath == 4);
+			
+			output.WriteLine($"Individual results:");
+			output.WriteLine($"{nameof(HandleEventType.NoValue)}: {(int)HandleEventType.NoValue == 0}");
+			output.WriteLine($"{nameof(HandleEventType.UserPath)}: {(int)HandleEventType.UserPath == 1}");
+			output.WriteLine($"{nameof(HandleEventType.SystemPath)}: {(int)HandleEventType.SystemPath == 2}");
+			output.WriteLine($"{nameof(HandleEventType.UserAndSystemPath)}: {(int)HandleEventType.UserAndSystemPath == 3}");
+			output.WriteLine($"{nameof(HandleEventType.NoUserOrSystemPath)}: {(int)HandleEventType.NoUserOrSystemPath == 4}");
+			output.WriteLine($"Final: {valuesAreInOrder}");
+			
 			Assert.True(valuesAreInOrder);
 		}
 	}
