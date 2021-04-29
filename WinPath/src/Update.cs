@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace WinPath
@@ -12,16 +13,16 @@ namespace WinPath
     public class Update
     {
         private readonly bool includePrereleases;
-        public readonly bool Is32Or64BitOperatingSystem;
+        public readonly bool is32Or64BitOperatingSystem;
         private bool confirmDownload;
-        private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
+        private const string Releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
         private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
         
         public Update(bool includePrereleases, bool confirmDownload, bool is32Or64BitOperatingSystem)
         {
             this.includePrereleases = includePrereleases;
             this.confirmDownload = confirmDownload;
-            this.Is32Or64BitOperatingSystem = is32Or64BitOperatingSystem;
+            this.is32Or64BitOperatingSystem = is32Or64BitOperatingSystem;
         }
 
         [DllImport("Shell32.dll", SetLastError = true)]
@@ -85,9 +86,12 @@ namespace WinPath
                 try
                 {
                     var application = Process.Start(process);
-                    application.WaitForExit();
-                    processExitCode = application.ExitCode;
-                    Console.WriteLine(application.ExitCode);
+                    if (application != null)
+                    {
+                        application.WaitForExit();
+                        processExitCode = application.ExitCode;
+                        Console.WriteLine(application.ExitCode);
+                    }
                 }
                 catch (System.ComponentModel.Win32Exception exception)
                 {
@@ -102,16 +106,30 @@ namespace WinPath
                 }
                 if (processExitCode == 0) // If application exited successfully.
                 {
-                    WinPath.Library.UserPath userPath = WinPath.Program.GetUserPath();
-                    string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
-                    path.Replace("/", "\\");
-                    if (Environment.Is64BitOperatingSystem)
-                       if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                           userPath.AddToPath("%PROGRAMFILES%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
-                    else
-                       if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                           userPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
-                    Console.WriteLine("[STATUS] Installed WinPath successfully!");
+                    var userPath = Program.GetUserPath();
+                    var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+                    if (path != null)
+                    {
+                        path = path.Replace("/", "\\");
+                        if (Environment.Is64BitOperatingSystem)
+                        {
+                            if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) ||
+                                  path.Contains("c:\\program files\\winpath",
+                                      StringComparison.CurrentCultureIgnoreCase)))
+                                userPath.AddToPath("%PROGRAMFILES%\\WinPath\\", true,
+                                    DateTime.Now.ToFileTime().ToString());
+                        }
+                        else
+                        {
+                            if (!(path.Contains("%programfiles(x86)%\\winpath",
+                                StringComparison.CurrentCultureIgnoreCase) || path.Contains(
+                                "c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
+                                userPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", true,
+                                    DateTime.Now.ToFileTime().ToString());
+                            Console.WriteLine("[STATUS] Installed WinPath successfully!");
+                        }
+                    }
+
                     Environment.ExitCode = 0;
                 }
                 else // If not.
@@ -126,52 +144,51 @@ namespace WinPath
 
         internal List<Release> GetReleases()
         {
-            string response = String.Empty;
-            List<Release> releases;
             try
             {
+                string response;
                 using (WebClient webClient = new WebClient())
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
-                    response = webClient.DownloadString(Update.releases);
+                    response = webClient.DownloadString(Update.Releases);
                     #if DEBUG
                         Console.WriteLine("Response: " + response);
                     #endif
                 }
 
-                releases = JsonSerializer.Deserialize<List<Release>>(response);
-                return releases;
+                return JsonSerializer.Deserialize<List<Release>>(response);
                 //Console.WriteLine(releases[(releases.Count - 1)].Assets[4].DownloadUrl);
             }
             catch (WebException webException)
             {
                 Console.WriteLine("Could not make web request!\n" + webException.Message);
-                Environment.Exit(exitCode: 1);
+                Environment.Exit(1);
             }
             return null;
         }
 
-        internal Release FilterRelease(List<Release> releases)
+        internal Release FilterRelease(List<Release> releaseList)
         {
-            // Reverse the order of the List so that newer releses
+            // Reverse the order of the List so that newer releases
             // appear first in the foreach loop.
-            releases.Reverse();
+            releaseList.Reverse();
 
-            foreach (Release release in releases)
+            foreach (var release in releaseList.Where(release => !release.IsDraft))
             {
-                if (!release.IsDraft)
-                    continue;
-                if (release.IsPrerelease && includePrereleases)
-                    return release;
-                else if (!(release.IsPrerelease && includePrereleases))
-                    return release;
+                switch (release.IsPrerelease)
+                {
+                    case true when includePrereleases:
+                        return release;
+                    case false:
+                        return release;
+                }
             }
             // If by any chance (which shouldn't be) the foreach loop
             // could not do its task, return the default value; the
             // latest release regardless of if it's a prerelease or not.
             // And, return the latest one if it is not a Draft, but if it
             // is, then return the one before it.
-            return (!releases[^1].IsDraft) ? releases[^1] : releases[^2];
+            return (!releaseList[^1].IsDraft) ? releaseList[^1] : releaseList[^2];
         }
 
         internal Asset GetAssetForProcess(in Release release)
@@ -183,7 +200,7 @@ namespace WinPath
             }
 
             Asset? processedAsset = null;
-            string architecture = GetArchitecture(RuntimeInformation.ProcessArchitecture).ToLower();
+            var architecture = GetArchitecture(RuntimeInformation.ProcessArchitecture).ToLower();
             release.Assets.ForEach((asset) => {
                 if (OperatingSystem.IsWindowsVersionAtLeast(10) && Environment.Is64BitOperatingSystem)
                     if (asset.ExecutableName.Contains("win10-x64"))
@@ -191,10 +208,10 @@ namespace WinPath
                 if (asset.ExecutableName.ToLower().Contains(architecture))
                     processedAsset = asset;
             });
-            return (Asset)processedAsset;
+            return (Asset) processedAsset;
         }
 
-        public string GetArchitecture(in Architecture processArchitecture)
+        private static string GetArchitecture(in Architecture processArchitecture)
             => processArchitecture switch
             {
                 Architecture.X64 => Architecture.X64.ToString(),

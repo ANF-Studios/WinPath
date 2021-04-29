@@ -10,7 +10,7 @@
 
 <h2 align="center">Installation</h2>
 
-**Before installing WinPath, make sure you have *at least* [`.NET 5`](https://dotnet.microsoft.com/download/dotnet/5.0/runtime)'s *runtime* installed. If not, WinPath would NOT work.**
+**Before installing WinPath, make sure you have *at least* [`.NET 5`](https://dotnet.microsoft.com/download/dotnet/5.0/runtime)'s *runtime* installed. If not, WinPath will NOT work.**
 
 ### CLI Installation
 To install WinPath download `WinPath_win<optioanl version>-<arch>` where `<optional version>` can either be `10` or nothing. And `<arch>` can be either x86, x64, arm or arm64. If you don't know your pc architecture, you can get help from [this guide](https://winaero.com/check-if-processor-is-32-bit-64-bit-or-arm-in-windows-10/). It's recommended that you download `WinPath_win10-x64` if you're on a 64-bit Windows 10 computer.

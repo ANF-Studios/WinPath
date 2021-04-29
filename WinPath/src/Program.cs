@@ -60,7 +60,7 @@ namespace WinPath
                         ReleaseDescription = release.Description,
                         ReleaseAsset = update.GetAssetForProcess(release)!,
                         Updater = release.Assets.Find((asset) => asset.ExecutableName == (
-                            update.Is32Or64BitOperatingSystem
+                            update.is32Or64BitOperatingSystem
                                 ? "WinPath.Updater_x86.exe"
                                 : "WinPath.Updater_arm.exe" 
                             ))

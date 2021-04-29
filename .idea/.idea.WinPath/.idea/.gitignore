@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/.idea.WinPath.iml
+/projectSettingsUpdater.xml
+/contentModel.xml
+# Datasource local storage ignored files
+/../../../../../../../:\Programming\Other\WinPath\.idea\.idea.WinPath\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
