@@ -107,7 +107,6 @@ namespace WinPath
                         Console.WriteLine(
                             "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!"
                         );
-                    Environment.Exit(Environment.ExitCode);
                     break;
 
                 case HandleEventType.SystemPath:
