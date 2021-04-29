@@ -13,6 +13,7 @@ coverage:
         base: auto
         paths: 
           - "WinPath"
+          - "WinPath.Library"
         if_ci_failed: ignore #success, failure, error, ignore
         informational: false
         only_pulls: false
