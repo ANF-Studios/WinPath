@@ -45,5 +45,14 @@ namespace WinPath.Tests
             output.WriteLine(userPath.BackupDirectory + userPath.BackupFilename);
             Assert.True((isAddedToThePath && backupExists));
         }
+
+        [Fact]
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        public void TestMethod()
+        {
+            var userPath = new UserPath("C:\\backup\\");
+            userPath.AddToPath("test", true);
+            Assert.True(true);
+        }
     }
 }
