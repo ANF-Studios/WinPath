@@ -1,5 +1,6 @@
 using Xunit;
 using Xunit.Abstractions;
+using System.Runtime.Versioning;
 
 using WinPath;
 
@@ -15,6 +16,7 @@ namespace WinPath.Tests
         }
 
         [Fact]
+        [SupportedOSPlatform("windows")]
         public void AddToUserPath()
         {
             Program.Main(new string[] {
@@ -24,10 +26,13 @@ namespace WinPath.Tests
                 "--value",
                 "foobar"
             });
-            Assert.True(System.Environment.GetEnvironmentVariable(
+            Assert.EndsWith(
+                "foobar;",
+                System.Environment.GetEnvironmentVariable(
                     "Path",
                     System.EnvironmentVariableTarget.User
-                ).EndsWith("foobar;"));
+                )
+            );
         }
     }
 }
