@@ -26,12 +26,13 @@ namespace WinPath.Tests
                 "--value",
                 "foobar"
             });
+            string path = System.Environment.GetEnvironmentVariable(
+                "Path",
+                System.EnvironmentVariableTarget.User
+            );
+            output.WriteLine(path);
             Assert.EndsWith(
-                "foobar;",
-                System.Environment.GetEnvironmentVariable(
-                    "Path",
-                    System.EnvironmentVariableTarget.User
-                )
+                "foobar;", path
             );
         }
     }
