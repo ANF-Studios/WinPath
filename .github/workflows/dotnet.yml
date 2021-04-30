@@ -36,5 +36,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Run Publish script
       run: dotnet publish -c Release -r win10-x64 -p:PublishReadyToRun=true -p:PublishSingleFile=false -p:UseAppHost=true --self-contained false
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    #- name: Test
+    #  run: dotnet test --no-build --verbosity normal
