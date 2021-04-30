@@ -28,7 +28,7 @@ namespace WinPath.Tests
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
             Assert.True(isAddedToThePath);
         }
-
+        /*
         [Fact]
         [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public void AddToUserPathWithBackup()
@@ -44,6 +44,6 @@ namespace WinPath.Tests
             output.WriteLine(backupExists ? "Path is backed up" : "Path is NOT backed up");
             output.WriteLine(userPath.BackupDirectory + userPath.BackupFilename);
             Assert.True((isAddedToThePath && backupExists));
-        }
+        }*/
     }
 }
