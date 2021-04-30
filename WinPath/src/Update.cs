@@ -15,8 +15,8 @@ namespace WinPath
         public readonly bool Is32Or64BitOperatingSystem;
         private bool confirmDownload;
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
-        private static string downloadDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\";
-        
+        private static string downloadDirectory = $"{Path.GetTempPath()}WinPath\\download\\";
+
         public Update(bool includePrereleases, bool confirmDownload, bool is32Or64BitOperatingSystem)
         {
             this.includePrereleases = includePrereleases;
