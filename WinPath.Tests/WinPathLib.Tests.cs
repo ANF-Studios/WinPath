@@ -16,6 +16,7 @@ namespace WinPath.Tests
             this.output = output;
         }
         
+        /*
         [Fact]
         [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public void AddToUserPath()
@@ -26,9 +27,10 @@ namespace WinPath.Tests
             bool isAddedToThePath = path.EndsWith("foo;");
             
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
+            output.WriteLine(path);
             Assert.True(isAddedToThePath);
         }
-        /*
+
         [Fact]
         [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public void AddToUserPathWithBackup()
