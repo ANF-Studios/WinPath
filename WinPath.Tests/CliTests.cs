@@ -24,16 +24,15 @@ namespace WinPath.Tests
                 "--user",
                 "--backup",
                 "--value",
-                "CliTests_AddToUserPath"
+                "foobar"
             });
-            //System.Threading.Tasks.Task.Delay(100);
             string path = System.Environment.GetEnvironmentVariable(
                 "Path",
                 System.EnvironmentVariableTarget.User
             );
             output.WriteLine(path);
             Assert.EndsWith(
-                "CliTests_AddToUserPath;", path
+                "foobar;", path
             );
         }
     }
