@@ -26,6 +26,7 @@ namespace WinPath.Tests
                 "--value",
                 "foobar"
             });
+            System.Threading.Tasks.Task.Delay(100);
             string path = System.Environment.GetEnvironmentVariable(
                 "Path",
                 System.EnvironmentVariableTarget.User
