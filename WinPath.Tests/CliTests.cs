@@ -24,7 +24,7 @@ namespace WinPath.Tests
                 "--user",
                 "--backup",
                 "--value",
-                "foobar"
+                "CliTests_AddToUserPath"
             });
             string path = System.Environment.GetEnvironmentVariable(
                 "Path",
@@ -32,7 +32,7 @@ namespace WinPath.Tests
             );
             output.WriteLine(path);
             Assert.EndsWith(
-                "foobar;", path
+                "CliTests_AddToUserPath;", path
             );
         }
     }
