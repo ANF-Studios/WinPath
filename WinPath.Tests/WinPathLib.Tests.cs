@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.Versioning;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -17,7 +18,7 @@ namespace WinPath.Tests
         }
         
         [Fact]
-        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        [SupportedOSPlatform("windows")]
         public void AddToUserPath()
         {
             new UserPath().AddToPath("LibraryTests_AddToUserPath", false);
@@ -30,7 +31,7 @@ namespace WinPath.Tests
         }
 
         [Fact]
-        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        [SupportedOSPlatform("windows")]
         public void AddToUserPathWithBackup()
         {
             var userPath = new UserPath();
@@ -48,11 +49,21 @@ namespace WinPath.Tests
 
         [Fact]
         [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-        public void TestMethod()
+        public void ChangeBackupDirectory()
         {
-            var userPath = new UserPath("C:\\backup\\");
-            userPath.AddToPath("test", true);
-            Assert.True(true);
+            const string backupDir = "C:\\backup\\";
+            var userPath = new UserPath(backupDir);
+            Assert.True(userPath.BackupDirectory == backupDir);
+        }
+
+        [Fact]
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        public void ChangeBackupFilenameAndDirectory()
+        {
+            const string backupDir = "C:\\backup\\";
+            const string backupFilename = "backupFile.txt";
+            var userPath = new UserPath(backupDir, backupFilename);
+            Assert.True((userPath.BackupDirectory == backupDir) && (userPath.BackupFilename == backupFilename));
         }
     }
 }
