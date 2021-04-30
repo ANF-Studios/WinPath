@@ -1,5 +1,8 @@
 # Changelog
 
+## WIP
+* Changed download directory (of update command) to `%TEMP%\WinPath\download` from `%APPDATA%\WinPath\temp\download`.
+
 ## [v0.2.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.2.0)
 * Fix typo in help command (help text of system flag).
 * Added update command.
