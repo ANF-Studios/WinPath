@@ -196,7 +196,7 @@ namespace WinPath
             return (Asset)processedAsset;
         }
 
-        public string GetArchitecture(in Architecture processArchitecture)
+        public static string GetArchitecture(in Architecture processArchitecture)
             => processArchitecture switch
             {
                 Architecture.X64 => Architecture.X64.ToString(),
