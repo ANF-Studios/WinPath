@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,6 +39,66 @@ namespace WinPath.Tests
             foreach (var release in releases)
                 output.WriteLine(release.ReleaseName + '\n' + release.TagName + '\n');
             Assert.False(releases.Count < 1);
+        }
+
+        [Fact]
+        public void LatestPrereleaseHasAssets()
+        {
+            string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
+            Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
+            
+            var releases = update.GetReleases();
+            var release = update.FilterRelease(releases);
+
+            output.WriteLine(
+                "Release name: " + release.ReleaseName + "\n"
+              + "Release tag: " + release.TagName + "\n"
+              + "Is Prerelease: " + release.IsPrerelease
+            );
+
+            Assert.True(release.IsPrerelease);
+            Assert.NotEmpty(release.Assets);
+        }
+
+        [Fact]
+        public void FilteredReleaseIsNotPrerelease()
+        {
+            string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
+            Update update = new Update(false, false, (architecture == "x64" || architecture == "x86"));
+
+            var releases = update.GetReleases();
+            var release = update.FilterRelease(releases);
+
+            output.WriteLine(
+                "Release name: " + release.ReleaseName + "\n"
+              + "Release tag: " + release.TagName + "\n"
+              + "Is Prerelease: " + release.IsPrerelease
+            );
+
+            if (!releases.Where(release => release.IsPrerelease == true).Any()) // If all releases are NOT prereleases.
+                Assert.False(release.IsPrerelease);                             // Then check if this one isn't a prerelease.
+            else Assert.True(true);                                             // Else simply pass.
+        }
+
+        [Fact]
+        public void LatestReleaseHasAssets()
+        {
+            string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
+            Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
+            
+            var releases = update.GetReleases();
+            var release = update.FilterRelease(releases);
+
+            output.WriteLine(
+                "Release name: " + release.ReleaseName + "\n"
+              + "Release tag: " + release.TagName + "\n"
+              + "Is Prerelease: " + release.IsPrerelease
+            );
+
+            if (!release.ReleaseName.Contains("Test release")) // If the release is not a test release,
+                Assert.NotEmpty(release.Assets);               // check if it's not empty.
+            else                                               //
+                Assert.True(true);                             // Else simply pass.
         }
     }
 }
