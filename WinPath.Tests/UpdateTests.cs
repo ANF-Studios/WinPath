@@ -28,5 +28,16 @@ namespace WinPath.Tests
             output.WriteLine("WinPath is added to the Path: " + isOnPath);
             Assert.False(isOnPath); // FIXME: Set up a proper testing solution.
         }
+
+        [Fact]
+        public void GetWinPathReleases()
+        {
+            string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
+            Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
+            var releases = update.GetReleases();
+            foreach (var release in releases)
+                output.WriteLine(release.ReleaseName + '\n' + release.TagName + '\n');
+            Assert.False(releases.Count < 1);
+        }
     }
 }
