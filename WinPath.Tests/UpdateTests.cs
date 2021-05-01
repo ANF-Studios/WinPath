@@ -100,5 +100,20 @@ namespace WinPath.Tests
             else                                               //
                 Assert.True(true);                             // Else simply pass.
         }
+
+        [Fact]
+        public void GetAssetForProcessSuccessfully()
+        {
+            string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
+            Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
+
+            var releases = update.GetReleases();
+            var release = update.FilterRelease(releases);
+            var assetForProcess = (Asset?)update.GetAssetForProcess(release);
+
+            output.WriteLine("Executable name: " + assetForProcess?.ExecutableName ?? "None");
+
+            Assert.True(assetForProcess is not null);
+        }
     }
 }
