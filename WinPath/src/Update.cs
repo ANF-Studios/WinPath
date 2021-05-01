@@ -155,15 +155,17 @@ namespace WinPath
         {
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
-            releases.Reverse();
+            if (releases[0].TagName == "0.1.0") // First release.
+                releases.Reverse();
+
+            if (releases[0].IsDraft)
+                return releases[1];
 
             foreach (Release release in releases)
             {
-                if (!release.IsDraft)
-                    continue;
                 if (release.IsPrerelease && includePrereleases)
                     return release;
-                else if (!(release.IsPrerelease && includePrereleases))
+                else if (!release.IsPrerelease && !includePrereleases)
                     return release;
             }
             // If by any chance (which shouldn't be) the foreach loop
