@@ -27,7 +27,7 @@ namespace WinPath
         [DllImport("Shell32.dll", SetLastError = true)]
         private static extern bool IsUserAnAdmin();
 
-        internal void DownloadWinPath(in ReleaseInfo releaseInfo, Action finalJob = null)
+        public void DownloadWinPath(in ReleaseInfo releaseInfo, Action finalJob = null)
         {
             if (!confirmDownload)
             {
@@ -124,7 +124,7 @@ namespace WinPath
             }
         }
 
-        internal List<Release> GetReleases()
+        public List<Release> GetReleases()
         {
             string response = String.Empty;
             List<Release> releases;
@@ -151,7 +151,7 @@ namespace WinPath
             return null;
         }
 
-        internal Release FilterRelease(List<Release> releases)
+        public Release FilterRelease(List<Release> releases)
         {
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
@@ -176,7 +176,7 @@ namespace WinPath
             return (!releases[^1].IsDraft) ? releases[^1] : releases[^2];
         }
 
-        internal Asset GetAssetForProcess(in Release release)
+        public Asset GetAssetForProcess(in Release release)
         {
             if (release.Assets.Count < 1)
             {
@@ -207,7 +207,7 @@ namespace WinPath
             };
     }
 
-    internal struct ReleaseInfo
+    public struct ReleaseInfo
     {
         public string ReleaseName { get; set; }
 
@@ -222,7 +222,7 @@ namespace WinPath
         public Asset Updater { get; set; }
     }
 
-    internal struct Release
+    public struct Release
     {
         [JsonPropertyName("url")]
         public string Url { get; set; }
@@ -252,7 +252,7 @@ namespace WinPath
         public string Description { get; set; }
     }
 
-    internal struct Asset
+    public struct Asset
     {
         [JsonPropertyName("name")]
         public string ExecutableName { get; set; }
