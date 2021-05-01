@@ -68,7 +68,7 @@ namespace WinPath
                     update.DownloadWinPath(releaseInfo, () => {
                         foreach (string file in
                             System.IO.Directory.EnumerateFiles(
-                                $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\"
+                                $"{System.IO.Path.GetTempPath()}WinPath\\download\\"
                         ))
                             try
                             {
