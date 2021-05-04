@@ -17,7 +17,15 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathDoesUpdate()
         {
-            Program.Main(new string[] { "update", "--prerelease", "--confirm" });
+            Program.Main(
+                new string[]
+                {
+                    "update",
+                    "--prerelease",
+                    "--confirm"
+                }
+            );
+
             Assert.True(
                 System.IO.File.Exists(
                     Environment.Is64BitOperatingSystem
