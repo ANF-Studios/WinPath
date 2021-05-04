@@ -9,6 +9,7 @@ namespace WinPath.Updater
 
         public static void Main()
         {
+            Console.Title = AppDomain.CurrentDomain.FriendlyName;
             try
             {
                 if (Environment.Is64BitOperatingSystem)
