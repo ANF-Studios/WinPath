@@ -21,6 +21,7 @@ namespace WinPath
         [UnsupportedOSPlatform("browser")]
         public static void Main(string[] args)
         {
+            Console.Title = AppDomain.CurrentDomain.FriendlyName;
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
             Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
