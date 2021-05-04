@@ -14,12 +14,26 @@ namespace WinPath.Tests
             this.output = output;
         }
 
-        //[Fact]
-        //public void WinPathDoesUpdate()
-        //{
-        //    WinPath.Program.Main(new string[] { "update", "--prerelease", "--confirm" });
-        //    Assert.True(System.IO.File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\update\\status.txt"));
-        //}
+        [Fact]
+        public void WinPathDoesUpdate()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "update",
+                    "--prerelease",
+                    "--confirm"
+                }
+            );
+
+            Assert.True(
+                System.IO.File.Exists(
+                    Environment.Is64BitOperatingSystem
+                        ? "C:\\Program Files\\WinPath\\WinPath.exe"
+                        : "C:\\Program Files (x86)\\WinPath\\WinPath.exe"
+                )
+            );
+        }
 
         [Fact]
         public void WinPathIsInPath()
@@ -27,7 +41,7 @@ namespace WinPath.Tests
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             var isOnPath = path.Contains("%PROGRAMFILES%\\WinPath") || path.Contains("C:\\Program Files\\WinPath");
             output.WriteLine("WinPath is added to the Path: " + isOnPath);
-            Assert.False(isOnPath); // FIXME: Set up a proper testing solution.
+            Assert.True(isOnPath); // FIXME: Set up a proper testing solution.
         }
 
         [Fact]

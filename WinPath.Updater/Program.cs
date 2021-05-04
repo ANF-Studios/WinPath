@@ -52,7 +52,7 @@ namespace WinPath.Updater
             catch (Exception exception)
             {
                 Console.WriteLine("Could not install WinPath: " + exception.Message);
-                Console.ReadKey();
+                //Console.ReadKey();
                 File.WriteAllText(Directory.GetCurrentDirectory() + "log.txt", "Could not install WinPath: " + exception.Message);
                 Environment.ExitCode = 1;
             }
