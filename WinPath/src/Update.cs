@@ -91,6 +91,7 @@ namespace WinPath
                         const string installationPath = "C:\\Program Files\\WinPath\\";
                         Directory.CreateDirectory(installationPath);
                         File.Move(downloadDirectory + "\\WinPath_win10-x64.exe", installationPath + "WinPath.exe");
+                        processExitCode = 0;
                     }
                     else
                     {
