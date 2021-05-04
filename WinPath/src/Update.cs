@@ -100,7 +100,7 @@ namespace WinPath
                         var application = Process.Start(process);
                         application.WaitForExit();
                         processExitCode = application.ExitCode;
-                        Console.WriteLine(application.ExitCode);
+                        Console.WriteLine("Installer exited with code: " + application.ExitCode);
                     }
                 }
                 catch (System.ComponentModel.Win32Exception exception)
