@@ -45,6 +45,24 @@ namespace WinPath.Tests
         }
 
         [Fact]
+        public void PrintConfirmDownloadSection()
+        {
+            Update update = new Update(true, false, true);
+            update.DownloadWinPath(
+                new ReleaseInfo
+                {
+                    IsPrerelease = true,
+                    ReleaseAsset = new Asset { DownloadUrl = "https://example.com/", ExecutableName = "foobar.exe" },
+                    ReleaseDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    ReleaseName = "Foobar",
+                    TagName = "0.0.0",
+                    Updater = new Asset { DownloadUrl = "https://example.com/", ExecutableName = "foobar.Updater.exe" }
+                }
+            );
+            Assert.True(true);
+        }
+
+        [Fact]
         public void GetWinPathReleases()
         {
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
