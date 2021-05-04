@@ -84,20 +84,27 @@ namespace WinPath
                 };
                 try
                 {
-                    Console.WriteLine("Starting WinPath...");
-                    var application = Process.Start(process);
-                    Console.WriteLine(
-                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process)
-                    );
-                    Console.WriteLine(
-                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Machine)
-                    );
-                    Console.WriteLine(
-                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.User)
-                    );
-                    application.WaitForExit();
-                    processExitCode = application.ExitCode;
-                    Console.WriteLine(application.ExitCode);
+                    Console.WriteLine("Starting update...");
+                    bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
+                    if (appveyor)
+                    {
+                        Directory.CreateDirectory("C:\\Program Files\\WinPath\\");
+                        ProcessStartInfo cmd = new ProcessStartInfo
+                        {
+                            FileName = "cmd.exe",
+                            Verb = "runas",
+                            Arguments = "move /Y /-Y " + downloadDirectory + "\\WinPath_win10-x64.exe " + "C:\\Program Files\\WinPath\\WinPath.exe"
+                        };
+                        Process.Start(cmd);
+                        processExitCode = 0;
+                    }
+                    else
+                    {
+                        var application = Process.Start(process);
+                        application.WaitForExit();
+                        processExitCode = application.ExitCode;
+                        Console.WriteLine(application.ExitCode);
+                    }
                 }
                 catch (System.ComponentModel.Win32Exception exception)
                 {
