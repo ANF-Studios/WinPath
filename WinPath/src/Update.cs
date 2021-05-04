@@ -36,7 +36,6 @@ namespace WinPath
                     + $"Title: {releaseInfo.ReleaseName}\n"
                     + $"Version: v{releaseInfo.TagName}"
                     + (releaseInfo.IsPrerelease ? " (Prerelease)\n" : "\n")
-                    + $"Description: {releaseInfo.ReleaseDescription}\n"
                     + $"File: {releaseInfo.ReleaseAsset.ExecutableName}\n");
                 Console.Write($"Confirm installation of WinPath v{releaseInfo.TagName} (y/n): ");
 
