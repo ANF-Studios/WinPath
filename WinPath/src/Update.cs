@@ -86,8 +86,16 @@ namespace WinPath
                 {
                     Console.WriteLine("Starting WinPath...");
                     var application = Process.Start(process);
-                    //application.WaitForExit();
-                    System.Threading.Thread.Sleep(50000);
+                    Console.WriteLine(
+                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process)
+                    );
+                    Console.WriteLine(
+                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Machine)
+                    );
+                    Console.WriteLine(
+                        Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.User)
+                    );
+                    application.WaitForExit();
                     processExitCode = application.ExitCode;
                     Console.WriteLine(application.ExitCode);
                 }
