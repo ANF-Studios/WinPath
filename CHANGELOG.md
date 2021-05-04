@@ -1,7 +1,13 @@
 # Changelog
 
 ## WIP
+* WinPath.Library.UserPath now targets async tasks instead of sync voids.
 * Changed download directory (of update command) to `%TEMP%\WinPath\download` from `%APPDATA%\WinPath\temp\download`.
+* Console title now sets when WinPath Cli is used.
+* Added some checks in the update command to detect AppVeyor -- do not have an environment variable called `APPVEYOR`.
+* Fixed a bug where the path slash wasn't reversed.
+* Added additional logging.
+* Improved message clearity.
 
 ## [v0.2.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.2.0)
 * Fix typo in help command (help text of system flag).
