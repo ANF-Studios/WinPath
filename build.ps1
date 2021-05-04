@@ -1,16 +1,31 @@
-function Remove-TestProject
+function Remove-TestAndLibProject
 {
     if ((Test-Path -Path ".\bin\temp\") -eq $false) {
         New-Item -Path ".\bin\temp" -ItemType "directory" -Force
     }
     Copy-Item -Path ".\WinPath.sln" -Destination ".\bin\temp\WinPath.sln" -Force
     dotnet sln remove ".\WinPath.Tests\WinPath.Tests.csproj"
+    dotnet sln remove ".\WinPath.Library\WinPath.Library.csproj"
 }
 
-function Add-TestProject
+function Add-TestAndLibProject
 {
     Remove-Item -Path ".\WinPath.sln" -Force
     Move-Item -Path ".\bin\temp\WinPath.sln"
+}
+
+function Clear-Project
+{
+    [string[]] $prjs = 
+        ".\bin\WinPath",
+        ".\bin\WinPath.Tests",
+        ".\bin\WinPath.Updater"
+    foreach ($prj in $prjs)
+    {
+        if ($(Test-Path -Path $prj) -eq $true) {
+            Remove-Item  $prj -Recurse -Force
+        }
+    }
 }
 
 function Restore-Packages
@@ -91,13 +106,14 @@ function Move-ToOneFolder
         ".\bin\WinPath\net5.0\win10-x64\publish\WinPath_win10-x64.exe",
         ".\bin\WinPath.Updater\net5.0\win-x86\publish\WinPath.Updater_x86.exe",
         ".\bin\WinPath.Updater\net5.0\win-arm\publish\WinPath.Updater_arm.exe"
-    Move-Item -Path $executables -Destination ".\bin\dist\"
+    Copy-Item -Path $executables -Destination ".\bin\dist\"
 }
 
 if ((Test-Path -Path ".\bin\dist") -eq $true) {
     Remove-Item -Path ".\bin\dist\" -Recurse -Force
 }
-Remove-TestProject
+Clear-Project
+Remove-TestAndLibProject
 Restore-Packages
 Build-Win64
 Build-Win32
@@ -105,6 +121,6 @@ Build-WinArm
 Build-WinArm64
 Build-Win10_64
 Move-ToOneFolder
-Add-TestProject
+Add-TestAndLibProject
 #Compress-Executables
 Write-Host "All tasks completed!"
