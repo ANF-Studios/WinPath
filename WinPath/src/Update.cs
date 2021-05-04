@@ -86,7 +86,7 @@ namespace WinPath
                 {
                     Console.WriteLine("Starting WinPath...");
                     var application = Process.Start(process);
-                    application.WaitForExit();
+                    //application.WaitForExit();
                     processExitCode = application.ExitCode;
                     Console.WriteLine(application.ExitCode);
                 }
