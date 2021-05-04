@@ -88,16 +88,9 @@ namespace WinPath
                     bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
                     if (appveyor)
                     {
-                        Directory.CreateDirectory("C:\\Program Files\\WinPath\\");
-                        ProcessStartInfo cmd = new ProcessStartInfo
-                        {
-                            FileName = "cmd.exe",
-                            Verb = "runas",
-                            Arguments = "move /Y /-Y " + downloadDirectory + "\\WinPath_win10-x64.exe " + "C:\\Program Files\\WinPath\\WinPath.exe" + " && exit 0"
-                        };
-                        Process.Start(cmd).WaitForExit();
-                        if (File.Exists("C:\\Program Files\\WinPath\\WinPath.exe"))
-                            processExitCode = 0;
+                        const string installationPath = "C:\\Program Files\\WinPath\\";
+                        Directory.CreateDirectory(installationPath);
+                        File.Move(downloadDirectory + "\\WinPath_win10-x64.exe", installationPath + "WinPath.exe");
                     }
                     else
                     {
