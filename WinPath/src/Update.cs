@@ -29,6 +29,7 @@ namespace WinPath
 
         public void DownloadWinPath(in ReleaseInfo releaseInfo, Action finalJob = null)
         {
+            bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
             if (!confirmDownload)
             {
                 Console.WriteLine("Release Information:\n"
@@ -85,7 +86,6 @@ namespace WinPath
                 try
                 {
                     Console.WriteLine("Starting update...");
-                    bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
                     if (appveyor)
                     {
                         const string installationPath = "C:\\Program Files\\WinPath\\";
@@ -132,7 +132,8 @@ namespace WinPath
                     Environment.ExitCode = 1;
                 }
                 finalJob?.Invoke();
-                Environment.Exit(Environment.ExitCode);
+                if (!appveyor)
+                    Environment.Exit(Environment.ExitCode);
             }
         }
 
