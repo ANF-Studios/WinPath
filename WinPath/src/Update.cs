@@ -104,7 +104,7 @@ namespace WinPath
                 {
                     WinPath.Library.UserPath userPath = WinPath.Program.GetUserPath();
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
-                    path.Replace("/", "\\");
+                    path = path.Replace("/", "\\");
                     if (Environment.Is64BitOperatingSystem)
                        if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
                            userPath.AddToPath("%PROGRAMFILES%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
