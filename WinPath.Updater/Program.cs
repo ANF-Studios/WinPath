@@ -5,7 +5,7 @@ namespace WinPath.Updater
 {
     class Program
     {
-        private static readonly string executableDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\WinPath\\temp\\download\\WinPath.exe";
+        private static readonly string executableDirectory = $"{Path.GetTempPath()}WinPath\\download\\WinPath.exe";
 
         public static void Main()
         {
