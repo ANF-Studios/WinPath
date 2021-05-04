@@ -93,7 +93,7 @@ namespace WinPath
                         {
                             FileName = "cmd.exe",
                             Verb = "runas",
-                            Arguments = "move /Y /-Y " + downloadDirectory + "\\WinPath_win10-x64.exe " + "C:\\Program Files\\WinPath\\WinPath.exe"
+                            Arguments = "move /Y /-Y " + downloadDirectory + "\\WinPath_win10-x64.exe " + "C:\\Program Files\\WinPath\\WinPath.exe" + " && exit 0"
                         };
                         Process.Start(cmd).WaitForExit();
                         if (File.Exists("C:\\Program Files\\WinPath\\WinPath.exe"))
