@@ -41,7 +41,7 @@ namespace WinPath.Tests
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             var isOnPath = path.Contains("%PROGRAMFILES%\\WinPath") || path.Contains("C:\\Program Files\\WinPath");
             output.WriteLine("WinPath is added to the Path: " + isOnPath);
-            Assert.False(isOnPath); // FIXME: Set up a proper testing solution.
+            Assert.True(isOnPath); // FIXME: Set up a proper testing solution.
         }
 
         [Fact]
