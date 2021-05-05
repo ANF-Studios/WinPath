@@ -4,6 +4,7 @@ using System.Runtime.Versioning;
 using CommandLine;
 
 using WinPath.Library;
+using WinPath.Extensions;
 
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
@@ -24,7 +25,7 @@ namespace WinPath
             Console.Title = AppDomain.CurrentDomain.FriendlyName;
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
-            Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
+            Parser.Default.ParseVerbs<AddOptions, BackupOptions, UpdateOptions>(args)
                 .WithParsed<AddOptions>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
                     else if (options.Value != null)
@@ -38,6 +39,14 @@ namespace WinPath
                         else
                             HandleArgument(HandleEventType.NoUserOrSystemPath);
                     }
+                })
+                .WithParsed<BackupOptions>(options =>
+                {
+                    Console.WriteLine("aaa");
+                })
+                .WithParsed<BackupOptions.BackupListOptions>(options =>
+                {
+                    Console.WriteLine("hewwo");
                 })
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");

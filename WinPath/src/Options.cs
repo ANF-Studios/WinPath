@@ -1,4 +1,5 @@
 using CommandLine;
+using WinPath.Extensions;
 
 namespace WinPath
 {
@@ -16,6 +17,24 @@ namespace WinPath
 
         [Option('b', "backup", Default = false, Required = false, HelpText = "Weather to back up the Path variable to be restored if needed.")]
         public bool BackupPathVariable { get; set; }
+    }
+
+    [Verb("backup", HelpText = "A group of options to manage backups of your Path variable.")]
+    [ChildVerbs(typeof(BackupListOptions))]
+    public class BackupOptions
+    {
+        [Verb("list", HelpText = "Display a list of backups.")]
+        public class BackupListOptions
+        {
+            [Option("all", HelpText = "Print all the backups", Default = true)]
+            public bool ListAllBackups { get; set; } = true;
+
+            [Option("latest", HelpText = "Print the latest backup, along with the previous two")]
+            public bool ListLatest { get; set; }
+
+            [Option("range", Max = int.MaxValue, Min = int.MinValue, HelpText = "Print a specific range of values starting from the latest to the minimum of that range.")]
+            public int Range { get; set; }
+        }
     }
 
     [Verb("update", HelpText = "Update WinPath to the latest version, optioanlly with/without a prerelease. This command can also be used to freshly install, update, and reinstall WinPath.")]
