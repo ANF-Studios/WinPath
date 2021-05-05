@@ -32,7 +32,7 @@ namespace WinPath
             [Option("latest", HelpText = "Print the latest backup, along with the previous two")]
             public bool ListLatest { get; set; }
 
-            [Option("range", Max = int.MaxValue, Min = int.MinValue, HelpText = "Print a specific range of values starting from the latest to the minimum of that range.")]
+            [Option("range", Max = int.MaxValue, Min = int.MinValue, Default = 10, HelpText = "Print a specific range of values starting from the latest to the minimum of that range.")]
             public int Range { get; set; }
         }
     }
