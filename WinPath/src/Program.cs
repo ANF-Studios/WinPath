@@ -40,10 +40,11 @@ namespace WinPath
                             HandleArgument(HandleEventType.NoUserOrSystemPath);
                     }
                 })
-                .WithParsed<BackupOptions>(options =>
-                {
-                    Console.WriteLine("aaa");
-                })
+                //.WithParsed<BackupOptions>(options =>
+                //{
+                //    Doesn't react/trigger this section.
+                //    This is because of child verbs.
+                //})
                 .WithParsed<BackupOptions.BackupListOptions>(options =>
                 {
                     Console.WriteLine("hewwo");
