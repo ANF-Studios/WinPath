@@ -27,7 +27,7 @@ namespace WinPath
         public class BackupListOptions
         {
             [Option("all", HelpText = "Print all the backups", Default = true)]
-            public bool ListAllBackups { get; set; } = true;
+            public bool ListAllBackups { get; set; }
 
             [Option("latest", HelpText = "Print the latest backup, along with the previous two")]
             public bool ListLatest { get; set; }
