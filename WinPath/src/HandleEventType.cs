@@ -6,6 +6,10 @@ namespace WinPath
         UserPath,
         SystemPath,
         UserAndSystemPath,
-        NoUserOrSystemPath
+        NoUserOrSystemPath,
+
+        ListAllBackups,
+        ListLatestBackups,
+        ListBackups
     }
 }
