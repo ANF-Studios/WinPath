@@ -47,7 +47,12 @@ namespace WinPath
                 //})
                 .WithParsed<BackupOptions.BackupListOptions>(options =>
                 {
-                    Console.WriteLine("hewwo");
+                    if (options.ListAllBackups)
+                        ListBackups();
+                    else if (options.ListLatest)
+                        ListBackups();
+                    else
+                        ListBackups();
                 })
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");
