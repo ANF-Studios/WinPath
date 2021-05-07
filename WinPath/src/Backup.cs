@@ -79,6 +79,7 @@ namespace WinPath
                     Console.WriteLine("Filename | Date of creation");
                     Console.WriteLine(seperator);
 
+                    /*
                     if (systemDirFileInfo is not null)
                     {
                         foreach (FileInfo backupFile in systemDirFileInfo)
@@ -95,7 +96,7 @@ namespace WinPath
                                       )
                             );
                     }
-                    else Console.WriteLine("System backups not yet supported by the API.");
+                    else*/ Console.WriteLine("System backups not yet supported by the API.");
                     Console.WriteLine(seperator);
                     break;
 
@@ -131,6 +132,7 @@ namespace WinPath
                     Console.WriteLine("Filename | Date of creation");
                     Console.WriteLine(seperator);
 
+                    /*
                     if (reversedSystemList is not null)
                         for (int i = 0; i < (range ?? 3); ++i)
                         {
@@ -151,7 +153,7 @@ namespace WinPath
                             }
                             catch (IndexOutOfRangeException) { break; }
                         }
-                    else Console.WriteLine("System backups not yet supported by the API.");
+                    else*/ Console.WriteLine("System backups not yet supported by the API.");
 
                     Console.WriteLine(seperator);
                     break;
