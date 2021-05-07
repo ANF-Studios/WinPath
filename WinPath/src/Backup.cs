@@ -20,6 +20,16 @@ namespace WinPath
                                             ? null
                                             : new DirectoryInfo(systemBackupDirectory);
 
+            if (!userDirInfo.Exists)
+            {
+                Console.WriteLine("No backups found...");
+                return;
+            }
+            //if (!systemDirInfo.Exists)
+            //{
+            // Will be implemented when system backups are supported.
+            //}
+
             FileInfo[] userDirFileInfo = userDirInfo.GetFiles();
             FileInfo[] systemDirFileInfo = systemDirInfo?.GetFiles();
 
