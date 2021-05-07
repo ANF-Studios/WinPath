@@ -26,7 +26,7 @@ namespace WinPath
         [Verb("list", HelpText = "Display a list of backups.")]
         public class BackupListOptions
         {
-            [Option("all", HelpText = "Print all the backups", Default = true)]
+            [Option("all", HelpText = "Print all the backups")]
             public bool ListAllBackups { get; set; }
 
             [Option("latest", HelpText = "Print the latest backup, along with the previous two")]
