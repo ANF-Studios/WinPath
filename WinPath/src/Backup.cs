@@ -26,6 +26,9 @@ namespace WinPath
             FileInfo[] userDirFileInfo = userDirInfo.GetFiles();
             FileInfo[] systemDirFileInfo = systemDirInfo?.GetFiles();
 
+            FileInfo[] reversedUserList = userDirFileInfo.Reverse().ToArray();
+            FileInfo[] reversedSystemList = systemDirFileInfo?.Reverse().ToArray();
+
             long temp; // For long.TryParse(..., out temp);
             string seperator = "-----------------------------------------"; // Default seperator.
             string spaces = string.Empty; // The number of spaces between `Filename` and `|`.
@@ -89,15 +92,13 @@ namespace WinPath
                     Console.WriteLine(seperator);
                     break;
 
+                case HandleEventType.ListBackups:
                 case HandleEventType.ListLatestBackups:
-                    FileInfo[] reversedUserList = userDirFileInfo.Reverse().ToArray();
-                    FileInfo[] reversedSystemList = systemDirFileInfo?.Reverse().ToArray();
-
                     Console.WriteLine("User Backups:");
                     Console.WriteLine("Filename" + spaces + " | Date of creation");
                     Console.WriteLine(seperator);
 
-                    for (int i = 0; i < 3; ++i)
+                    for (int i = 0; i < (range ?? 3); ++i)
                     {
                         try
                         {
@@ -124,7 +125,7 @@ namespace WinPath
                     Console.WriteLine(seperator);
 
                     if (reversedSystemList is not null)
-                        for (int i = 0; i < 3; ++i)
+                        for (int i = 0; i < (range ?? 3); ++i)
                         {
                             try
                             {
@@ -148,8 +149,9 @@ namespace WinPath
                     Console.WriteLine(seperator);
                     break;
 
-                case HandleEventType.ListBackups:
-                    break;
+                //case HandleEventType.ListBackups:
+                //
+                //    break;
 
                 default:
                     throw new ArgumentException(
