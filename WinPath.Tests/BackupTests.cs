@@ -93,7 +93,7 @@ namespace WinPath.Tests
         {
             string backupDirectory = Program.GetUserPath().BackupDirectory;
             if (System.IO.Directory.Exists(backupDirectory))
-                System.IO.Directory.Delete(backupDirectory);
+                System.IO.Directory.Delete(backupDirectory, true);
             Backup.ListBackups(HandleEventType.ListAllBackups, backupDirectory);
         }
     }
