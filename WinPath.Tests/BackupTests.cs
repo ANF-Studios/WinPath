@@ -92,7 +92,8 @@ namespace WinPath.Tests
         public void DeleteBackupDirectoryAndListBackups()
         {
             string backupDirectory = Program.GetUserPath().BackupDirectory;
-            System.IO.Directory.Delete(backupDirectory);
+            if (System.IO.Directory.Exists(backupDirectory))
+                System.IO.Directory.Delete(backupDirectory);
             Backup.ListBackups(HandleEventType.ListAllBackups, backupDirectory);
         }
     }
