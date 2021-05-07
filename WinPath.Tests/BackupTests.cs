@@ -7,7 +7,7 @@ using WinPath;
 
 namespace WinPath.Tests
 {
-    class BackupTests
+    public class BackupTests
     {
         private readonly ITestOutputHelper output;
 
