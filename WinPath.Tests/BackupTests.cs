@@ -87,5 +87,13 @@ namespace WinPath.Tests
 
             Assert.True(exceptionThrown);
         }
+
+        [Fact]
+        public void DeleteBackupDirectoryAndListBackups()
+        {
+            string backupDirectory = Program.GetUserPath().BackupDirectory;
+            System.IO.Directory.Delete(backupDirectory);
+            Backup.ListBackups(HandleEventType.ListAllBackups, backupDirectory);
+        }
     }
 }
