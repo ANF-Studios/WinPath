@@ -48,11 +48,22 @@ namespace WinPath
                 .WithParsed<BackupOptions.BackupListOptions>(options =>
                 {
                     if (options.ListAllBackups)
-                        ListBackups();
+                        Backup.ListBackups(
+                            HandleEventType.ListAllBackups,
+                            userPath.BackupDirectory
+                        );
                     else if (options.ListLatest)
-                        ListBackups();
+                        Backup.ListBackups(
+                            HandleEventType.ListLatestBackups,
+                            userPath.BackupDirectory
+                        );
                     else
-                        ListBackups();
+                        Backup.ListBackups(
+                            HandleEventType.ListBackups,
+                            userPath.BackupDirectory,
+                            null,
+                            options.Range
+                        );
                 })
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");
