@@ -96,5 +96,12 @@ namespace WinPath.Tests
                 System.IO.Directory.Delete(backupDirectory, true);
             Backup.ListBackups(HandleEventType.ListAllBackups, backupDirectory);
         }
+
+        [Fact]
+        public void CreateBackupClass()
+        {
+            Backup backup = new Backup();
+            output.WriteLine(backup.ToString());
+        }
     }
 }
