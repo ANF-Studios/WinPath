@@ -20,7 +20,7 @@ namespace WinPath
     }
 
     [Verb("backup", HelpText = "A group of options to manage backups of your Path variable.")]
-    [ChildVerbs(typeof(BackupListOptions))]
+    [ChildVerbs(typeof(BackupListOptions), typeof(BackupCreateOptions))]
     public class BackupOptions
     {
         [Verb("list", HelpText = "Display a list of backups.")]
@@ -37,6 +37,29 @@ namespace WinPath
                                                            // ParserVerbExtensions.ParseVerbs(Parser, IEnumerable<string>, Type[]). If
             public const int MinimumRange = 1;             // you find a solution to this, please open a pull request, it'll help a lot.
             public const int MaximumRange = int.MaxValue;  // For now, however, these are the ways to declare the minimum and maxmimum values.
+        }
+
+        [Verb("create", HelpText = "Create a new backup of your Path variable.")]
+        public class BackupCreateOptions
+        {
+            [Option('u', "user", Default = false, Required = false, HelpText = "Backup user variables.")]
+            public bool BackupUserVariables { get; set; }
+            
+            [Option('s', "system", Default = false, Required = false, HelpText = "Backup system variables.")]
+            public bool BackupSystemVariables { get; set; }
+
+            [Option('d', "directory", HelpText = "An override of the directory to backup to. Note that the backup list method might not locate this backup.")]
+            public string BackupDirectory { get; set; } = Program.GetUserPath().BackupDirectory;
+
+            // TODO: Might or might not implement it.
+            //[Option("encrypt", HelpText = "Encrypt the backup of Path, only possible when --directory is provided.")]
+            //public bool EncryptBackup { get; set; }
+        }
+
+        [Verb("remove", HelpText = "Deletes a backup from the computer permanently.")]
+        public class BackupRemoveOptions
+        {
+
         }
     }
 

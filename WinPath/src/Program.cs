@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Versioning;
 
 using CommandLine;
@@ -65,6 +66,32 @@ namespace WinPath
                             options.Range
                         );
                 })
+                .WithParsed<BackupOptions.BackupCreateOptions>(options =>
+                {
+                    // Invalid chars that may be in the provided directory.
+                    // For example:
+                    // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
+                    // as a literal escape character which causes the Path to fail backing up.
+                    options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
+                    if (!options.BackupDirectory.EndsWith("\\") || !options.BackupDirectory.EndsWith("/"))
+                        options.BackupDirectory += "\\";
+
+                    string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+                    string filename = DateTime.Now.ToFileTime().ToString();
+                    Console.WriteLine(options.BackupDirectory + filename);
+
+                    if ((options.BackupSystemVariables && options.BackupUserVariables) || options.BackupSystemVariables)
+                        Console.WriteLine("System variables are not supported by the API.");
+                    else if (options.BackupUserVariables)
+                        userPath.BackupPath(
+                            path,
+                            filename,
+                            options.BackupDirectory
+                        ).Wait();
+                    if (File.Exists(Path.Combine(options.BackupDirectory, filename)))
+                        Console.WriteLine("Successfully backed up Path at: " + Path.Combine(options.BackupDirectory, filename));
+                    else Console.WriteLine("Looks like something went wrong!");
+                })
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update
@@ -94,12 +121,12 @@ namespace WinPath
                     };
                     update.DownloadWinPath(releaseInfo, () => {
                         foreach (string file in
-                            System.IO.Directory.EnumerateFiles(
-                                $"{System.IO.Path.GetTempPath()}WinPath\\download\\"
+                            Directory.EnumerateFiles(
+                                $"{Path.GetTempPath()}WinPath\\download\\"
                         ))
                             try
                             {
-                                System.IO.File.Delete(file);
+                                File.Delete(file);
                             }
                             catch (Exception ex)
                             {
