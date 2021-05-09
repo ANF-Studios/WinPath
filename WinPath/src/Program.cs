@@ -80,7 +80,7 @@ namespace WinPath
                     string filename = DateTime.Now.ToFileTime().ToString();
                     Console.WriteLine(options.BackupDirectory + filename);
 
-                    if ((options.BackupSystemVariables && options.BackupUserVariables) || options.BackupSystemVariables)
+                    if (options.BackupSystemVariables)
                         Console.WriteLine("System variables are not supported by the API.");
                     else if (options.BackupUserVariables)
                         userPath.BackupPath(
