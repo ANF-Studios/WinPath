@@ -78,6 +78,7 @@ namespace WinPath
 
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
                     string filename = DateTime.Now.ToFileTime().ToString();
+                    string finalPath = Path.Combine(options.BackupDirectory, filename);
 
                     if (options.BackupSystemVariables)
                         Console.WriteLine("System variables are not supported by the API.");
@@ -86,9 +87,9 @@ namespace WinPath
                             path,
                             filename,
                             options.BackupDirectory
-                        ).Wait();
-                    if (File.Exists(Path.Combine(options.BackupDirectory, filename)))
-                        Console.WriteLine("Successfully backed up Path at: " + Path.Combine(options.BackupDirectory, filename));
+                        );
+                    if (File.Exists(finalPath))
+                        Console.WriteLine("Successfully backed up Path at: " + finalPath);
                     else Console.WriteLine("Looks like something went wrong!");
                 })
                 .WithParsed<UpdateOptions>(options => {
