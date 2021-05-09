@@ -2,7 +2,7 @@
   "profiles": {
     "WinPath": {
       "commandName": "Project",
-      "commandLineArgs": "backup create --user --directory \"C:\\Users\\ANF-Studios\\Desktop\""
+      "commandLineArgs": "backup create --user --directory \"C:\\Users\\ANF-Studios\\Desktop\\hh\""
     }
   }
 }
