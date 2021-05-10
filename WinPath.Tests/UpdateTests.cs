@@ -18,6 +18,7 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathDoesUpdate()
         {
+            Console.SetOut(new OutputRedirector(output));
             Program.Main(
                 new string[]
                 {
@@ -39,6 +40,7 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathIsInPath()
         {
+            Console.SetOut(new OutputRedirector(output));
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             var isOnPath = path.Contains("%PROGRAMFILES%\\WinPath") || path.Contains("C:\\Program Files\\WinPath");
             output.WriteLine("WinPath is added to the Path: " + isOnPath);
