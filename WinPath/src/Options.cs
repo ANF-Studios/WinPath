@@ -20,7 +20,7 @@ namespace WinPath
     }
 
     [Verb("backup", HelpText = "A group of options to manage backups of your Path variable.")]
-    [ChildVerbs(typeof(BackupListOptions), typeof(BackupCreateOptions))]
+    [ChildVerbs(typeof(BackupListOptions), typeof(BackupCreateOptions), typeof(BackupRemoveOptions))]
     public class BackupOptions
     {
         [Verb("list", HelpText = "Display a list of backups.")]

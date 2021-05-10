@@ -67,6 +67,7 @@ namespace WinPath
                         );
                 })
                 .WithParsed<BackupOptions.BackupCreateOptions>(options => Backup.CreateBackup(options))
+                .WithParsed<BackupOptions.BackupRemoveOptions>(options => Backup.RemoveBackup(options))
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update

@@ -104,7 +104,7 @@ namespace WinPath
                 case HandleEventType.ListLatestBackups:
                     if (range < BackupOptions.BackupListOptions.MinimumRange
                             || range > BackupOptions.BackupListOptions.MaximumRange)
-                        Console.WriteLine($"Error: Range cannot be greater than "
+                        Console.WriteLine($"Range cannot be greater than "
                                             + BackupOptions.BackupListOptions.MaximumRange
                                             + " or less than "
                                             + BackupOptions.BackupListOptions.MinimumRange
@@ -182,7 +182,7 @@ namespace WinPath
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
-            // as a literal escape character which causes the Path to fail backing up.
+            // as a literal escape character which causes the value to be invalid.
             options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
             if (!options.BackupDirectory.EndsWith("\\") || !options.BackupDirectory.EndsWith("/"))
                 options.BackupDirectory += "\\";
@@ -202,6 +202,51 @@ namespace WinPath
             if (File.Exists(finalPath))
                 Console.WriteLine("Successfully backed up Path at: " + finalPath);
             else Console.WriteLine("Looks like something went wrong!");
+        }
+    
+        public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
+        {
+            // Invalid chars that may be in the provided directory.
+            // For example:
+            // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
+            // as a literal escape character which causes the value to be invalid.
+            options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
+
+            string file = Path.Combine(options.BackupDirectory, options.BackupFilename);
+            try
+            {
+                File.Delete(file);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("`" + file + "` was not found!");
+            }
+            catch (PathTooLongException)
+            {
+                Console.WriteLine("You cannot have a directory greater than 260 characters."
+                                    + " See https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation"
+                                    + " for more information.");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("WinPath does not have enough permissions to do this."
+                                    + "See https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-overview"
+                                    + " for more information.");
+            }
+            catch (IOException exception)
+            {
+                Console.WriteLine("Fatal error! There was a problem: " + exception.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Oh no, there was an error: " + exception.Message);
+                Console.WriteLine("Please report to the developer.");
+            }
+
+            if (!File.Exists(file))
+                Console.WriteLine("Successfully removed backup!");
+            else
+                Console.WriteLine("Could not remove " + file + "!");
         }
     }
 }
