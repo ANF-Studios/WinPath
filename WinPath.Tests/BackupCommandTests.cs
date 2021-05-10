@@ -40,7 +40,7 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ListLatestBackups()
         {
-            Console.SetOut(outputRedirector);
+            Console.SetOut(new OutputRedirector(output));
             Program.Main(new string[] {
                 "add",
                 "--user",
