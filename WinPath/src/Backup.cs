@@ -181,6 +181,7 @@ namespace WinPath
         {
             if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
                 Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
+            
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
@@ -203,11 +204,15 @@ namespace WinPath
                 );
             if (File.Exists(finalPath))
                 Console.WriteLine("Successfully backed up Path at: " + finalPath);
-            else Console.WriteLine("Looks like something went wrong!");
+            else
+                Console.WriteLine("Looks like something went wrong!");
         }
     
         public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
         {
+            if (options.BackupDirectory.Contains("-n"))
+                Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
+            
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
