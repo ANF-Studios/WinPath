@@ -102,48 +102,29 @@ namespace WinPath
 
                 case HandleEventType.ListBackups:
                 case HandleEventType.ListLatestBackups:
-                    Console.WriteLine("User Backups:");
-                    Console.WriteLine("Filename" + spaces + " | Date of creation");
-                    Console.WriteLine(seperator);
-
-                    for (int i = 0; i < range; ++i)
+                    if (range < BackupOptions.BackupListOptions.MinimumRange
+                            || range > BackupOptions.BackupListOptions.MaximumRange)
+                        Console.WriteLine($"Error: Range cannot be greater than "
+                                            + BackupOptions.BackupListOptions.MaximumRange
+                                            + " or less than "
+                                            + BackupOptions.BackupListOptions.MinimumRange
+                                            + $" (current: {range})");
+                    else
                     {
-                        try
-                        {
-                            Console.WriteLine(
-                                reversedUserList[i].Name
-                                    + " | "
-                                    + (
-                                        long.TryParse(
-                                            reversedUserList[i].Name,
-                                            out temp
-                                        )
-                                            ? DateTime.FromFileTime(temp)
-                                            : "<Parsing error>"
-                                      )
-                            );
-                        }
-                        catch (IndexOutOfRangeException) { break; }
-                    }
+                        Console.WriteLine("User Backups:");
+                        Console.WriteLine("Filename" + spaces + " | Date of creation");
+                        Console.WriteLine(seperator);
 
-                    Console.WriteLine(seperator + Console.Out.NewLine);
-
-                    Console.WriteLine("System Backups:");
-                    Console.WriteLine("Filename | Date of creation");
-                    Console.WriteLine(seperator);
-
-                    /*
-                    if (reversedSystemList is not null)
                         for (int i = 0; i < range; ++i)
                         {
                             try
                             {
                                 Console.WriteLine(
-                                    reversedSystemList[i].Name
+                                    reversedUserList[i].Name
                                         + " | "
                                         + (
                                             long.TryParse(
-                                                reversedSystemList[i].Name,
+                                                reversedUserList[i].Name,
                                                 out temp
                                             )
                                                 ? DateTime.FromFileTime(temp)
@@ -153,9 +134,39 @@ namespace WinPath
                             }
                             catch (IndexOutOfRangeException) { break; }
                         }
-                    else*/ Console.WriteLine("System backups not yet supported by the API.");
 
-                    Console.WriteLine(seperator);
+                        Console.WriteLine(seperator + Console.Out.NewLine);
+
+                        Console.WriteLine("System Backups:");
+                        Console.WriteLine("Filename | Date of creation");
+                        Console.WriteLine(seperator);
+
+                        /*
+                        if (reversedSystemList is not null)
+                            for (int i = 0; i < range; ++i)
+                            {
+                                try
+                                {
+                                    Console.WriteLine(
+                                        reversedSystemList[i].Name
+                                            + " | "
+                                            + (
+                                                long.TryParse(
+                                                    reversedSystemList[i].Name,
+                                                    out temp
+                                                )
+                                                    ? DateTime.FromFileTime(temp)
+                                                    : "<Parsing error>"
+                                              )
+                                    );
+                                }
+                                catch (IndexOutOfRangeException) { break; }
+                            }
+                        else*/
+                        Console.WriteLine("System backups not yet supported by the API.");
+
+                        Console.WriteLine(seperator);
+                    }
                     break;
 
                 default:

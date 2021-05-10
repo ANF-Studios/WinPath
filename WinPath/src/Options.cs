@@ -33,10 +33,10 @@ namespace WinPath
             public bool ListLatest { get; set; }
 
             [Option("range", /* Min = 1, Max = int.MaxValue, */ Default = 10, HelpText = "Print a specific range of values starting from the latest to the minimum of that range.")]
-            public int Range { get; set; }                 // Providing Min and Max values throw an exception at
-                                                           // ParserVerbExtensions.ParseVerbs(Parser, IEnumerable<string>, Type[]). If
-            public const int MinimumRange = 1;             // you find a solution to this, please open a pull request, it'll help a lot.
-            public const int MaximumRange = int.MaxValue;  // For now, however, these are the ways to declare the minimum and maxmimum values.
+            public int Range { get; set; }                     // Providing Min and Max values throw an exception at
+                                                               // ParserVerbExtensions.ParseVerbs(Parser, IEnumerable<string>, Type[]). If
+            public const int MinimumRange = 1;                 // you find a solution to this, please open a pull request, it'll help a lot.
+            public const int MaximumRange = int.MaxValue - 1;  // For now, however, these are the ways to declare the minimum and maxmimum values.
         }
 
         [Verb("create", HelpText = "Create a new backup of your Path variable.")]
