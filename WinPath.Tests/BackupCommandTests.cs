@@ -220,7 +220,9 @@ namespace WinPath.Tests
                     "apply",
                     "--system",
                     "--name",
-                    backup
+                    backup,
+                    "--directory",
+                    "C:\\__winpath\\"
                 }
             );
         }
@@ -242,7 +244,9 @@ namespace WinPath.Tests
                     "--system",
                     "--user",
                     "--name",
-                    backup
+                    backup,
+                    "--directory",
+                    "C:\\__winpath\\"
                 }
             );
         }
