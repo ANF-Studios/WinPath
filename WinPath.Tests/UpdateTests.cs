@@ -11,6 +11,7 @@ namespace WinPath.Tests
 
         public UpdateTests(ITestOutputHelper output)
         {
+            Console.SetOut(new OutputRedirector(output));
             this.output = output;
         }
 
