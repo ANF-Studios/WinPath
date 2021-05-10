@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Versioning;
 
 using Xunit;
@@ -179,6 +180,70 @@ namespace WinPath.Tests
                     "--directory",
                     "C:\\dev"
                  }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ApplyUserBackup()
+        {
+            CreateUserBackup();
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+
+            output.WriteLine(backup);
+
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "apply",
+                    "--user",
+                    "--name",
+                    backup
+                }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ApplySystemBackup()
+        {
+            CreateUserBackup();
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+
+            output.WriteLine(backup);
+
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "apply",
+                    "--system",
+                    "--name",
+                    backup
+                }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ApplyUserAndSystemBackup()
+        {
+            CreateUserBackup();
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+
+            output.WriteLine(backup);
+
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "apply",
+                    "--system",
+                    "--user"
+                    "--name",
+                    backup
+                }
             );
         }
     }
