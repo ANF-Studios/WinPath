@@ -46,6 +46,10 @@ namespace WinPath.Tests
 			BackupOptions.BackupListOptions backupListOptions = new BackupOptions.BackupListOptions();
 			BackupOptions.BackupCreateOptions backupCreateOptions = new BackupOptions.BackupCreateOptions();
 			BackupOptions.BackupRemoveOptions backupRemoveOptions = new BackupOptions.BackupRemoveOptions();
+
+			output.WriteLine(backupApplyOptions.BackupDirectory);
+			output.WriteLine(backupCreateOptions.BackupDirectory);
+			output.WriteLine(backupRemoveOptions.BackupDirectory);
 		}
 	}
 }
