@@ -201,7 +201,9 @@ namespace WinPath.Tests
                     "apply",
                     "--user",
                     "--name",
-                    backup
+                    backup,
+                    "--directory",
+                    "C:\\dev\\"
                 }
             );
         }
