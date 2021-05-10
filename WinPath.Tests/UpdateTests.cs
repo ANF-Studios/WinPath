@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -8,17 +9,18 @@ namespace WinPath.Tests
     public class UpdateTests
     {
         private readonly ITestOutputHelper output;
+        private readonly OutputRedirector outputRedirector;
+        private readonly TextWriter initialOutput = Console.Out;
 
         public UpdateTests(ITestOutputHelper output)
         {
-            Console.SetOut(new OutputRedirector(output));
             this.output = output;
+            outputRedirector = new OutputRedirector(output);
         }
 
         [Fact]
         public void WinPathDoesUpdate()
         {
-            Console.SetOut(null);
             Program.Main(
                 new string[]
                 {
@@ -40,7 +42,6 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathIsInPath()
         {
-            Console.SetOut(null);
             var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             var isOnPath = path.Contains("%PROGRAMFILES%\\WinPath") || path.Contains("C:\\Program Files\\WinPath");
             output.WriteLine("WinPath is added to the Path: " + isOnPath);
@@ -50,6 +51,7 @@ namespace WinPath.Tests
         [Fact]
         public void PrintConfirmDownloadSection()
         {
+            Console.SetOut(outputRedirector);
             Update update = new Update(true, false, true);
             update.DownloadWinPath(
                 new ReleaseInfo
@@ -63,22 +65,26 @@ namespace WinPath.Tests
                 }
             );
             Assert.True(true);
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         public void GetWinPathReleases()
         {
+            Console.SetOut(outputRedirector);
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
             var releases = update.GetReleases();
             foreach (var release in releases)
                 output.WriteLine(release.ReleaseName + '\n' + release.TagName + '\n');
             Assert.False(releases.Count < 1);
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         public void LatestPrereleaseHasAssets()
         {
+            Console.SetOut(outputRedirector);
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
             
@@ -93,11 +99,13 @@ namespace WinPath.Tests
 
             Assert.True(release.IsPrerelease);
             Assert.NotEmpty(release.Assets);
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         public void FilteredReleaseIsNotPrerelease()
         {
+            Console.SetOut(outputRedirector);
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(false, false, (architecture == "x64" || architecture == "x86"));
 
@@ -113,11 +121,13 @@ namespace WinPath.Tests
             if (!releases.Where(release => release.IsPrerelease == true).Any()) // If all releases are NOT prereleases.
                 Assert.False(release.IsPrerelease);                             // Then check if this one isn't a prerelease.
             else Assert.True(true);                                             // Else simply pass.
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         public void LatestReleaseHasAssets()
         {
+            Console.SetOut(outputRedirector);
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
             
@@ -134,11 +144,13 @@ namespace WinPath.Tests
                 Assert.NotEmpty(release.Assets);               // check if it's not empty.
             else                                               //
                 Assert.True(true);                             // Else simply pass.
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         public void GetAssetForProcessSuccessfully()
         {
+            Console.SetOut(outputRedirector);
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
 
@@ -149,6 +161,7 @@ namespace WinPath.Tests
             output.WriteLine("Executable name: " + assetForProcess?.ExecutableName ?? "None");
 
             Assert.True(assetForProcess is not null);
+            Console.SetOut(initialOutput);
         }
     }
 }
