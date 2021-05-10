@@ -42,7 +42,7 @@ namespace WinPath
         [Verb("apply", HelpText = "Apply a path value from a backup.")]
         public class BackupApplyOptions
         {
-            [Option('n', "name", HelpText = "The filename of the backup file.", Required = true)]
+            [Option('n', "name", HelpText = "The ilename of the backup file.", Required = true)]
             public string BackupFilename { get; set; }
 
             [Option('d', "directory", HelpText = "An override of the directory of where to find the filename.")]

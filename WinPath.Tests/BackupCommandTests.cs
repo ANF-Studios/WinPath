@@ -1,19 +1,21 @@
-﻿using Xunit;
-using Xunit.Abstractions;
-using System;
+﻿using System;
 using System.Runtime.Versioning;
+
+using Xunit;
+using Xunit.Abstractions;
 
 using WinPath;
 
 namespace WinPath.Tests
 {
-    public class AddCommandTests
+    public class BackupCommandTests
     {
         private readonly ITestOutputHelper output;
 
-        public AddCommandTests(ITestOutputHelper output)
+        public BackupCommandTests(ITestOutputHelper output)
         {
             this.output = output;
+            Console.SetOut(new OutputRedirector(output));
         }
 
         [Fact]
@@ -89,6 +91,7 @@ namespace WinPath.Tests
         }
 
         [Fact]
+        [SupportedOSPlatform("windows")]
         public void DeleteBackupDirectoryAndListBackups()
         {
             string backupDirectory = Program.GetUserPath().BackupDirectory;
@@ -98,10 +101,81 @@ namespace WinPath.Tests
         }
 
         [Fact]
+        [SupportedOSPlatform("windows")]
         public void CreateBackupClass()
         {
             Backup backup = new Backup();
             output.WriteLine(backup.ToString());
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void CreateUserBackup()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create",
+                    "--user"
+                }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void CreateSystemBackup()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create",
+                    "--system"
+                }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void CreateUserAndSystemBackup()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create",
+                    "--user",
+                    "--system"
+                }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void CreateUserBackupInASpecifiedDirectory()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create",
+                    "--directory",
+                    "C:\\dev",
+                    "--user"
+                }
+            );
+
+            Program.Main(
+                 new string[]
+                 {
+                    "backup",
+                    "create",
+                    "--user",
+                    "--directory",
+                    "C:\\dev"
+                 }
+            );
         }
     }
 }
