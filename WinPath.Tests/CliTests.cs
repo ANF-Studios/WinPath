@@ -35,5 +35,17 @@ namespace WinPath.Tests
                 "CliTests_AddToUserPath;", path
             );
         }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void AddToPathWithNoUserOrSystem()
+        {
+            Program.Main(new string[] {
+                "add",
+                "--backup",
+                "--value",
+                "CliTests_AddToPathWithNoUserOrSystem"
+            });
+        }
     }
 }
