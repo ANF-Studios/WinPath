@@ -192,6 +192,7 @@ namespace WinPath.Tests
             var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
+            output.WriteLine(backup.Length.ToString());
 
             Program.Main(
                 new string[]
