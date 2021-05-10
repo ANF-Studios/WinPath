@@ -4,7 +4,7 @@ before_build:
 - nuget restore
 - choco install opencover.portable
 - choco install codecov
-- choco install dotnet-sdk
+#- choco install dotnet-sdk
 
 build:
   project: WinPath.sln
