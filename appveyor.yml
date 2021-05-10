@@ -18,8 +18,8 @@ test_script:
 #- OpenCover.Console.exe -register:user -target:".\bin\WinPath.Tests\Debug\net5.0\WinPath.Tests.dll" -output:".\WinPath_coverage.xml" -oldstyle
 # OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\MyUnitTests\bin\Debug\MyUnitTests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\MyProject_coverage.xml"
 - dotnet tool install --global coverlet.console --verbosity q
-- takeown /F "<directory>"                      # Required for access
-- icacls "<directory>" /grant administrators:F  # in %APPDATA%.
+- takeown /F %APPDATA%                      # Required for access
+- icacls %APPDATA% /grant administrators:F  # in %APPDATA%.
 - cd C:\projects\WinPath\
 - dotnet test --collect:"XPlat Code Coverage" --settings "./WinPath.Tests/coverage.settings" --verbosity n
 - pwd
