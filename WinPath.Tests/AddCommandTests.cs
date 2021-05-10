@@ -7,11 +7,11 @@ using WinPath;
 
 namespace WinPath.Tests
 {
-    public class BackupTests
+    public class AddCommandTests
     {
         private readonly ITestOutputHelper output;
 
-        public BackupTests(ITestOutputHelper output)
+        public AddCommandTests(ITestOutputHelper output)
         {
             this.output = output;
         }
