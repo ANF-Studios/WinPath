@@ -66,6 +66,7 @@ namespace WinPath
                             options.Range
                         );
                 })
+                .WithParsed<BackupOptions.BackupApplyOptions>(options => Backup.ApplyBackup(options))
                 .WithParsed<BackupOptions.BackupCreateOptions>(options => Backup.CreateBackup(options))
                 .WithParsed<BackupOptions.BackupRemoveOptions>(options => Backup.RemoveBackup(options))
                 .WithParsed<UpdateOptions>(options => {

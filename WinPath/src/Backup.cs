@@ -6,6 +6,9 @@ namespace WinPath
 {
     public class Backup
     {
+        private readonly static string userinitialBackup = $"{Path.GetTempPath()}WinPath\\u_backup.txt";
+        private readonly static string systeminitialBackup = $"{Path.GetTempPath()}WinPath\\s_backup.txt";
+
         public Backup() { }
 
         public static void ListBackups(
@@ -96,7 +99,8 @@ namespace WinPath
                                       )
                             );
                     }
-                    else*/ Console.WriteLine("System backups not yet supported by the API.");
+                    else*/
+                    Console.WriteLine("System backups not yet supported by the API.");
                     Console.WriteLine(seperator);
                     break;
 
@@ -176,12 +180,12 @@ namespace WinPath
                     );
             }
         }
-    
+
         public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
         {
             if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
                 Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
-            
+
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
@@ -207,12 +211,12 @@ namespace WinPath
             else
                 Console.WriteLine("Looks like something went wrong!");
         }
-    
+
         public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
         {
             if (options.BackupDirectory.Contains("-n"))
                 Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
-            
+
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
@@ -254,6 +258,73 @@ namespace WinPath
                 Console.WriteLine("Successfully removed backup!");
             else
                 Console.WriteLine("Could not remove " + file + "!");
+        }
+
+        public static void ApplyBackup(in BackupOptions.BackupApplyOptions options)
+        {
+            if (options.BackupDirectory.Contains("-n"))
+                Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
+
+            if (options.RestoreUserVariables && options.RestoreSystemVariables)
+            {
+                Console.WriteLine("Both user and system variables cannot be restored at the same time (this is to protect you).");
+                return;
+            }
+
+            if (options.RestoreSystemVariables)
+            {
+                Console.WriteLine("System variables are not yet supported by the API.");
+                return;
+            }
+
+            // Invalid chars that may be in the provided directory.
+            // For example:
+            // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
+            // as a literal escape character which causes the value to be invalid.
+            options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
+
+            string file = Path.Combine(options.BackupDirectory, options.BackupFilename);
+            string initialUserPath = options.RestoreUserVariables
+                                        ? Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User)
+                                        : null;
+            string initialSystemPath = options.RestoreSystemVariables
+                                        ? Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)
+                                        : null;
+
+            if (!File.Exists(file))
+            {
+                Console.WriteLine(file + " not found! Aborting restore.");
+                return;
+            }
+            else
+            {
+                string newPath = File.ReadAllText(file);
+
+                if (string.IsNullOrEmpty(newPath))
+                {
+                    Console.WriteLine("Given file is empty! Aborting restore.");
+                    return;
+                }
+
+                if (options.RestoreUserVariables)
+                {
+                    File.WriteAllText(userinitialBackup, initialUserPath);
+
+                    Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.User);
+
+                    Console.WriteLine("Successfully restored file as new Path!");
+                    Console.WriteLine("In case if you changed your mind, there is a backup at: " + userinitialBackup);
+                }
+                if (options.RestoreSystemVariables)
+                {
+                    File.WriteAllText(systeminitialBackup, initialSystemPath);
+
+                    Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.Machine);
+
+                    Console.WriteLine("Successfully restored file as new Path!");
+                    Console.WriteLine("In case if you changed your mind, there is a backup at: " + systeminitialBackup);
+                }
+            }
         }
     }
 }
