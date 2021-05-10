@@ -59,7 +59,11 @@ namespace WinPath
         [Verb("remove", HelpText = "Deletes a backup from the computer permanently.")]
         public class BackupRemoveOptions
         {
+            [Option('n', "name", HelpText = "The filename of the backup file.", Required = true)]
+            public string BackupFilename { get; set; }
 
+            [Option('d', "directory", HelpText = "An override of the directory of where to find the filename.")]
+            public string BackupDirectory { get; set; } = Program.GetUserPath().BackupDirectory;
         }
     }
 
