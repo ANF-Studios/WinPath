@@ -240,7 +240,7 @@ namespace WinPath.Tests
                     "backup",
                     "apply",
                     "--system",
-                    "--user"
+                    "--user",
                     "--name",
                     backup
                 }
