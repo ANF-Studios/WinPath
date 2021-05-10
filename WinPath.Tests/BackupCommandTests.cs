@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Versioning;
 
 using Xunit;
@@ -188,7 +189,7 @@ namespace WinPath.Tests
         public void ApplyUserBackup()
         {
             CreateUserBackup();
-            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
 
@@ -209,7 +210,7 @@ namespace WinPath.Tests
         public void ApplySystemBackup()
         {
             CreateUserBackup();
-            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
 
@@ -232,7 +233,7 @@ namespace WinPath.Tests
         public void ApplyUserAndSystemBackup()
         {
             CreateUserBackup();
-            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).GetEnumerator().Current;
+            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
 
