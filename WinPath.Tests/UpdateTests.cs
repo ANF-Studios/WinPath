@@ -21,6 +21,7 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathDoesUpdate()
         {
+            Console.SetOut(outputRedirector);
             Program.Main(
                 new string[]
                 {
@@ -37,6 +38,7 @@ namespace WinPath.Tests
                         : "C:\\Program Files (x86)\\WinPath\\WinPath.exe"
                 )
             );
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
