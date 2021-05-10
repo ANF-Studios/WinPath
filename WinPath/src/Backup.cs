@@ -176,5 +176,32 @@ namespace WinPath
                     );
             }
         }
+    
+        public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
+        {
+            // Invalid chars that may be in the provided directory.
+            // For example:
+            // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
+            // as a literal escape character which causes the Path to fail backing up.
+            options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
+            if (!options.BackupDirectory.EndsWith("\\") || !options.BackupDirectory.EndsWith("/"))
+                options.BackupDirectory += "\\";
+
+            string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+            string filename = DateTime.Now.ToFileTime().ToString();
+            string finalPath = Path.Combine(options.BackupDirectory, filename);
+
+            if (options.BackupSystemVariables)
+                Console.WriteLine("System variables are not supported by the API.");
+            else if (options.BackupUserVariables)
+                Program.GetUserPath().BackupPath(
+                    path,
+                    filename,
+                    options.BackupDirectory
+                );
+            if (File.Exists(finalPath))
+                Console.WriteLine("Successfully backed up Path at: " + finalPath);
+            else Console.WriteLine("Looks like something went wrong!");
+        }
     }
 }
