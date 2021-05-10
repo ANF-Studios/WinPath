@@ -179,6 +179,8 @@ namespace WinPath
     
         public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
         {
+            if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
+                Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
