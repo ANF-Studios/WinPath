@@ -12,7 +12,7 @@ namespace WinPath
             in HandleEventType eventType,
             in string userBackupDirectory,
             in string systemBackupDirectory = null,
-            in int? range = null
+            in int range = 3
         )
         {
             DirectoryInfo userDirInfo = new DirectoryInfo(userBackupDirectory);
@@ -106,7 +106,7 @@ namespace WinPath
                     Console.WriteLine("Filename" + spaces + " | Date of creation");
                     Console.WriteLine(seperator);
 
-                    for (int i = 0; i < (range ?? 3); ++i)
+                    for (int i = 0; i < range; ++i)
                     {
                         try
                         {
@@ -134,7 +134,7 @@ namespace WinPath
 
                     /*
                     if (reversedSystemList is not null)
-                        for (int i = 0; i < (range ?? 3); ++i)
+                        for (int i = 0; i < range; ++i)
                         {
                             try
                             {
