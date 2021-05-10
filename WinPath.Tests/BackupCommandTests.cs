@@ -11,17 +11,18 @@ namespace WinPath.Tests
     public class BackupCommandTests
     {
         private readonly ITestOutputHelper output;
+        private readonly System.IO.TextWriter initialOutput = Console.Out;
 
         public BackupCommandTests(ITestOutputHelper output)
         {
             this.output = output;
-            Console.SetOut(new OutputRedirector(output));
         }
 
         [Fact]
         [SupportedOSPlatform("windows")]
         public void ListAllBackups()
         {
+            Console.SetOut(new OutputRedirector(output));
             Program.Main(new string[] {
                 "add",
                 "--user",
@@ -32,12 +33,14 @@ namespace WinPath.Tests
             Program.Main(
                 new string[] { "backup", "list", "--all" }
             );
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
         [SupportedOSPlatform("windows")]
         public void ListLatestBackups()
         {
+            Console.SetOut(outputRedirector);
             Program.Main(new string[] {
                 "add",
                 "--user",
@@ -48,6 +51,7 @@ namespace WinPath.Tests
             Program.Main(
                 new string[] { "backup", "list", "--latest" }
             );
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
