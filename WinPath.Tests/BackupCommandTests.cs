@@ -416,10 +416,14 @@ namespace WinPath.Tests
 
             var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
             var exceptionThrown = false;
-            const string tooLongDir = @"C:\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+            const string tooLongDir = @"C:\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
-                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\";
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\";
 
             output.WriteLine(filename.Name);
             output.WriteLine(filename.DirectoryName);
