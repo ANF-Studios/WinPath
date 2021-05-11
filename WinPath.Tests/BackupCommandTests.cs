@@ -436,7 +436,7 @@ namespace WinPath.Tests
                 "default"
             );
 
-            output.WriteLine(longPathsEnabled as string);
+            output.WriteLine(longPathsEnabled.ToString());
 
             try
             {
