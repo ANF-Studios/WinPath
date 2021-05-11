@@ -298,7 +298,8 @@ namespace WinPath
             }
             else
             {
-                File.WriteAllText("C:\\temp.txt", file);
+                if (!File.Exists(file))
+                    throw new FileNotFoundException($"nameof(file) was not found!");
                 string newPath = File.ReadAllText(file);
 
                 if (string.IsNullOrEmpty(newPath))
