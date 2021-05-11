@@ -237,7 +237,7 @@ namespace WinPath.Tests
         public void ApplyUserAndSystemBackup()
         {
             CreateUserBackup();
-            var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
+            var backup = Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
 
