@@ -211,7 +211,7 @@ namespace WinPath.Tests
                     overrideDirectory
                 }
             );
-            } catch { }
+            } catch (Exception ex) { output.WriteLine(ex.Message); }
 
             var directoryInfo = Path.GetTempPath();
             output.WriteLine(directoryInfo);
