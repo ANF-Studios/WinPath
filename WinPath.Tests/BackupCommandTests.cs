@@ -190,11 +190,12 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ApplyUserBackup()
         {
-            Console.SetOut(new OutputRedirector(output));
             CreateUserBackupInASpecifiedDirectory();
             var backup = Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault();
+            var backupFile = new FileInfo(backup);
 
             output.WriteLine(backup);
+            output.WriteLine(backupFile.Name);
 
             Program.Main(
                 new string[]
@@ -203,12 +204,11 @@ namespace WinPath.Tests
                     "apply",
                     "--user",
                     "--name",
-                    backup,
+                    backupFile.Name,
                     "--directory",
                     overrideDirectory
                 }
             );
-            Console.SetOut(initialOutput);
         }
 
         [Fact]
