@@ -24,6 +24,25 @@ namespace WinPath.Tests
 
         [Fact]
         [SupportedOSPlatform("windows")]
+        public void ListBackupDefaultCase()
+        {
+            bool exceptionThrown = false;
+            try
+            {
+                Backup.ListBackups(HandleEventType.NoValue, overrideDirectory);
+            }
+            catch
+            {
+                exceptionThrown = true;
+            }
+            finally
+            {
+                Assert.True(exceptionThrown);
+            }
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
         public void ListAllBackups()
         {
             Console.SetOut(new OutputRedirector(output));
@@ -71,6 +90,22 @@ namespace WinPath.Tests
             });
             Program.Main(
                 new string[] { "backup", "list", "--range", new Random().Next(0, 100).ToString() }
+            );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ListRangedBackupsWithInvalidRange()
+        {
+            Program.Main(new string[] {
+                "add",
+                "--user",
+                "--backup",
+                "--value",
+                "BackupTests_ListRangedBackupsWithInvalidRange"
+            });
+            Program.Main(
+                new string[] { "backup", "list", "--range", "-1337" }
             );
         }
 
@@ -125,6 +160,21 @@ namespace WinPath.Tests
                 {
                     "backup",
                     "create",
+                    "--user"
+                }
+            );
+        }
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void CreateUserBackupWithArgumentsAfterDirectory()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create",
+                    "--directory",
+                    overrideDirectory,
                     "--user"
                 }
             );
