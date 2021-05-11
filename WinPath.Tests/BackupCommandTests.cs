@@ -190,6 +190,7 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ApplyUserBackup()
         {
+            Console.SetOut(new OutputRedirector(output));
             CreateUserBackupInASpecifiedDirectory();
             var backup = Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault();
 
@@ -207,6 +208,7 @@ namespace WinPath.Tests
                     overrideDirectory
                 }
             );
+            Console.SetOut(initialOutput);
         }
 
         [Fact]
