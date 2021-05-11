@@ -298,6 +298,7 @@ namespace WinPath
             }
             else
             {
+                File.WriteAllText("C:\\temp.txt", file);
                 string newPath = File.ReadAllText(file);
 
                 if (string.IsNullOrEmpty(newPath))
