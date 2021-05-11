@@ -425,6 +425,8 @@ namespace WinPath.Tests
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\";
 
+            Directory.CreateDirectory(tooLongDir);
+
             output.WriteLine(filename.Name);
             output.WriteLine(filename.DirectoryName);
 
