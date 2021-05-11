@@ -336,5 +336,114 @@ namespace WinPath.Tests
             });
             Assert.False(File.Exists(filename.FullName));
         }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void RemoveBackupWithArgumentsAfterDirectory()
+        {
+            Backup.CreateBackup(new BackupOptions.BackupCreateOptions
+            {
+                BackupDirectory = overrideDirectory,
+                BackupUserVariables = true,
+                BackupSystemVariables = false
+            });
+
+            var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
+
+            output.WriteLine(filename.Name);
+            output.WriteLine(filename.DirectoryName);
+
+            Program.Main(new string[]
+            {
+                "backup",
+                "remove",
+                "--directory",
+                filename.DirectoryName,
+                "--name",
+                filename.Name
+            });
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void RemoveBackupWithInvalidDirectory()
+        {
+            Backup.CreateBackup(new BackupOptions.BackupCreateOptions
+            {
+                BackupDirectory = overrideDirectory,
+                BackupUserVariables = true,
+                BackupSystemVariables = false
+            });
+
+            var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
+            var exceptionThrown = false;
+
+            output.WriteLine(filename.Name);
+            output.WriteLine(filename.DirectoryName);
+
+            try
+            {
+                Program.Main(new string[]
+                {
+                    "backup",
+                    "remove",
+                    "--name",
+                    filename.Name,
+                    "--directory",
+                    "filename.DirectoryName", // Invalid directory.
+                });
+            }
+            catch
+            {
+                exceptionThrown = true;
+            }
+            finally
+            {
+                Assert.True(exceptionThrown);
+            }
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void RemoveBackupWithTooLongDirectory()
+        {
+            Backup.CreateBackup(new BackupOptions.BackupCreateOptions
+            {
+                BackupDirectory = overrideDirectory,
+                BackupUserVariables = true,
+                BackupSystemVariables = false
+            });
+
+            var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
+            var exceptionThrown = false;
+            const string tooLongDir = @"C:\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
+                                    + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\";
+
+            output.WriteLine(filename.Name);
+            output.WriteLine(filename.DirectoryName);
+
+            try
+            {
+                Program.Main(new string[]
+                {
+                    "backup",
+                    "remove",
+                    "--name",
+                    filename.Name,
+                    "--directory",
+                    tooLongDir, // Too long directory.
+                });
+            }
+            catch
+            {
+                exceptionThrown = true;
+            }
+            finally
+            {
+                Assert.True(exceptionThrown);
+            }
+        }
     }
 }
