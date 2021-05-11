@@ -312,7 +312,12 @@ namespace WinPath
 
                 if (options.RestoreUserVariables)
                 {
+                    string tempDir = Path.Combine(Path.GetTempPath(), AppDomain.CurrentDomain.FriendlyName);
+
+                    if (!Directory.Exists(tempDir))
+                        Directory.CreateDirectory(tempDir);
                     File.WriteAllText(userinitialBackup, initialUserPath);
+
                     if (!File.Exists(userinitialBackup))
                         throw new FileNotFoundException("userinitialBackup was not found!");
 
