@@ -312,13 +312,13 @@ namespace WinPath
 
                 if (options.RestoreUserVariables)
                 {
-                    string tempDir = Path.Combine(Path.GetTempPath(), AppDomain.CurrentDomain.FriendlyName);
+                    string tempDir = Path.Combine(Path.GetTempPath(), "WinPath");
 
                     if (!Directory.Exists(tempDir))
                         Directory.CreateDirectory(tempDir);
                     if (!Directory.Exists(tempDir))
                         throw new DirectoryNotFoundException("Oh no, directory was not found even after making it.");
-                    File.WriteAllText(tempDir, initialUserPath);
+                    File.WriteAllText(userinitialBackup, initialUserPath);
 
                     if (!File.Exists(userinitialBackup))
                         throw new FileNotFoundException("userinitialBackup was not found!");
