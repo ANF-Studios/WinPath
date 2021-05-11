@@ -188,7 +188,7 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ApplyUserBackup()
         {
-            CreateUserBackup();
+            CreateUserBackupInASpecifiedDirectory();
             var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
