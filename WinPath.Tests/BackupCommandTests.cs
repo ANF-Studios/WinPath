@@ -15,6 +15,8 @@ namespace WinPath.Tests
         private readonly ITestOutputHelper output;
         private readonly System.IO.TextWriter initialOutput = Console.Out;
 
+        private const string overrideDirectory = "C:\\dev\\";
+
         public BackupCommandTests(ITestOutputHelper output)
         {
             this.output = output;
@@ -167,7 +169,7 @@ namespace WinPath.Tests
                     "backup",
                     "create",
                     "--directory",
-                    "C:\\dev",
+                    overrideDirectory,
                     "--user"
                 }
             );
@@ -179,7 +181,7 @@ namespace WinPath.Tests
                     "create",
                     "--user",
                     "--directory",
-                    "C:\\dev"
+                    overrideDirectory
                  }
             );
         }
@@ -192,7 +194,6 @@ namespace WinPath.Tests
             var backup = Directory.EnumerateFiles(Program.GetUserPath().BackupDirectory).ToArray().FirstOrDefault();
 
             output.WriteLine(backup);
-            output.WriteLine(backup.Length.ToString());
 
             Program.Main(
                 new string[]
@@ -203,7 +204,7 @@ namespace WinPath.Tests
                     "--name",
                     backup,
                     "--directory",
-                    "C:\\dev\\"
+                    overrideDirectory
                 }
             );
         }
@@ -226,7 +227,7 @@ namespace WinPath.Tests
                     "--name",
                     backup,
                     "--directory",
-                    "C:\\__winpath\\"
+                    overrideDirectory
                 }
             );
         }
@@ -250,7 +251,7 @@ namespace WinPath.Tests
                     "--name",
                     backup,
                     "--directory",
-                    "C:\\__winpath\\"
+                    overrideDirectory
                 }
             );
         }
