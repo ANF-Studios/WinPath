@@ -299,7 +299,7 @@ namespace WinPath
             else
             {
                 if (!File.Exists(file))
-                    throw new FileNotFoundException($"nameof(file) was not found!");
+                    throw new FileNotFoundException($"{nameof(file)} was not found!");
                 string newPath = File.ReadAllText(file);
 
                 if (string.IsNullOrEmpty(newPath))
