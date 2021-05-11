@@ -430,6 +430,14 @@ namespace WinPath.Tests
             output.WriteLine(filename.Name);
             output.WriteLine(filename.DirectoryName);
 
+            var longPathsEnabled = Microsoft.Win32.Registry.GetValue(
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\FileSystem",
+                "LongPathsEnabled",
+                "default"
+            );
+
+            output.WriteLine(longPathsEnabled as string);
+
             try
             {
                 Program.Main(new string[]
