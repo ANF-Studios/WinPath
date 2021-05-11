@@ -31,6 +31,7 @@ namespace WinPath.Tests
                 System.EnvironmentVariableTarget.User
             );
             output.WriteLine(path);
+            System.Threading.Tasks.Task.Delay(100);
             Assert.Contains(
                 "CliTests_AddToUserPath;", path
             );
