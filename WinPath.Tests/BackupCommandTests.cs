@@ -399,7 +399,7 @@ namespace WinPath.Tests
             }
             finally
             {
-                Assert.True(exceptionThrown);
+                Assert.False(exceptionThrown); // Since it's handled within the code.
             }
         }
 
@@ -442,7 +442,7 @@ namespace WinPath.Tests
             }
             finally
             {
-                Assert.True(exceptionThrown);
+                Assert.False(exceptionThrown); // Since it's handled within the code.
             }
         }
     }
