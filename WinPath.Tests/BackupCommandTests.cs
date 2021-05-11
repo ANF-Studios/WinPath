@@ -215,7 +215,7 @@ namespace WinPath.Tests
 
             var directoryInfo = Path.GetTempPath();
             output.WriteLine(directoryInfo);
-            new DirectoryInfo(directoryInfo).GetFiles().ToList().ForEach(file => output.WriteLine(file));
+            new DirectoryInfo(directoryInfo).GetFiles().ToList().ForEach(file => output.WriteLine(file.Name));
         }
 
         [Fact]
