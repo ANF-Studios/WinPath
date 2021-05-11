@@ -209,10 +209,7 @@ namespace WinPath.Tests
                         overrideDirectory
                 }
             );
-
-            var directoryInfo = Path.GetTempPath();
-            output.WriteLine(directoryInfo);
-            new DirectoryInfo(directoryInfo).GetFiles().ToList().ForEach(file => output.WriteLine(file.Name));
+            Assert.True(File.Exists(Path.Combine(overrideDirectory, "WinPath", "u_backup.txt")));
         }
 
         [Fact]

@@ -301,6 +301,7 @@ namespace WinPath
                 if (!File.Exists(file))
                 {
                     Console.WriteLine("Whoops, seem slike the given file does not exist.");
+                    return;
                 }
                 string newPath = File.ReadAllText(file);
 
@@ -314,11 +315,14 @@ namespace WinPath
                 {
                     string tempDir = Path.Combine(Path.GetTempPath(), "WinPath");
 
-                    if (!Directory.Exists(tempDir))
-                        Directory.CreateDirectory(tempDir);
-                    if (!Directory.Exists(tempDir))
-                        throw new DirectoryNotFoundException("Oh no, directory was not found even after making it.");
-                    File.WriteAllText(userinitialBackup, initialUserPath);
+                    try
+                    {
+                        if (!Directory.Exists(tempDir))
+                            Directory.CreateDirectory(tempDir);
+                        File.WriteAllText(userinitialBackup, initialUserPath);
+                    }
+                    catch (UnauthorizedAccessException) { Console.WriteLine("Whoops, we do not have enough permissions to create a backup before replacing, it's okay though!"); }
+                    catch (Exception exception) { Console.WriteLine("There seems to be an error backing up the path before replacing, it's okay though!\nDetails: " + exception.Message); }
 
                     if (!File.Exists(userinitialBackup))
                         throw new FileNotFoundException("userinitialBackup was not found!");
