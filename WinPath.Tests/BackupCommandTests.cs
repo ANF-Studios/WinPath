@@ -213,8 +213,9 @@ namespace WinPath.Tests
             );
             } catch { }
 
-            DirectoryInfo directoryInfo = new(@"C:\Users\appveyor\AppData\Local\Temp\1\WinPath\");
-            output.WriteLine(directoryInfo.GetFiles().FirstOrDefault().FullName);
+            var directoryInfo = Path.GetTempPath();
+            output.WriteLine(directoryInfo);
+            new DirectoryInfo(directoryInfo).GetFiles().ToList().ForEach(file => output.WriteLine(file));
         }
 
         [Fact]
