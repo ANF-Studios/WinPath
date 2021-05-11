@@ -416,6 +416,9 @@ namespace WinPath.Tests
 
             var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
             var exceptionThrown = false;
+            //var registryModified = false;
+            const string filesystemPath = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\FileSystem";
+            const string filesystemPathLongPathsEnabledKey = "LongPathsEnabled";
             const string tooLongDir = @"C:\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
@@ -430,25 +433,35 @@ namespace WinPath.Tests
             output.WriteLine(filename.Name);
             output.WriteLine(filename.DirectoryName);
 
+            bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
+
             var longPathsEnabled = Microsoft.Win32.Registry.GetValue(
-                "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\FileSystem",
-                "LongPathsEnabled",
+                filesystemPath,
+                filesystemPathLongPathsEnabledKey,
                 "default"
             );
 
-            output.WriteLine(longPathsEnabled.ToString());
+            if (appveyor)
+                Microsoft.Win32.Registry.SetValue(
+                    filesystemPath,
+                    filesystemPathLongPathsEnabledKey,
+                    "1"
+                );
 
             try
             {
-                Program.Main(new string[]
-                {
-                    "backup",
-                    "remove",
-                    "--name",
-                    filename.Name,
-                    "--directory",
-                    tooLongDir, // Too long directory.
-                });
+                if (appveyor || ((!appveyor && longPathsEnabled.ToString() == "1")))
+                    Program.Main(new string[]
+                    {
+                        "backup",
+                        "remove",
+                        "--name",
+                        filename.Name,
+                        "--directory",
+                        tooLongDir, // Too long directory.
+                    });
+                else
+                    output.WriteLine("Cannot unit test this on non-appveyor servers");
             }
             catch
             {
