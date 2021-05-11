@@ -6,7 +6,7 @@ namespace WinPath
 {
     public class Backup
     {
-        private readonly static string userinitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\u_backup.txt");
+        public /*readonly*/ static string userinitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\u_backup.txt");
         private readonly static string systeminitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\s_backup.txt");
 
         public Backup() { }
