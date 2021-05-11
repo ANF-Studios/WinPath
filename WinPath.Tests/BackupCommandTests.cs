@@ -209,7 +209,7 @@ namespace WinPath.Tests
                         overrideDirectory
                 }
             );
-            Assert.True(File.Exists(Path.Combine(overrideDirectory, "WinPath", "u_backup.txt")));
+            Assert.True(File.Exists(overrideDirectory + "WinPath\\u_backup.txt")));
         }
 
         [Fact]
