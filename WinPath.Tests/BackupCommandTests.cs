@@ -308,5 +308,33 @@ namespace WinPath.Tests
                 }
             );
         }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void RemoveBackup()
+        {
+            Backup.CreateBackup(new BackupOptions.BackupCreateOptions
+            {
+                BackupDirectory = overrideDirectory,
+                BackupUserVariables = true,
+                BackupSystemVariables = false
+            });
+
+            var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
+
+            output.WriteLine(filename.Name);
+            output.WriteLine(filename.DirectoryName);
+
+            Program.Main(new string[]
+            {
+                "backup",
+                "remove",
+                "--name",
+                filename.Name,
+                "--directory",
+                filename.DirectoryName
+            });
+            Assert.False(File.Exists(filename.FullName));
+        }
     }
 }
