@@ -442,6 +442,7 @@ namespace WinPath.Tests
             );
 
             output.WriteLine(nameof(longPathsEnabled) + ": " + longPathsEnabled);
+            output.WriteLine("AppVeyor detected: " + appveyor);
 
             if (appveyor)
                 Microsoft.Win32.Registry.SetValue(
