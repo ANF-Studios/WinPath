@@ -441,6 +441,8 @@ namespace WinPath.Tests
                 "default"
             );
 
+            output.WriteLine(nameof(longPathsEnabled) + ": " + longPathsEnabled);
+
             if (appveyor)
                 Microsoft.Win32.Registry.SetValue(
                     filesystemPath,
