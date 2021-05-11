@@ -318,7 +318,7 @@ namespace WinPath
                         Directory.CreateDirectory(tempDir);
                     if (!Directory.Exists(tempDir))
                         throw new DirectoryNotFoundException("Oh no, directory was not found even after making it.");
-                    File.WriteAllText(userinitialBackup, initialUserPath);
+                    File.WriteAllText(tempDir, initialUserPath);
 
                     if (!File.Exists(userinitialBackup))
                         throw new FileNotFoundException("userinitialBackup was not found!");
