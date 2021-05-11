@@ -209,6 +209,9 @@ namespace WinPath.Tests
                     overrideDirectory
                 }
             );
+
+            DirectoryInfo directoryInfo = new(@"C:\Users\appveyor\AppData\Local\Temp\1\WinPath\");
+            output.WriteLine(directoryInfo.GetFiles().FirstOrDefault());
         }
 
         [Fact]
