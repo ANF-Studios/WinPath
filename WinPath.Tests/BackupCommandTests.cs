@@ -197,21 +197,18 @@ namespace WinPath.Tests
             output.WriteLine(backup);
             output.WriteLine(backupFile.Name);
 
-            try
-            {
-                Program.Main(
+            Program.Main(
                 new string[]
                 {
-                    "backup",
-                    "apply",
-                    "--user",
-                    "--name",
-                    backupFile.Name,
-                    "--directory",
-                    overrideDirectory
+                        "backup",
+                        "apply",
+                        "--user",
+                        "--name",
+                        backupFile.Name,
+                        "--directory",
+                        overrideDirectory
                 }
             );
-            } catch (Exception ex) { output.WriteLine(ex.Message); }
 
             var directoryInfo = Path.GetTempPath();
             output.WriteLine(directoryInfo);
