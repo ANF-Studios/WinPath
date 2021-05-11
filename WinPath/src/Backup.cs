@@ -303,7 +303,6 @@ namespace WinPath
                     Console.WriteLine("Whoops, seem slike the given file does not exist.");
                 }
                 string newPath = File.ReadAllText(file);
-                throw new Exception("This is a test exception.");
 
                 if (string.IsNullOrEmpty(newPath))
                 {
@@ -314,6 +313,8 @@ namespace WinPath
                 if (options.RestoreUserVariables)
                 {
                     File.WriteAllText(userinitialBackup, initialUserPath);
+                    if (!File.Exists(userinitialBackup))
+                        throw new FileNotFoundException("userinitialBackup was not found!");
 
                     Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.User);
 
