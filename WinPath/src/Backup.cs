@@ -6,7 +6,7 @@ namespace WinPath
 {
     public class Backup
     {
-        public /*readonly*/ static string userinitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\u_backup.txt");
+        private readonly static string userinitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\u_backup.txt");
         private readonly static string systeminitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\s_backup.txt");
 
         public Backup() { }
@@ -299,8 +299,11 @@ namespace WinPath
             else
             {
                 if (!File.Exists(file))
-                    throw new FileNotFoundException($"{nameof(file)} was not found!");
+                {
+                    Console.WriteLine("Whoops, seem slike the given file does not exist.");
+                }
                 string newPath = File.ReadAllText(file);
+                throw new Exception("This is a test exception.");
 
                 if (string.IsNullOrEmpty(newPath))
                 {

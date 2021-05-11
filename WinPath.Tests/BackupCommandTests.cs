@@ -216,8 +216,6 @@ namespace WinPath.Tests
             var directoryInfo = Path.GetTempPath();
             output.WriteLine(directoryInfo);
             new DirectoryInfo(directoryInfo).GetFiles().ToList().ForEach(file => output.WriteLine(file.Name));
-            output.WriteLine("\n");
-            output.WriteLine(Backup.userinitialBackup);
         }
 
         [Fact]
