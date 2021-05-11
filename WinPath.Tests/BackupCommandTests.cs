@@ -197,7 +197,9 @@ namespace WinPath.Tests
             output.WriteLine(backup);
             output.WriteLine(backupFile.Name);
 
-            Program.Main(
+            try
+            {
+                Program.Main(
                 new string[]
                 {
                     "backup",
@@ -209,6 +211,7 @@ namespace WinPath.Tests
                     overrideDirectory
                 }
             );
+            } catch { }
 
             DirectoryInfo directoryInfo = new(@"C:\Users\appveyor\AppData\Local\Temp\1\WinPath\");
             output.WriteLine(directoryInfo.GetFiles().FirstOrDefault().FullName);
