@@ -376,7 +376,9 @@ namespace WinPath.Tests
                 filename.DirectoryName
             });
             System.Threading.Tasks.Task.Delay(100);
-            Assert.False(File.Exists(filename.FullName));
+            bool fileExists = File.Exists(filename.FullName);
+            output.WriteLine(fileExists);
+            Assert.False(fileExists);
         }
 
         /*
