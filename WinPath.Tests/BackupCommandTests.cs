@@ -284,7 +284,23 @@ namespace WinPath.Tests
                 }
             );
         }
-        
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ApplyBackupFromNotExistentFile()
+        {
+            Backup.ApplyBackup
+            (
+                new BackupOptions.BackupApplyOptions
+                {
+                    BackupDirectory = overrideDirectory,
+                    BackupFilename = "NonExistingFile.txt",
+                    RestoreSystemVariables = false,
+                    RestoreUserVariables = true
+                }
+            );
+        }
+
         [Fact]
         [SupportedOSPlatform("windows")]
         public void ApplySystemBackup()
