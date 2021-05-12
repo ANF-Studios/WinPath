@@ -238,12 +238,6 @@ namespace WinPath
             {
                 Console.WriteLine("`" + file + "` was not found!");
             }
-            catch (UnauthorizedAccessException)
-            {
-                Console.WriteLine("WinPath does not have enough permissions to do this."
-                                    + "See https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-overview"
-                                    + " for more information.");
-            }
             catch (IOException exception)
             {
                 Console.WriteLine("Fatal error! There was a problem: " + exception.Message);

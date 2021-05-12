@@ -451,15 +451,15 @@ namespace WinPath.Tests
             output.WriteLine(filename.DirectoryName);
             try
             {
-                    Program.Main(new string[]
-                    {
+                Program.Main(new string[]
+                {
                         "backup",
                         "remove",
                         "--name",
                         filename.Name,
                         "--directory",
                         tooLongDir, // Too long directory.
-                    });
+                });
             }
             catch
             {
@@ -468,6 +468,48 @@ namespace WinPath.Tests
             finally
             {
                 Assert.False(exceptionThrown); // Since it's handled by .NET Core.
+            }
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void RemoveBackupWhileFileIsInUse()
+        {
+            Backup.CreateBackup(new BackupOptions.BackupCreateOptions
+            {
+                BackupDirectory = overrideDirectory,
+                BackupUserVariables = true,
+                BackupSystemVariables = false
+            });
+
+            bool exceptionThrown = false;
+            FileInfo filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
+
+            output.WriteLine(filename.Name);
+            output.WriteLine(filename.DirectoryName);
+
+            StreamReader streamReader = new StreamReader(filename.FullName);
+            streamReader.ReadToEnd();
+
+            try
+            {
+                Program.Main(new string[]
+                {
+                    "backup",
+                    "remove",
+                    "--directory",
+                    filename.DirectoryName,
+                    "--name",
+                    filename.Name
+                });
+            }
+            catch
+            {
+                exceptionThrown = true;
+            }
+            finally
+            {
+                Assert.False(exceptionThrown); // Since it's handled within the code.
             }
         }
     }
