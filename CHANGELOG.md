@@ -1,6 +1,6 @@
 # Changelog
 
-## WIP
+## [v0.3.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.3.0)
 * WinPath.Library.UserPath now targets async tasks instead of sync voids.
 * Changed download directory (of update command) to `%TEMP%\WinPath\download` from `%APPDATA%\WinPath\temp\download`.
 * Console title now sets when WinPath Cli is used.
@@ -8,6 +8,19 @@
 * Fixed a bug where the path slash wasn't reversed.
 * Added additional logging.
 * Improved message clearity.
+* WinPath.Updater now doesn't filter prereleases when prerelease flag is not run.
+* Massively decreased size of WinPath.exe (Microsoft.Win32.Registry dependency dropped).
+* WinPath now uses the core lib; `WinPath.Library` for its general operations.
+* WinPath.Updater no longer reads a key when it throws an exception.
+* Update class within WinPath is now fully public.
+* WinPath doesn't directly exit in some parts now.
+* Added backup command.
+    * Added backup create command.
+    * Added backup remove command.
+    * Added backup apply command.
+    * Added backup list command.
+* WinPath.Updater now takes specific arguments to verify that a user is not launching it which can cause runtime exceptions.
+
 
 ## [v0.2.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.2.0)
 * Fix typo in help command (help text of system flag).
