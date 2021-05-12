@@ -269,12 +269,14 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ApplyEmptyBackup()
         {
+            const string emptyFile = "EmptyFile.txt";
+            File.Create(overrideDirectory + emptyFile);
             Backup.ApplyBackup
             (
                 new BackupOptions.BackupApplyOptions
                 {
                     BackupDirectory = overrideDirectory,
-                    BackupFilename = "NonExistingFile.ext",
+                    BackupFilename = emptyFile,
                     RestoreSystemVariables = false,
                     RestoreUserVariables = true
                 }
