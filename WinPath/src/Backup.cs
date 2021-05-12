@@ -183,11 +183,12 @@ namespace WinPath
 
         public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
         {
-            if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
-            {
-                Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
-                return;
-            }
+            // Seems like this method isn't effected unlike others.
+            //if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
+            //{
+            //    Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
+            //    return;
+            //}
 
             // Invalid chars that may be in the provided directory.
             // For example:
@@ -217,11 +218,12 @@ namespace WinPath
 
         public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
         {
-            if (options.BackupDirectory.Contains("-n"))
-            {
-                Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
-                return;
-            }
+            // Seems like this not needed, but we're not sure just yet.
+            //if (options.BackupDirectory.Contains("-n"))
+            //{
+            //    Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
+            //    return;
+            //}
 
             // Invalid chars that may be in the provided directory.
             // For example:
@@ -256,11 +258,12 @@ namespace WinPath
 
         public static void ApplyBackup(in BackupOptions.BackupApplyOptions options)
         {
-            if (options.BackupDirectory.Contains("-n"))
-            {
-                Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
-                return;
-            }
+            // Seems like this not needed, but we're not sure just yet.
+            //if (options.BackupDirectory.Contains("-n"))
+            //{
+            //    Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
+            //    return;
+            //}
 
             if (options.RestoreUserVariables && options.RestoreSystemVariables)
             {

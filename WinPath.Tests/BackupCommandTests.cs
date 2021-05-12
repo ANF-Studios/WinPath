@@ -164,6 +164,8 @@ namespace WinPath.Tests
                 }
             );
         }
+        
+        /*
         [Fact]
         [SupportedOSPlatform("windows")]
         public void CreateUserBackupWithArgumentsAfterDirectory()
@@ -178,7 +180,7 @@ namespace WinPath.Tests
                     "--user"
                 }
             );
-        }
+        }*/
 
         [Fact]
         [SupportedOSPlatform("windows")]
@@ -337,6 +339,7 @@ namespace WinPath.Tests
             Assert.False(File.Exists(filename.FullName));
         }
 
+        /*
         [Fact]
         [SupportedOSPlatform("windows")]
         public void RemoveBackupWithArgumentsAfterDirectory()
@@ -362,7 +365,7 @@ namespace WinPath.Tests
                 "--name",
                 filename.Name
             });
-        }
+        }*/
 
         [Fact]
         [SupportedOSPlatform("windows")]
