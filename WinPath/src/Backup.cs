@@ -298,11 +298,6 @@ namespace WinPath
             }
             else
             {
-                if (!File.Exists(file))
-                {
-                    Console.WriteLine("Whoops, seem slike the given file does not exist.");
-                    return;
-                }
                 string newPath = File.ReadAllText(file);
 
                 if (string.IsNullOrEmpty(newPath))
