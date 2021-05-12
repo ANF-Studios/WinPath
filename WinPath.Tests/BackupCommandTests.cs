@@ -20,6 +20,7 @@ namespace WinPath.Tests
         public BackupCommandTests(ITestOutputHelper output)
         {
             this.output = output;
+            Directory.CreateDirectory(overrideDirectory);
         }
 
         [Fact]
@@ -264,6 +265,22 @@ namespace WinPath.Tests
             Assert.True(File.Exists(Path.Combine(Path.GetTempPath(), "WinPath", "u_backup.txt")));
         }
 
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void ApplyEmptyBackup()
+        {
+            Backup.ApplyBackup
+            (
+                new BackupOptions.BackupApplyOptions
+                {
+                    BackupDirectory = overrideDirectory,
+                    BackupFilename = "NonExistingFile.ext",
+                    RestoreSystemVariables = false,
+                    RestoreUserVariables = true
+                }
+            );
+        }
+        
         [Fact]
         [SupportedOSPlatform("windows")]
         public void ApplySystemBackup()
