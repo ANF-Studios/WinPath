@@ -353,6 +353,7 @@ namespace WinPath.Tests
                 "--directory",
                 filename.DirectoryName
             });
+            System.Threading.Tasks.Task.Delay(100);
             Assert.False(File.Exists(filename.FullName));
         }
 
