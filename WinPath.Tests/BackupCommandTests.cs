@@ -270,7 +270,9 @@ namespace WinPath.Tests
         public void ApplyEmptyBackup()
         {
             const string emptyFile = "EmptyFile.txt";
-            File.Create(overrideDirectory + emptyFile);
+            Stream stream = File.Create(overrideDirectory + emptyFile);
+            stream.Close();
+            stream.Dispose();
             Backup.ApplyBackup
             (
                 new BackupOptions.BackupApplyOptions
