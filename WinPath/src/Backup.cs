@@ -238,12 +238,6 @@ namespace WinPath
             {
                 Console.WriteLine("`" + file + "` was not found!");
             }
-            catch (PathTooLongException)
-            {
-                Console.WriteLine("You cannot have a directory greater than 260 characters."
-                                    + " See https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation"
-                                    + " for more information.");
-            }
             catch (UnauthorizedAccessException)
             {
                 Console.WriteLine("WinPath does not have enough permissions to do this."

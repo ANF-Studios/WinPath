@@ -403,6 +403,26 @@ namespace WinPath.Tests
             }
         }
 
+        /// <summary>
+        /// Backups a directory that's extremely long.
+        /// </summary>
+        /// <remarks>
+        /// One thing to keep note of is that an exception
+        /// shouldn't be thrown at all on Windows, which is
+        /// what WinPath is targeted at. This is because
+        /// paths above ~260 are handled by .NET Core which
+        /// means it shouldn't throw an exception. Please see
+        /// https://stackoverflow.com/a/5188559/15443828 for
+        /// more information.
+        /// 
+        /// <para>
+        /// If by any chance it doesn't load/appear, here's a
+        /// quote from the answer:
+        /// 
+        /// .NET Core Solution
+        /// It just works because the framework adds the long path syntax for you.
+        /// </para>
+        /// </remarks>
         [Fact]
         [SupportedOSPlatform("windows")]
         public void RemoveBackupWithTooLongDirectory()
@@ -414,11 +434,8 @@ namespace WinPath.Tests
                 BackupSystemVariables = false
             });
 
-            var filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
-            var exceptionThrown = false;
-            //var registryModified = false;
-            const string filesystemPath = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\FileSystem";
-            const string filesystemPathLongPathsEnabledKey = "LongPathsEnabled";
+            bool exceptionThrown = false;
+            FileInfo filename = new FileInfo(Directory.EnumerateFiles(overrideDirectory).ToArray().FirstOrDefault());
             const string tooLongDir = @"C:\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
                                     + @"foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\foobar\"
@@ -432,28 +449,8 @@ namespace WinPath.Tests
 
             output.WriteLine(filename.Name);
             output.WriteLine(filename.DirectoryName);
-
-            bool appveyor = Environment.GetEnvironmentVariable("APPVEYOR", EnvironmentVariableTarget.Process) == "True";
-
-            var longPathsEnabled = Microsoft.Win32.Registry.GetValue(
-                filesystemPath,
-                filesystemPathLongPathsEnabledKey,
-                "default"
-            );
-
-            output.WriteLine(nameof(longPathsEnabled) + ": " + longPathsEnabled);
-            output.WriteLine("AppVeyor detected: " + appveyor);
-
-            if (appveyor)
-                Microsoft.Win32.Registry.SetValue(
-                    filesystemPath,
-                    filesystemPathLongPathsEnabledKey,
-                    "1"
-                );
-
             try
             {
-                if (appveyor || ((!appveyor && longPathsEnabled.ToString() == "1")))
                     Program.Main(new string[]
                     {
                         "backup",
@@ -463,8 +460,6 @@ namespace WinPath.Tests
                         "--directory",
                         tooLongDir, // Too long directory.
                     });
-                else
-                    output.WriteLine("Cannot unit test this on non-appveyor servers");
             }
             catch
             {
@@ -472,7 +467,7 @@ namespace WinPath.Tests
             }
             finally
             {
-                Assert.False(exceptionThrown); // Since it's handled within the code.
+                Assert.False(exceptionThrown); // Since it's handled by .NET Core.
             }
         }
     }
