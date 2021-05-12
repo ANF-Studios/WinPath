@@ -289,6 +289,8 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void ApplyBackupFromNotExistentFile()
         {
+            string fullPath = overrideDirectory + "NonExistingFile.txt";
+            output.WriteLine($"{fullPath} exists: {File.Exists(fullPath)}");
             Backup.ApplyBackup
             (
                 new BackupOptions.BackupApplyOptions
