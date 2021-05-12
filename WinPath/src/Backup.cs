@@ -324,9 +324,6 @@ namespace WinPath
                     catch (UnauthorizedAccessException) { Console.WriteLine("Whoops, we do not have enough permissions to create a backup before replacing, it's okay though!"); }
                     catch (Exception exception) { Console.WriteLine("There seems to be an error backing up the path before replacing, it's okay though!\nDetails: " + exception.Message); }
 
-                    if (!File.Exists(userinitialBackup))
-                        throw new FileNotFoundException("userinitialBackup was not found!");
-
                     Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.User);
 
                     Console.WriteLine("Successfully restored file as new Path!");
