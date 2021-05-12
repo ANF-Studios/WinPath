@@ -6,9 +6,14 @@ namespace WinPath.Updater
     class Program
     {
         private static readonly string executableDirectory = $"{Path.GetTempPath()}WinPath\\download\\WinPath.exe";
+        private const string launchingFromWinPath = "launching_from_winpath";
 
-        public static void Main()
+        public static void Main(string args)
         {
+            if (args.Length < 1) // To prevent crashing if args is 0 in the next if-statement.
+                return;
+            if (args[0] != launchingFromWinPath)
+                return;
             Console.Title = AppDomain.CurrentDomain.FriendlyName;
             try
             {
