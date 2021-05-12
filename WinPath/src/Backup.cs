@@ -240,10 +240,6 @@ namespace WinPath
             {
                 Console.WriteLine("`" + file + "` was not found!");
             }
-            catch (IOException exception)
-            {
-                Console.WriteLine("Fatal error! There was a problem: " + exception.Message);
-            }
             catch (Exception exception)
             {
                 Console.WriteLine("Oh no, there was an error: " + exception.Message);
