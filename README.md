@@ -42,7 +42,7 @@ Then, either manually add it, using the [Environment Variables window](https://s
 ![WinPath's usage demo](https://user-images.githubusercontent.com/68814933/115187380-35f77f00-a0b1-11eb-815e-3cf75d275d12.gif)
 
 ### Adding variables to the `Path`
-Adding variables to the `Path` isn't hard, at all! It's focused on being simple, secure, and safe. We've even set up extra precautions to make sure nothing goes wrong, but you don't need to use those because you're safe, 95% (approx.) of the times!
+Adding variables to the `Path` isn't hard, at all! It's focused on being simple, secure, and safe. We've even set up extra precautions to make sure nothing goes wrong, but you don't need to use those because you're safe, 95% (yes, I actually mesured it using unit tests from every CI run) of the times!
 
 To add a variable to your `Path`, simply run:
 ```ps1
@@ -58,6 +58,103 @@ But that won't change anything and you'll get a warning saying `Did not modify a
 > winpath add --system --user --value baz
 ```
 You can also backup your *initial* `Path` variable(s) before modifying so that if you're from one of those 5%, you can restore your `Path`. You can do so simply by adding the `--backup` flag when running that command. Currently, as of v0.2.0, WinPath offers no way to restore your `Path` variable(s), you have to do it manually. I also highly recommend you to make a [backup of your registry](https://support.microsoft.com/en-us/topic/how-to-back-up-and-restore-the-registry-in-windows-855140ad-e318-2a13-2829-d428a2ab0692). They're stored in `%APPDATA%\WinPath\` divided into sub folders, you can look at it for yourself. If you need assistance regarding this matter, please do not hesitate to open an issue.
+
+### Backup Command
+#### Creating a backup
+A backup every once in a while is a good idea to make, a reliable and working system really helps with it since you don't need to manually back up your registry or copy the path and write to a file yourself, WinPath does it for you instead.
+
+To backup your variables, run
+```ps1
+# For user variabes only.
+> winpath backup create --user
+
+# For system variables only.
+> winpath backup create --system
+
+# For both user and system variables.
+> winpath backup create --user --system
+
+# You can also use -u or -s for short.
+```
+
+Do note that if you leave it empty, it wouldn't backup anything so at least one of these flags are required.
+
+If you want to backup to a specific directory, you can easily do so by appending the directory flag:
+```ps1
+> winpath backup create --system --directory D:\backup\path\system
+
+# You can use -d for short.
+```
+
+These backups by default are stored in `%APPDATA%\WinPath\UserBackups` for user variables and `%APPDATA%\WinPath\SystemBackups` for system variables.
+
+#### Applying a backup
+If you want to restore your `Path` variable to an earlier point from your backup collection, you can run the `apply` command. To do so, run:
+```ps1
+# For user backups:
+> winpath backup apply --user --name filename
+
+# For system backups:
+> winpath backup apply --system --name 
+
+# You can't use both together.
+```
+
+By default, it will search in `%APPDATA%\WinPath\UserBackups` for user variables and `%APPDATA%\WinPath\SystemBackups` for system variables. But since file names are based on the current local time in file time format, you need to know their exact name, for that, you can [list backups](#listing-backups). You can use the directory flag to override the location to search for the file:
+
+```ps1
+> winpath backup apply --user --name filename --directory path
+```
+
+Once you start restoring a file backup, WinPath will first check your flags if they're proper, once that's passed, it will check if the actual file to restore exists, if true, it will proceed to read it. If it's empty, it won't continue and stop the process, this is for safety purposes.
+
+Before the final stage of replacing it, It will create a backup to `%TEMP%\WinPath` just in case you change your mind, it will write to `u_backup.txt` for user backups and `s_backup.txt` for system backups, if you run the command twice by any chance, you can not recover it back unless you have a backup from an earlier time. And if it by any chance fails to write this file, the process would not crash, it would simply ignore this. There is no way to change this behavior including stopping it to make a backup before replacing your path.
+
+Once everything is done, it will replace the path environment variable.
+
+#### Removing a backup
+Removing a backup is simple. You only need to provide the file name:
+```ps1
+> winpath backup remove --name filename
+```
+
+You do not need a fully qualified file name, this is because by default it searches in `%APPDATA%\WinPath\UserBackups` for user variables and `%APPDATA%\WinPath\SystemBackups` for system variables. But since file names are based on the current local time in file time format, you need to know their exact name, for that, you can [list backups](#listing-backups).
+
+If you want to override this directory, you can run the directory flag:
+```ps1
+> winpath backup remove --name filename --directory directory
+```
+
+Funny how in this sense, it can be used as a way to delete any kind of a file.
+
+#### Listing backups
+##### Listing every backup
+If you want to list every backup there is, simply run:
+```ps1
+> winpath backup list --all
+```
+
+##### Listing specified amount of backups
+If you want to list the latest backups, run
+```ps1
+> winpath backup list
+```
+
+This will list the first 10 backups or till 10 backups -- as much as it can if less than 10. If you want to override this value, you can run
+```ps1
+> winpath backup list --range 42
+```
+
+This will list 42 backups. And you might notice that you can't override the directory to search for, unlike in other commands. This is because other directories might include files not of interest, it's best that it remains in a constant directory. However, I do have plans to change that in the future.
+
+##### Listing the latest backups
+If you don't want this and just simply want to see your most recent backups, simply run
+```ps1
+> winpath backup list --latest
+```
+
+This will list the first three backups or until it reaches how many backups there -- if there are less than this amount.
+
 
 ### Updating WinPath
 Updating WinPath is easier than ever. With v0.2.0, you have the `update` command which acts as all the installer, updater, and reinstaller. You can update WinPath by running `winpath update`, it'll ask you for a confirmation, if you want to confirm the installationm, you can add the `-y` (or `--confirm`) flag. If you want to update to a beta/prerelease, you can add the `--prerelease` flag. Prereleases are revisions of WinPath that are generally less stable and are not meant to handle errors properly compared to a distribution build, it may also be a featureless, under-work build. 
