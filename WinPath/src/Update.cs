@@ -81,6 +81,7 @@ namespace WinPath
                 ProcessStartInfo process = new ProcessStartInfo
                 {
                     FileName = downloadDirectory + "WinPath.Updater.exe",
+                    Arguments = "launching_from_winpath", // To tell WinPath.Updater that a user isn't launching it.
                     UseShellExecute = !administratorPermissions,
                     Verb = administratorPermissions ? string.Empty : "runas",
                     CreateNoWindow = true
