@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Versioning;
 
 using CommandLine;
 
 using WinPath.Library;
+using WinPath.Extensions;
 
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
@@ -24,7 +26,7 @@ namespace WinPath
             Console.Title = AppDomain.CurrentDomain.FriendlyName;
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
-            Parser.Default.ParseArguments<AddOptions, UpdateOptions>(args)
+            Parser.Default.ParseVerbs<AddOptions, BackupOptions, UpdateOptions>(args)
                 .WithParsed<AddOptions>(options => {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
                     else if (options.Value != null)
@@ -39,6 +41,34 @@ namespace WinPath
                             HandleArgument(HandleEventType.NoUserOrSystemPath);
                     }
                 })
+                //.WithParsed<BackupOptions>(options =>
+                //{
+                //    Doesn't react/trigger this section.
+                //    This is because of child verbs.
+                //})
+                .WithParsed<BackupOptions.BackupListOptions>(options =>
+                {
+                    if (options.ListAllBackups)
+                        Backup.ListBackups(
+                            HandleEventType.ListAllBackups,
+                            userPath.BackupDirectory
+                        );
+                    else if (options.ListLatest)
+                        Backup.ListBackups(
+                            HandleEventType.ListLatestBackups,
+                            userPath.BackupDirectory
+                        );
+                    else
+                        Backup.ListBackups(
+                            HandleEventType.ListBackups,
+                            userPath.BackupDirectory,
+                            null,
+                            options.Range
+                        );
+                })
+                .WithParsed<BackupOptions.BackupApplyOptions>(options => Backup.ApplyBackup(options))
+                .WithParsed<BackupOptions.BackupCreateOptions>(options => Backup.CreateBackup(options))
+                .WithParsed<BackupOptions.BackupRemoveOptions>(options => Backup.RemoveBackup(options))
                 .WithParsed<UpdateOptions>(options => {
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update
@@ -68,12 +98,12 @@ namespace WinPath
                     };
                     update.DownloadWinPath(releaseInfo, () => {
                         foreach (string file in
-                            System.IO.Directory.EnumerateFiles(
-                                $"{System.IO.Path.GetTempPath()}WinPath\\download\\"
+                            Directory.EnumerateFiles(
+                                $"{Path.GetTempPath()}WinPath\\download\\"
                         ))
                             try
                             {
-                                System.IO.File.Delete(file);
+                                File.Delete(file);
                             }
                             catch (Exception ex)
                             {

@@ -26,14 +26,27 @@ namespace WinPath.Tests
                 "--value",
                 "CliTests_AddToUserPath"
             });
+            //System.Threading.Tasks.Task.Delay(100);
             string path = System.Environment.GetEnvironmentVariable(
                 "Path",
                 System.EnvironmentVariableTarget.User
             );
             output.WriteLine(path);
-            Assert.EndsWith(
+            Assert.Contains(
                 "CliTests_AddToUserPath;", path
             );
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
+        public void AddToPathWithNoUserOrSystem()
+        {
+            Program.Main(new string[] {
+                "add",
+                "--backup",
+                "--value",
+                "CliTests_AddToPathWithNoUserOrSystem"
+            });
         }
     }
 }

@@ -1,18 +1,15 @@
-// This file checks if all event types
-// are in order and work as expected.
-
-using WinPath;
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
 
 using Xunit;
 using Xunit.Abstractions;
 
 namespace WinPath.Tests
 {
-	public class EventType
+	public class OtherTests
 	{
 		private readonly ITestOutputHelper output;
 
-		public EventType(ITestOutputHelper output)
+		public OtherTests(ITestOutputHelper output)
 		{
 			this.output = output;
 		}
@@ -36,6 +33,23 @@ namespace WinPath.Tests
 			output.WriteLine($"Final: {valuesAreInOrder}");
 			
 			Assert.True(valuesAreInOrder);
+		}
+
+		[Fact]
+		public void CreateOptions()
+        {
+			AddOptions addOptions = new AddOptions();
+
+			UpdateOptions updateOptions = new UpdateOptions();
+
+			BackupOptions.BackupApplyOptions backupApplyOptions = new BackupOptions.BackupApplyOptions();
+			BackupOptions.BackupListOptions backupListOptions = new BackupOptions.BackupListOptions();
+			BackupOptions.BackupCreateOptions backupCreateOptions = new BackupOptions.BackupCreateOptions();
+			BackupOptions.BackupRemoveOptions backupRemoveOptions = new BackupOptions.BackupRemoveOptions();
+
+			output.WriteLine(backupApplyOptions.BackupDirectory);
+			output.WriteLine(backupCreateOptions.BackupDirectory);
+			output.WriteLine(backupRemoveOptions.BackupDirectory);
 		}
 	}
 }

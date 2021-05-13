@@ -22,6 +22,8 @@ coverage:
   #       target: 70% 
   #       flags:
   #         - winpath-lib
+  ignore:
+    - "WinPath/extensions/**.cs"
 
 comment:
   layout: "reach,diff,flags,files,footer"
