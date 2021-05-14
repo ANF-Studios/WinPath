@@ -221,6 +221,16 @@ namespace WinPath
                 Architecture.Arm => Architecture.Arm.ToString(),
                 _ => throw new PlatformNotSupportedException("WinPath does not support this architecture!")
             };
+
+        public static bool Temp(int input)
+            => input switch
+            {
+                1 => (true || true),
+                2 => (false && false),
+                3 => (false || false),
+                4 => (false),
+                5 => (true)
+            };
     }
 
     public struct ReleaseInfo

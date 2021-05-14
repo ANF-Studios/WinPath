@@ -51,5 +51,12 @@ namespace WinPath.Tests
 			output.WriteLine(backupCreateOptions.BackupDirectory);
 			output.WriteLine(backupRemoveOptions.BackupDirectory);
 		}
+
+		[Fact]
+		public void TempTest()
+        {
+			for (int i = 1; i < 6; i++)
+				Update.Temp(i);
+		}
 	}
 }
