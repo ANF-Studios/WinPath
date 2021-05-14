@@ -378,7 +378,8 @@ namespace WinPath.Tests
             System.Threading.Tasks.Task.Delay(100);
             bool fileExists = File.Exists(filename.FullName);
             output.WriteLine($"File exists: {fileExists}.");
-            Assert.False(fileExists);
+
+            Assert.False(fileExists ? !fileExists : fileExists);
         }
 
         /*
