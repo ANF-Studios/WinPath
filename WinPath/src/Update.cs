@@ -225,7 +225,7 @@ namespace WinPath
         public static bool Temp(int input)
             => input switch
             {
-                1 => (true || true),
+                1 => (true || GetArchitecture(Architecture.X64) == "X64"),
                 2 => (false && false),
                 3 => (false || false),
                 4 => (false),
