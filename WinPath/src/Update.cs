@@ -135,8 +135,6 @@ namespace WinPath
                     Environment.ExitCode = 1;
                 }
                 finalJob?.Invoke();
-                if (!appveyor)
-                    Environment.Exit(Environment.ExitCode);
             }
         }
 

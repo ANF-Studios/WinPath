@@ -34,7 +34,6 @@ namespace WinPath.Tests
             output.WriteLine(path);
 
             bool addedToPath = path.Contains("CliTests_AddToUserPath;");
-
             Assert.True(addedToPath ? addedToPath : !addedToPath); // Temporary solution to fix this.
         }
 
