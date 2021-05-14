@@ -4,13 +4,34 @@ using System.Linq;
 
 namespace WinPath
 {
+    /// <summary>
+    /// The main class handler for the
+    /// backup command's sub commands.
+    /// </summary>
     public class Backup
     {
+        /// <summary>
+        /// The directory of the initial user backup.
+        /// </summary>
         private readonly static string userinitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\u_backup.txt");
+        /// <summary>
+        /// The directory of the initial system backup.
+        /// </summary>
         private readonly static string systeminitialBackup = Path.Combine(Path.GetTempPath(), "WinPath\\s_backup.txt");
 
+        /// <summary>
+        /// Default empty constructor.
+        /// </summary>
         public Backup() { }
 
+        /// <summary>
+        /// List backups, behavoir is
+        /// defined by arguments.
+        /// </summary>
+        /// <param name="eventType">The type of the event i.e, type of listing to list.</param>
+        /// <param name="userBackupDirectory">The directory of user variable backups.</param>
+        /// <param name="systemBackupDirectory">The directory of system variable backups.</param>
+        /// <param name="range">The range of backups to display.</param>
         public static void ListBackups(
             in HandleEventType eventType,
             in string userBackupDirectory,
@@ -181,6 +202,11 @@ namespace WinPath
             }
         }
 
+        /// <summary>
+        /// Creates a backup of the <c>Path</c>
+        /// variable in a text file.
+        /// </summary>
+        /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
         {
             // Seems like this method isn't effected unlike others.
@@ -216,6 +242,11 @@ namespace WinPath
                 Console.WriteLine("Looks like something went wrong!");
         }
 
+        /// <summary>
+        /// Removed or deletes (permanently) a backup
+        /// from the local computer.
+        /// </summary>
+        /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
         {
             // Seems like this not needed, but we're not sure just yet.
@@ -252,6 +283,11 @@ namespace WinPath
                 Console.WriteLine("Could not remove " + file + "!");
         }
 
+        /// <summary>
+        /// Applys a backup from a file to
+        /// the <c>Path</c> variable.
+        /// </summary>
+        /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void ApplyBackup(in BackupOptions.BackupApplyOptions options)
         {
             // Seems like this not needed, but we're not sure just yet.
