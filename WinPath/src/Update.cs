@@ -228,7 +228,7 @@ namespace WinPath
         public string ReleaseName { get; set; }
 
         public string TagName { get; set; }
-
+        
         public bool IsPrerelease { get; set; }
 
         public string ReleaseDescription { get; set; }
