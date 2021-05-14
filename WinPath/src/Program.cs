@@ -12,13 +12,25 @@ using Runtime = System.Runtime.InteropServices.RuntimeInformation;
 
 namespace WinPath
 {
+    /// <summary>
+    /// Main class for the entire program,
+    /// contains the main method as well.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// A default instance of <see cref="UserPath"/> used
+        /// across the entire program.
+        /// </summary>
         private static readonly UserPath userPath = new UserPath
         {
             BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
         };
 
+        /// <summary>
+        /// Main method, the entry point of the program.
+        /// </summary>
+        /// <param name="args">Arguments provided from the cli.</param>
         [SupportedOSPlatform("windows")]
         [UnsupportedOSPlatform("browser")]
         public static void Main(string[] args)
@@ -113,6 +125,12 @@ namespace WinPath
                 });
         }
 
+        // TODO: Refactor it soon.
+        /// <summary>
+        /// Handle arguments relating to the <c>Path</c>.
+        /// </summary>
+        /// <param name="eventType">The type of the event to handle.</param>
+        /// <param name="options">Options for to be used according to <paramref name="eventType"/>.</param>
         static void HandleArgument(HandleEventType eventType, AddOptions options = null)
         {
             switch (eventType)
@@ -152,6 +170,16 @@ namespace WinPath
             }
         }
 
+        /// <summary>
+        /// Get the default <see cref="UserPath"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// When the application starts, <see cref="Program"/> creates
+        /// an instance of <see cref="UserPath"/> called <see cref="userPath"/>,
+        /// this method returns this global instance, it contains data that's
+        /// later on used.
+        /// </remarks>
+        /// <returns>The default instance created at the start of the program.</returns>
         public static UserPath GetUserPath()
             => userPath;
     }
