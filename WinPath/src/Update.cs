@@ -276,8 +276,9 @@ namespace WinPath
         public Release? FilterRelease(List<Release> releases)
         {
             // TO be removed in v1.0.0.
-            if (releases.TrueForAll(release => release.IsPrerelease))
-                return null; // Next will be handled by the rest of the code.
+            if (!this.includePrereleases)
+                if (releases.TrueForAll(release => release.IsPrerelease))
+                    return null; // Next will be handled by the rest of the code.
 
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
