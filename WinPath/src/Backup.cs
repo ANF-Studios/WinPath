@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
+using Microsoft.VisualBasic;
 
 namespace WinPath
 {
@@ -81,27 +84,42 @@ namespace WinPath
                 case HandleEventType.ListAllBackups:
                     Console.WriteLine("User Backups:");
                     Console.WriteLine("Filename" + spaces + " | Date of creation");
-                    Console.WriteLine(separator);
 
-                    foreach (FileInfo backupFile in userDirFileInfo)
-                        Console.WriteLine(
-                            backupFile.Name
-                                + " | "
-                                + (
-                                    long.TryParse(
-                                        backupFile.Name,
-                                        out temp
-                                    )
-                                        ? DateTime.FromFileTime(temp)
-                                        : "<Parsing error>"
-                                  )
-                        );
+                    var strings = new string[userDirFileInfo.Length + 1];
+                    var len = 0;
 
-                    Console.WriteLine(separator + Console.Out.NewLine);
+                    for (var i = 0; i < userDirFileInfo.Length; i++)
+                    {
+                        var backupFile = userDirFileInfo[i];
+                        var status = long.TryParse(backupFile.Name, out temp);
+                        var str = backupFile.Name + " | " + (status
+                            ? DateTime.FromFileTime(temp).ToString(CultureInfo.InvariantCulture)
+                            : "<Parsing error>");
+                        strings[i + 1] = str;
+
+                        if (str.Length > len)
+                        {
+                            len = str.Length;
+                        }
+                    }
+
+                    strings[0] = "";
+                    
+                    for (var i = 0; i < len; i++)
+                    {
+                        strings[0] += "-";
+                    }
+
+                    foreach (var str in strings)
+                    {
+                        Console.WriteLine(str);
+                    }
+
+                    Console.WriteLine(strings[0] + Console.Out.NewLine);
 
                     Console.WriteLine("System Backups:");
                     Console.WriteLine("Filename | Date of creation");
-                    Console.WriteLine(separator);
+                    Console.WriteLine(strings[0]);
 
                     /*
                     if (systemDirFileInfo is not null)
