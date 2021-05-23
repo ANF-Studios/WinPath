@@ -147,5 +147,25 @@ namespace WinPath.Tests
 
             Assert.True(assetForProcess is not null);
         }
+        
+        [Fact]
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        public void UpdatePathWithoutEndingSemicolon()
+        {
+            string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+            if (initialPath.EndsWith(";"))
+                initialPath = initialPath.TrimEnd(';');
+
+            Environment.SetEnvironmentVariable("Path", initialPath, EnvironmentVariableTarget.User);
+
+            Program.Main(
+                new string[]
+                {
+                    "update",
+                    "--prerelease",
+                    "-y"
+                }
+            );
+        }
     }
 }
