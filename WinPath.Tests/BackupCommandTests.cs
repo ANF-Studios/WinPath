@@ -214,6 +214,18 @@ namespace WinPath.Tests
 
         [Fact]
         [SupportedOSPlatform("windows")]
+        public void CreateNeitherUserOrSystemBackup()
+        {
+            Program.Main(
+                new string[]
+                {
+                    "backup",
+                    "create"
+                }
+            );
+        }
+
+        [SupportedOSPlatform("windows")]
         public void CreateUserBackupInASpecifiedDirectory()
         {
             Program.Main(

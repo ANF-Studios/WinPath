@@ -216,6 +216,12 @@ namespace WinPath
             //    return;
             //}
 
+            if (!options.BackupUserVariables && !options.BackupSystemVariables)
+            {
+                Console.WriteLine("Did not modify any content because neither user or system flag is provided, exiting...");
+                return;
+            }
+
             // Invalid chars that may be in the provided directory.
             // For example:
             // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
