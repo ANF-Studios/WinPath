@@ -5,8 +5,14 @@ namespace WinPath.Updater
 {
     class Program
     {
-        private static readonly string executableDirectory = $"{Path.GetTempPath()}WinPath\\download\\WinPath.exe";
+        private static readonly string executableDirectory = Path.Combine(
+                                                                Path.GetTempPath(),
+                                                                "WinPath\\download\\WinPath.exe");
+        private static readonly string logDirectory = Path.Combine(
+                                                        Path.GetTempPath(),
+                                                        "WinPath\\logs\\log.txt");
         private const string launchingFromWinPath = "launching_from_winpath";
+        private const string errorMessage = "Could not install WinPath because of an error: ";
 
         public static void Main(string[] args)
         {
@@ -57,8 +63,18 @@ namespace WinPath.Updater
             catch (Exception exception)
             {
                 Console.WriteLine("Could not install WinPath: " + exception.Message);
-                //Console.ReadKey();
-                File.WriteAllText(Directory.GetCurrentDirectory() + "log.txt", "Could not install WinPath: " + exception.Message);
+                Console.ReadKey();
+                File.AppendAllText(
+                    logDirectory,
+                    DateTime.Today.ToLongDateString()
+                      + (File.Exists(logDirectory)
+                        ? "\n" + errorMessage
+                        : errorMessage)
+                  + exception.Message
+                  + "\n"
+                  + "Please report this to the developer."
+                );
+                Console.WriteLine("Exception logged at " + logDirectory);
                 Environment.ExitCode = 1;
             }
             Environment.Exit(Environment.ExitCode);
