@@ -41,6 +41,12 @@ namespace WinPath
         /// The directory to download WinPath from the releases page.
         /// </summary>
         private static readonly string downloadDirectory = $"{Path.GetTempPath()}WinPath\\download\\";
+        /// <summary>
+        /// The directory <c>WinPath.Updater</c> logs on failure.
+        /// </summary>
+        private static readonly string logDirectory = Path.Combine(
+                                                        Path.GetTempPath(),
+                                                        "WinPath\\logs\\log.txt");
 
         /// <summary>
         /// Default constructor, all overloads are required.
@@ -231,7 +237,7 @@ namespace WinPath
                 }
                 else // If not.
                 {
-                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + downloadDirectory + "log.txt");
+                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + logDirectory + "log.txt");
                     Environment.ExitCode = 1;
                 }
                 finalJob?.Invoke();
