@@ -154,6 +154,17 @@ namespace WinPath.Tests
 
         [Fact]
         [SupportedOSPlatform("windows")]
+        public void CreateBackupWithoutUserAndSystemFlags()
+        {
+            Program.Main(new string[]
+            {
+                "backup",
+                "create"
+            });
+        }
+
+        [Fact]
+        [SupportedOSPlatform("windows")]
         public void CreateUserBackup()
         {
             Program.Main(
