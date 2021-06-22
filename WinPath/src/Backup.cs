@@ -39,6 +39,11 @@ namespace WinPath
             in int range = 3
         )
         {
+            // The value that defines the location of the desired format
+            // in the index of dateTimeObject.GetGetDateTimeFormats();.
+            // It strictly looks like: 01-Jan-20 12:00 PM.
+            const uint formatIndex = 12;
+
             DirectoryInfo userDirInfo = new DirectoryInfo(userBackupDirectory);
             DirectoryInfo systemDirInfo = systemBackupDirectory is null
                                             ? null
@@ -64,13 +69,15 @@ namespace WinPath
             string seperator = "-----------------------------------------"; // Default seperator.
             string spaces = string.Empty; // The number of spaces between `Filename` and `|`.
 
+            //var now = DateTime.Now;
+            //for (int i = 0; i < now.GetDateTimeFormats().Length; ++i)
+            //    Console.WriteLine(i + " " + now.GetDateTimeFormats()[i]);
+
             if (userDirFileInfo.Length > 0)
             {
                 seperator = string.Empty;
-                for (int i = -2; i < (userDirFileInfo[0].Name + " | " + long.Parse(userDirFileInfo[0].Name)).Length; ++i)
-                {
+                for (int i = 0; i < (userDirFileInfo[0].Name + " | " + DateTime.FromFileTime(long.Parse(userDirFileInfo[0].Name)).GetDateTimeFormats()[formatIndex]).Length; ++i)
                     seperator += '-';
-                }
 
                 for (int i = 0; i < userDirFileInfo[0].Name.Length - "Filename".Length; ++i)
                     spaces += " ";
@@ -92,7 +99,7 @@ namespace WinPath
                                         backupFile.Name,
                                         out temp
                                     )
-                                        ? DateTime.FromFileTime(temp)
+                                        ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
                                         : "<Parsing error>"
                                   )
                         );
@@ -115,7 +122,7 @@ namespace WinPath
                                             backupFile.Name,
                                             out temp
                                         )
-                                            ? DateTime.FromFileTime(temp)
+                                            ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
                                             : "<Parsing error>"
                                       )
                             );
@@ -152,7 +159,7 @@ namespace WinPath
                                                 reversedUserList[i].Name,
                                                 out temp
                                             )
-                                                ? DateTime.FromFileTime(temp)
+                                                ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
                                                 : "<Parsing error>"
                                           )
                                 );
@@ -180,7 +187,7 @@ namespace WinPath
                                                     reversedSystemList[i].Name,
                                                     out temp
                                                 )
-                                                    ? DateTime.FromFileTime(temp)
+                                                    ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
                                                     : "<Parsing error>"
                                               )
                                     );
@@ -215,6 +222,12 @@ namespace WinPath
             //    Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
             //    return;
             //}
+
+            if (!options.BackupUserVariables && !options.BackupSystemVariables)
+            {
+                Console.WriteLine("Did not modify any content because neither user or system flag is provided, exiting...");
+                return;
+            }
 
             // Invalid chars that may be in the provided directory.
             // For example:
