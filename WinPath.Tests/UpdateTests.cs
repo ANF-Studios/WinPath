@@ -78,7 +78,7 @@ namespace WinPath.Tests
         {
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
-            
+
             var releases = update.GetReleases();
             var release = update.FilterRelease(releases);
 
@@ -117,7 +117,7 @@ namespace WinPath.Tests
         {
             string architecture = Update.GetArchitecture(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture).ToLower();
             Update update = new Update(true, false, (architecture == "x64" || architecture == "x86"));
-            
+
             var releases = update.GetReleases();
             var release = update.FilterRelease(releases);
 
@@ -128,9 +128,9 @@ namespace WinPath.Tests
             );
 
             if (!(bool)release?.ReleaseName.Contains("Test release")) // If the release is not a test release,
-                Assert.NotEmpty(release?.Assets);               // check if it's not empty.
-            else                                               //
-                Assert.True(true);                             // Else simply pass.
+                Assert.NotEmpty(release?.Assets);                     // check if it's not empty.
+            else                                                      //
+                Assert.True(true);                                    // Else simply pass.
         }
 
         [Fact]

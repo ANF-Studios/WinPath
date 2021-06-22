@@ -35,7 +35,6 @@ namespace WinPath.Updater
             }
             try
             {
-                throw new Exception("h");
                 if (Environment.Is64BitOperatingSystem)
                 {
                     Directory.CreateDirectory(
