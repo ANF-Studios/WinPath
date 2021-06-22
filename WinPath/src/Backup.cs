@@ -66,7 +66,7 @@ namespace WinPath
             FileInfo[] reversedSystemList = systemDirFileInfo?.Reverse().ToArray();
 
             long temp; // For long.TryParse(..., out temp);
-            string seperator = "-----------------------------------------"; // Default seperator.
+            string separator = "-----------------------------------------"; // Default separator.
             string spaces = string.Empty; // The number of spaces between `Filename` and `|`.
 
             //var now = DateTime.Now;
@@ -75,9 +75,9 @@ namespace WinPath
 
             if (userDirFileInfo.Length > 0)
             {
-                seperator = string.Empty;
+                separator = string.Empty;
                 for (int i = 0; i < (userDirFileInfo[0].Name + " | " + DateTime.FromFileTime(long.Parse(userDirFileInfo[0].Name)).GetDateTimeFormats()[formatIndex]).Length; ++i)
-                    seperator += '-';
+                    separator += '-';
 
                 for (int i = 0; i < userDirFileInfo[0].Name.Length - "Filename".Length; ++i)
                     spaces += " ";
@@ -88,7 +88,7 @@ namespace WinPath
                 case HandleEventType.ListAllBackups:
                     Console.WriteLine("User Backups:");
                     Console.WriteLine("Filename" + spaces + " | Date of creation");
-                    Console.WriteLine(seperator);
+                    Console.WriteLine(separator);
 
                     foreach (FileInfo backupFile in userDirFileInfo)
                         Console.WriteLine(
@@ -104,11 +104,11 @@ namespace WinPath
                                   )
                         );
 
-                    Console.WriteLine(seperator + Console.Out.NewLine);
+                    Console.WriteLine(separator + Console.Out.NewLine);
 
                     Console.WriteLine("System Backups:");
                     Console.WriteLine("Filename | Date of creation");
-                    Console.WriteLine(seperator);
+                    Console.WriteLine(separator);
 
                     /*
                     if (systemDirFileInfo is not null)
@@ -129,7 +129,7 @@ namespace WinPath
                     }
                     else*/
                     Console.WriteLine("System backups not yet supported by the API.");
-                    Console.WriteLine(seperator);
+                    Console.WriteLine(separator);
                     break;
 
                 case HandleEventType.ListBackups:
@@ -145,7 +145,7 @@ namespace WinPath
                     {
                         Console.WriteLine("User Backups:");
                         Console.WriteLine("Filename" + spaces + " | Date of creation");
-                        Console.WriteLine(seperator);
+                        Console.WriteLine(separator);
 
                         for (int i = 0; i < range; ++i)
                         {
@@ -167,11 +167,11 @@ namespace WinPath
                             catch (IndexOutOfRangeException) { break; }
                         }
 
-                        Console.WriteLine(seperator + Console.Out.NewLine);
+                        Console.WriteLine(separator + Console.Out.NewLine);
 
                         Console.WriteLine("System Backups:");
                         Console.WriteLine("Filename | Date of creation");
-                        Console.WriteLine(seperator);
+                        Console.WriteLine(separator);
 
                         /*
                         if (reversedSystemList is not null)
@@ -197,7 +197,7 @@ namespace WinPath
                         else*/
                         Console.WriteLine("System backups not yet supported by the API.");
 
-                        Console.WriteLine(seperator);
+                        Console.WriteLine(separator);
                     }
                     break;
 
