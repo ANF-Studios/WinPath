@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Authors>ANF-Studios</Authors>
     <Description>WinPath's Update manager!</Description>
 

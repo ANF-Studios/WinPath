@@ -93,16 +93,23 @@ namespace WinPath
                     Console.WriteLine("Fetching data from the server...");
                     var releases = update.GetReleases();
                     Console.WriteLine("Analyzing data...");
-                    Release release = update.FilterRelease(releases);
+                    Release? release = update.FilterRelease(releases);
+                    
+                    // To be removed in v1.0.0.
+                    if (release is null)
+                    {
+                        Console.WriteLine("There is no stable release at the moment, please run this command again with the --prerelease flag.");
+                        return;
+                    }
                     Console.WriteLine("Parsing data...");
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
-                        ReleaseName = release.ReleaseName,
-                        TagName = release.TagName,
-                        IsPrerelease = release.IsPrerelease,
-                        ReleaseDescription = release.Description,
-                        ReleaseAsset = update.GetAssetForProcess(release)!,
-                        Updater = release.Assets.Find((asset) => asset.ExecutableName == (
+                        ReleaseName = release?.ReleaseName,
+                        TagName = release?.TagName,
+                        IsPrerelease = (bool)(release?.IsPrerelease),
+                        ReleaseDescription = release?.Description,
+                        ReleaseAsset = update.GetAssetForProcess((Release)release)!,
+                        Updater = (Asset)release?.Assets.Find((asset) => asset.ExecutableName == (
                             update.Is32Or64BitOperatingSystem
                                 ? "WinPath.Updater_x86.exe"
                                 : "WinPath.Updater_arm.exe" 

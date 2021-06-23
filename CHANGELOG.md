@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.3.1](https://github.com/ANF-Studios/WinPath/releases/tag/0.3.1)
+* Minor fix in update command; conflicting paths (#49).
+* List command should display the table of backups without inconsistencies (#52).
+* `WinPath.Updater` (manages updates) will now log errors correctly (#54).
+* Running `winpath backup create` will now give the correct error instead of "Something went wrong!" (#56).
+* Minor bug fix when prerelease flag was not run (#72).
+* [Other/Non-bug fix change] `WinPath.Updater` now has backwards compatibility support with v0.2.0 and v0.3.0 (#78).
+
 ## [v0.3.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.3.0)
 * WinPath.Library.UserPath now targets async tasks instead of sync voids.
 * Changed download directory (of update command) to `%TEMP%\WinPath\download` from `%APPDATA%\WinPath\temp\download`.

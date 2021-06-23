@@ -41,6 +41,12 @@ namespace WinPath
         /// The directory to download WinPath from the releases page.
         /// </summary>
         private static readonly string downloadDirectory = $"{Path.GetTempPath()}WinPath\\download\\";
+        /// <summary>
+        /// The directory <c>WinPath.Updater</c> logs on failure.
+        /// </summary>
+        private static readonly string logDirectory = Path.Combine(
+                                                        Path.GetTempPath(),
+                                                        "WinPath\\logs\\log.txt");
 
         /// <summary>
         /// Default constructor, all overloads are required.
@@ -217,6 +223,8 @@ namespace WinPath
                 {
                     WinPath.Library.UserPath userPath = WinPath.Program.GetUserPath();
                     string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+                    if (!path.EndsWith(";"))
+                        Environment.SetEnvironmentVariable("Path", (path += ";"), EnvironmentVariableTarget.User);
                     path = path.Replace("/", "\\");
                     if (Environment.Is64BitOperatingSystem)
                        if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
@@ -229,7 +237,7 @@ namespace WinPath
                 }
                 else // If not.
                 {
-                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + downloadDirectory + "log.txt");
+                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + logDirectory + "log.txt");
                     Environment.ExitCode = 1;
                 }
                 finalJob?.Invoke();
@@ -273,8 +281,13 @@ namespace WinPath
         /// </summary>
         /// <param name="releases">release from filtered from flags.</param>
         /// <returns></returns>
-        public Release FilterRelease(List<Release> releases)
+        public Release? FilterRelease(List<Release> releases)
         {
+            // TO be removed in v1.0.0.
+            if (!this.includePrereleases)
+                if (releases.TrueForAll(release => release.IsPrerelease))
+                    return null; // Next will be handled by the rest of the code.
+
             // Reverse the order of the List so that newer releses
             // appear first in the foreach loop.
             if (releases[0].TagName == "0.1.0") // First release.
