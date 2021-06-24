@@ -7,6 +7,7 @@
 * Running `winpath backup create` will now give the correct error instead of "Something went wrong!" (#56).
 * Minor bug fix when prerelease flag was not run (#72).
 * [Other/Non-bug fix change] `WinPath.Updater` now has backwards compatibility support with v0.2.0 and v0.3.0 (#78).
+* [Other/Non-bug fix change] You can now simply download `install.ps1` instead of going through a mess of manual downloading for your first installation! (#85).
 
 ## [v0.3.0](https://github.com/ANF-Studios/WinPath/releases/tag/0.3.0)
 * WinPath.Library.UserPath now targets async tasks instead of sync voids.
