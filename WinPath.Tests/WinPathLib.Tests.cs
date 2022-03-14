@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Runtime.Versioning;
 using Xunit;
 using Xunit.Abstractions;
@@ -23,6 +24,8 @@ namespace WinPath.Tests
         {
             new UserPath().AddToPath("LibraryTests_AddToUserPath", false);
 
+            Task.Delay(1000);
+
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.Contains("LibraryTests_AddToUserPath;");
             
@@ -36,6 +39,8 @@ namespace WinPath.Tests
         {
             var userPath = new UserPath();
             userPath.AddToPath("LibraryTests_AddToUserPathWithBackup", true);
+
+            Task.Delay(1000);            
 
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.Contains("LibraryTests_AddToUserPathWithBackup;");
