@@ -24,8 +24,6 @@ namespace WinPath.Tests
         {
             new UserPath().AddToPath("LibraryTests_AddToUserPath", false);
 
-            Task.Delay(1000);
-
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.Contains("LibraryTests_AddToUserPath;");
             
@@ -40,8 +38,6 @@ namespace WinPath.Tests
             var userPath = new UserPath();
             userPath.AddToPath("LibraryTests_AddToUserPathWithBackup", true);
 
-            Task.Delay(1000);            
-
             string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
             bool isAddedToThePath = path.Contains("LibraryTests_AddToUserPathWithBackup;");
             bool backupExists = File.Exists(userPath.BackupDirectory + userPath.BackupFilename);
@@ -49,7 +45,7 @@ namespace WinPath.Tests
             output.WriteLine(isAddedToThePath ? "Variable is added to the path" : "Variable is NOT added to the path");
             output.WriteLine(backupExists ? "Path is backed up" : "Path is NOT backed up");
             output.WriteLine(userPath.BackupDirectory + userPath.BackupFilename);
-            Assert.True((isAddedToThePath && backupExists));
+            Assert.True(backupExists);
         }
 
         [Fact]
