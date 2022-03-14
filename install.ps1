@@ -1,5 +1,5 @@
 #Requires -RunAsAdministrator
-#Requires -Version 7.0
+# #Requires -Version 7.0
 
 using namespace System.Runtime.InteropServices;
 using namespace System.IO;
