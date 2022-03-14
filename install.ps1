@@ -108,6 +108,6 @@ if ($installed)
     }
     
     [Console]::Write("WinPath is installed successfully! To ensure WinPath does work, restart your computer (optional).");
-    [Console]::ReadKey();
+    [Console]::ReadKey() | Out-Null;
     return;
 }
