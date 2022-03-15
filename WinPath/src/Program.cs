@@ -101,7 +101,6 @@ namespace WinPath
                         Console.WriteLine("There is no stable release at the moment, please run this command again with the --prerelease flag.");
                         return;
                     }
-                    Console.WriteLine("Parsing data...");
                     ReleaseInfo releaseInfo = new ReleaseInfo
                     {
                         ReleaseName = release?.ReleaseName,
@@ -109,13 +108,9 @@ namespace WinPath
                         IsPrerelease = (bool)(release?.IsPrerelease),
                         ReleaseDescription = release?.Description,
                         ReleaseAsset = update.GetAssetForProcess((Release)release)!,
-                        Updater = (Asset)release?.Assets.Find((asset) => asset.ExecutableName == (
-                            update.Is32Or64BitOperatingSystem
-                                ? "WinPath.Updater_x86.exe"
-                                : "WinPath.Updater_arm.exe" 
-                            ))
+                        Updater = (Asset)release?.Assets.Find((asset) => asset.ExecutableName == Update.InstallationTool)
                     };
-                    update.DownloadWinPath(releaseInfo, () => {
+                    update.DownloadWinPath(releaseInfo/*, () => {
                         foreach (string file in
                             Directory.EnumerateFiles(
                                 $"{Path.GetTempPath()}WinPath\\download\\"
@@ -128,7 +123,7 @@ namespace WinPath
                             {
                                 Console.WriteLine("Error cleaning up: " + ex.Message);
                             }
-                    });
+                    }*/);
                 });
         }
 
