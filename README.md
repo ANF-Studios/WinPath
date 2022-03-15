@@ -7,10 +7,10 @@
     <a href="https://ci.appveyor.com/project/ANF-Studios/winpath" alt="AppVeyor Build | .NET" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/um85ms51acjnnux4/branch/master?svg=true" /></a>
 </div>
 
-
+<!-- 
 # No, WinPath is not abandoned
 No, WinPath is not abandonded, it is still supported and will continuted to be. I am taking a break, that's why there has been no recent commit. However, you are free to work on it and open a pull request, I will be active on GitHub. Final note; don't grab WinPath 0.3.1, I recommend you to have 0.3.0 at the moment as 0.3.1 is not properly tested.
-
+-->
 
 <h2 align="center">Installation</h2>
 
