@@ -18,7 +18,11 @@ namespace WinPath.Tests
         [Fact]
         public void WinPathDoesUpdate()
         {
-            Program.Main(
+            Update update = new Update(true, true, RuntimeInformation.OSArchitecture == Architecture.X86 || RuntimeInformation.OSArchitecture == Architecture.X64);
+
+            if (Convert.ToInt32(update.GetReleases()[0].TagName[2]) > 3)
+            {
+                Program.Main(
                 new string[]
                 {
                     "update",
@@ -26,11 +30,6 @@ namespace WinPath.Tests
                     "--confirm"
                 }
             );
-
-            Update update = new Update(true, true, RuntimeInformation.OSArchitecture == Architecture.X86 || RuntimeInformation.OSArchitecture == Architecture.X64);
-
-            if (Convert.ToInt32(update.GetReleases()[0].TagName[2]) > 3)
-            {
                 System.Threading.Tasks.Task.Delay(10000);
 
                 Assert.True(
