@@ -4,7 +4,12 @@
 using namespace System.Runtime.InteropServices;
 using namespace System.IO;
 
-param([string]$version="0.0.0",[bool]$overwrite=$false)
+# Version: Specify a version to install.
+# Overwrite: Reinstall WinPath or force an update.
+# WinPath_Dir: Directory of new pre-downloaded WinPath file.
+param([string]$version="0.0.0",[switch]$overwrite=$false[string]$winpath_dir="")
+
+[Console]::Clear();
 
 if ($IsWindows -eq $false)
 {
@@ -12,6 +17,8 @@ if ($IsWindows -eq $false)
     [Console]::ReadKey() | Out-Null;
     return;
 }
+
+Start-Sleep -Milliseconds 5000 # Wait for WinPath to exit.
 
 $Is32or64BitOperatingSystem = ([RuntimeInformation]::OSArchitecture -eq [Architecture]::X64 -or [Architecture]::X86);
 $iwr_header = @{ "User-Agent" = "WinPath_install_script" };
@@ -62,45 +69,63 @@ if ($overwrite -eq $false)
     }
 }
 
-try
+if ([string]::IsNullOrEmpty($winpath_dir) -eq $false)
 {
-    if ($Is32or64BitOperatingSystem)
+    $destination = "";
+    if ([Environment]::Is64BitOperatingSystem)
     {
-        if ([Environment]::Is64BitOperatingSystem) # x64
-        {
-            if ([Environment]::OSVersion.Version.Major -eq 10)
-            {
-                [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win10-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
-                $installed = $true;
-            }
-            else
-            {
-                [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
-                $installed = $true;
-            }
-        }
-        else # x86
-        {
-            [Directory]::CreateDirectory($32BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x86.exe" -OutFile ($32BitOutput + "WinPath.exe");
-            $installed = $true;
-        }
+        $destination = $64BitOutput;
     }
     else
     {
-        if ([Environment]::Is64BitOperatingSystem) # Arm64
+        $destination = $32BitOutput;
+    }
+    Move-Item -Path $winpath_dir -Destination $destination;
+    $installed = $true;
+}
+
+try
+{
+    if ($installed -eq $false)
+    {
+        if ($Is32or64BitOperatingSystem)
         {
-            [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm64.exe" -OutFile ($64BitOutput + "WinPath.exe");
-            $installed = $true;
+            if ([Environment]::Is64BitOperatingSystem) # x64
+            {
+                if ([Environment]::OSVersion.Version.Major -eq 10)
+                {
+                    [Directory]::CreateDirectory($64BitOutput) | Out-Null;
+                    Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win10-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+                    $installed = $true;
+                }
+                else
+                {
+                    [Directory]::CreateDirectory($64BitOutput) | Out-Null;
+                    Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+                    $installed = $true;
+                }
+            }
+            else # x86
+            {
+                [Directory]::CreateDirectory($32BitOutput) | Out-Null;
+                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x86.exe" -OutFile ($32BitOutput + "WinPath.exe");
+                $installed = $true;
+            }
         }
-        else # Arm
+        else
         {
-            [Directory]::CreateDirectory($32BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm.exe" -OutFile ($32BitOutput + "WinPath.exe");
-            $installed = $true;
+            if ([Environment]::Is64BitOperatingSystem) # Arm64
+            {
+                [Directory]::CreateDirectory($64BitOutput) | Out-Null;
+                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+                $installed = $true;
+            }
+            else # Arm
+            {
+                [Directory]::CreateDirectory($32BitOutput) | Out-Null;
+                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm.exe" -OutFile ($32BitOutput + "WinPath.exe");
+                $installed = $true;
+            }
         }
     }
 }
