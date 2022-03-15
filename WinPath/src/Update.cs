@@ -34,6 +34,10 @@ namespace WinPath
         /// </summary>
         private bool confirmDownload;
         /// <summary>
+        /// Executable/Script name for updating WinPath.
+        /// </summary>
+        public const string InstallationTool = "install.ps1";
+        /// <summary>
         /// The link to fetch github releases from.
         /// </summary>
         private const string releases = "https://api.github.com/repos/ANF-Studios/WinPath/releases";
@@ -41,12 +45,6 @@ namespace WinPath
         /// The directory to download WinPath from the releases page.
         /// </summary>
         private static readonly string downloadDirectory = $"{Path.GetTempPath()}WinPath\\download\\";
-        /// <summary>
-        /// The directory <c>WinPath.Updater</c> logs on failure.
-        /// </summary>
-        private static readonly string logDirectory = Path.Combine(
-                                                        Path.GetTempPath(),
-                                                        "WinPath\\logs\\log.txt");
 
         /// <summary>
         /// Default constructor, all overloads are required.
@@ -161,7 +159,7 @@ namespace WinPath
                 {
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     webClient.DownloadFile(releaseInfo.ReleaseAsset.DownloadUrl, downloadDirectory + "WinPath.exe");
-                    webClient.DownloadFile(releaseInfo.Updater.DownloadUrl, downloadDirectory + "WinPath.Updater.exe");
+                    webClient.DownloadFile(releaseInfo.Updater.DownloadUrl, downloadDirectory + InstallationTool);
                 }
             }
             catch (WebException exception)
@@ -180,66 +178,16 @@ namespace WinPath
                 Console.WriteLine("Installing WinPath...");
 
                 bool administratorPermissions = IsUserAnAdmin();
-                int processExitCode = 1; // Default to unsuccessful.
 
                 ProcessStartInfo process = new ProcessStartInfo
                 {
-                    FileName = downloadDirectory + "WinPath.Updater.exe",
-                    Arguments = "launching_from_winpath", // To tell WinPath.Updater that a user isn't launching it.
+                    FileName = "pwsh.exe",
+                    Arguments = $"\"{downloadDirectory + InstallationTool}\" -version \"{releaseInfo.TagName}\" -overwrite $True -winpath_dir {downloadDirectory + "WinPath.exe"}",
                     UseShellExecute = !administratorPermissions,
                     Verb = administratorPermissions ? string.Empty : "runas",
                     CreateNoWindow = true
                 };
-                try
-                {
-                    Console.WriteLine("Starting update...");
-                    if (appveyor)
-                    {
-                        const string installationPath = "C:\\Program Files\\WinPath\\";
-                        Directory.CreateDirectory(installationPath);
-                        File.Move(downloadDirectory + "\\WinPath.exe", installationPath + "WinPath.exe");
-                        processExitCode = 0;
-                    }
-                    else
-                    {
-                        var application = Process.Start(process);
-                        application.WaitForExit();
-                        processExitCode = application.ExitCode;
-                        Console.WriteLine("Installer exited with code: " + application.ExitCode);
-                    }
-                }
-                catch (System.ComponentModel.Win32Exception exception)
-                {
-                    if (exception.NativeErrorCode == 1223)
-                        Console.WriteLine("Could not install WinPath because administrator permissions were not provided!");
-                    else
-                        Console.WriteLine("Could not install WinPath: " + exception.Message);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine("Could not update WinPath: " + exception.Message);
-                }
-                if (processExitCode == 0) // If application exited successfully.
-                {
-                    WinPath.Library.UserPath userPath = WinPath.Program.GetUserPath();
-                    string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
-                    if (!path.EndsWith(";"))
-                        Environment.SetEnvironmentVariable("Path", (path += ";"), EnvironmentVariableTarget.User);
-                    path = path.Replace("/", "\\");
-                    if (Environment.Is64BitOperatingSystem)
-                       if (!(path.Contains("%programfiles%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                           userPath.AddToPath("%PROGRAMFILES%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
-                    else
-                       if (!(path.Contains("%programfiles(x86)%\\winpath", StringComparison.CurrentCultureIgnoreCase) || path.Contains("c:\\program files (x86)\\winpath", StringComparison.CurrentCultureIgnoreCase)))
-                           userPath.AddToPath("%PROGRAMFILES(X86)%\\WinPath\\", true, DateTime.Now.ToFileTime().ToString());
-                    Console.WriteLine("[STATUS] Installed WinPath successfully!");
-                    Environment.ExitCode = 0;
-                }
-                else // If not.
-                {
-                    Console.WriteLine("[STATUS] Could not update WinPath! Please see the log file: " + logDirectory + "log.txt");
-                    Environment.ExitCode = 1;
-                }
+                Process.Start(process);
                 finalJob?.Invoke();
             }
         }
@@ -260,7 +208,7 @@ namespace WinPath
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     response = webClient.DownloadString(Update.releases);
                     #if DEBUG
-                        Console.WriteLine("Response: " + response);
+                        //Console.WriteLine("Response: " + response);
                     #endif
                 }
 
