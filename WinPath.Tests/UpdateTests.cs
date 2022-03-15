@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,7 +27,9 @@ namespace WinPath.Tests
                 }
             );
 
-            if (Convert.ToInt32(Update.GetReleases()[0].TagName[2]) > 3)
+            Update update = new Update(true, true, RuntimeInformation.OSArchitecture == Architecture.X86 || RuntimeInformation.OSArchitecture == Architecture.X64);
+
+            if (Convert.ToInt32(update.GetReleases()[0].TagName[2]) > 3)
             {
                 System.Threading.Tasks.Task.Delay(10000);
 
