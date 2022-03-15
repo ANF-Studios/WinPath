@@ -7,7 +7,7 @@ using namespace System.IO;
 # Version: Specify a version to install.
 # Overwrite: Reinstall WinPath or force an update.
 # WinPath_Dir: Directory of new pre-downloaded WinPath file.
-param([string]$version="0.0.0",[switch]$overwrite=$false[string]$winpath_dir="")
+param([string]$version="0.0.0",[switch]$overwrite=$false,[string]$winpath_dir="")
 
 [Console]::Clear();
 
@@ -80,7 +80,7 @@ if ([string]::IsNullOrEmpty($winpath_dir) -eq $false)
     {
         $destination = $32BitOutput;
     }
-    Move-Item -Path $winpath_dir -Destination $destination;
+    Move-Item -Path $winpath_dir -Destination $destination -Force;
     $installed = $true;
 }
 

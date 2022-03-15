@@ -188,7 +188,7 @@ namespace WinPath
                 ProcessStartInfo process = new ProcessStartInfo
                 {
                     FileName = "pwsh.exe",
-                    Arguments = $"\"{downloadDirectory + InstallationTool}\" -version \"{releaseInfo.TagName}\" -overwrite $True",
+                    Arguments = $"\"{downloadDirectory + InstallationTool}\" -version \"{releaseInfo.TagName}\" -overwrite $True -winpath_dir {downloadDirectory + "WinPath.exe"}",
                     UseShellExecute = !administratorPermissions,
                     Verb = administratorPermissions ? string.Empty : "runas",
                     CreateNoWindow = true
