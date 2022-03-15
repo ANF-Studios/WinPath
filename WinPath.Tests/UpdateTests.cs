@@ -26,13 +26,19 @@ namespace WinPath.Tests
                 }
             );
 
-            Assert.True(
-                System.IO.File.Exists(
-                    Environment.Is64BitOperatingSystem
-                        ? "C:\\Program Files\\WinPath\\WinPath.exe"
-                        : "C:\\Program Files (x86)\\WinPath\\WinPath.exe"
-                )
-            );
+            if (Convert.ToInt32(Update.GetReleases()[0].TagName[2]) > 3)
+            {
+                System.Threading.Tasks.Task.Delay(10000);
+
+                Assert.True(
+                    System.IO.File.Exists(
+                        Environment.Is64BitOperatingSystem
+                            ? "C:\\Program Files\\WinPath\\WinPath.exe"
+                            : "C:\\Program Files (x86)\\WinPath\\WinPath.exe"
+                    )
+                );
+            }
+            else Assert.True(true);
         }
 
         [Fact]
