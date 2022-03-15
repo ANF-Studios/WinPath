@@ -208,7 +208,7 @@ namespace WinPath
                     webClient.Headers.Add(HttpRequestHeader.UserAgent, "WinPath");
                     response = webClient.DownloadString(Update.releases);
                     #if DEBUG
-                        Console.WriteLine("Response: " + response);
+                        //Console.WriteLine("Response: " + response);
                     #endif
                 }
 
