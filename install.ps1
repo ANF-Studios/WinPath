@@ -4,6 +4,8 @@
 using namespace System.Runtime.InteropServices;
 using namespace System.IO;
 
+param([string]$version="0.0.0",[bool]$overwrite=$false)
+
 if ($IsWindows -eq $false)
 {
     [Console]::WriteLine("You must be on Windows to run this script! Press any key to continue...");
@@ -15,26 +17,48 @@ $Is32or64BitOperatingSystem = ([RuntimeInformation]::OSArchitecture -eq [Archite
 $iwr_header = @{ "User-Agent" = "WinPath_install_script" };
 $64BitOutput = "C:\Program Files\WinPath\";
 $32BitOutput = "C:\Program Files (x86)\WinPath\";
-$version = "0.3.1" # Change this every new release.
+$repo = "ANF-Studios/WinPath"
 $installed = $false;
 
-
-if ([System.Environment]::Is64BitOperatingSystem)
+if ($version -eq "0.0.0")
 {
-    if (Test-Path -Path ([Path]::Combine($64BitOutput, "WinPath.exe")))
+    $releases = (((Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://api.github.com/repos/$repo/releases").Content) | ConvertFrom-Json);
+    if ($releases[0].tag_name[0] -eq "0")
     {
-        [Console]::Write("WinPath is already installed, run winpath update instead of this script!");
-        [Console]::ReadKey() | Out-Null;
-        return;
+        $version = $releases[0].tag_name;
+    }
+    else
+    {
+        for ($i = 0; i -lt releases.Length; $i++)
+        {
+            if (releases[$i].prerelease -eq $false)
+            {
+                $version = releases[$i].tag_name;
+                break;
+            }
+        }
     }
 }
-else
+
+if ($overwrite -eq $false)
 {
-    if (Test-Path -Path ([Path]::Combine($32BitOutput, "WinPath.exe")))
+    if ([System.Environment]::Is64BitOperatingSystem)
     {
-        [Console]::Write("WinPath is already installed, run winpath update instead of this script!");
-        [Console]::ReadKey() | Out-Null;
-        return;
+        if (Test-Path -Path ([Path]::Combine($64BitOutput, "WinPath.exe")))
+        {
+            [Console]::Write("WinPath is already installed, run winpath update instead of this script!");
+            [Console]::ReadKey() | Out-Null;
+            return;
+        }
+    }
+    else
+    {
+        if (Test-Path -Path ([Path]::Combine($32BitOutput, "WinPath.exe")))
+        {
+            [Console]::Write("WinPath is already installed, run winpath update instead of this script!");
+            [Console]::ReadKey() | Out-Null;
+            return;
+        }
     }
 }
 
@@ -47,20 +71,20 @@ try
             if ([Environment]::OSVersion.Version.Major -eq 10)
             {
                 [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/ANF-Studios/WinPath/releases/download/$version/WinPath_win10-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win10-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
                 $installed = $true;
             }
             else
             {
                 [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/ANF-Studios/WinPath/releases/download/$version/WinPath_win-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+                Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x64.exe" -OutFile ($64BitOutput + "WinPath.exe");
                 $installed = $true;
             }
         }
         else # x86
         {
             [Directory]::CreateDirectory($32BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/ANF-Studios/WinPath/releases/download/$version/WinPath_win-x86.exe" -OutFile ($32BitOutput + "WinPath.exe");
+            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-x86.exe" -OutFile ($32BitOutput + "WinPath.exe");
             $installed = $true;
         }
     }
@@ -69,18 +93,16 @@ try
         if ([Environment]::Is64BitOperatingSystem) # Arm64
         {
             [Directory]::CreateDirectory($64BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/ANF-Studios/WinPath/releases/download/$version/WinPath_win-arm64.exe" -OutFile ($64BitOutput + "WinPath.exe");
+            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm64.exe" -OutFile ($64BitOutput + "WinPath.exe");
             $installed = $true;
         }
         else # Arm
         {
             [Directory]::CreateDirectory($32BitOutput) | Out-Null;
-            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/ANF-Studios/WinPath/releases/download/$version/WinPath_win-arm.exe" -OutFile ($32BitOutput + "WinPath.exe");
+            Invoke-WebRequest -Method "GET" -Headers $iwr_header -Uri "https://github.com/$repo/releases/download/$version/WinPath_win-arm.exe" -OutFile ($32BitOutput + "WinPath.exe");
             $installed = $true;
         }
     }
-
-
 }
 catch [System.Exception]
 {
