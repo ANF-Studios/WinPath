@@ -20,7 +20,10 @@ namespace WinPath.Tests
         {
             Update update = new Update(true, true, RuntimeInformation.OSArchitecture == Architecture.X86 || RuntimeInformation.OSArchitecture == Architecture.X64);
 
-            if (Convert.ToInt32(update.GetReleases()[0].TagName[2]) > 3)
+            string minorVersion = update.GetReleases()[0].TagName[2].ToString();
+            output.WriteLine(minorVersion);
+
+            if (int.Parse(minorVersion) > 3)
             {
                 Program.Main(
                 new string[]
