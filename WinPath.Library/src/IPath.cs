@@ -76,6 +76,13 @@ namespace WinPath.Library
         Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
+        /// Accesses the <c>Path</c> value in environment variables.
+        /// </summary>
+        /// <returns>The <c>Path</c> variable.</returns>
+        static Task<string> GetPathVariable()
+            => throw new NotImplementedException();
+
+        /// <summary>
         /// Checks whether a given value is already on the path.
         /// </summary>
         /// <param name="value">The value to look for in the path.</param>

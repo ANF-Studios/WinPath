@@ -152,5 +152,23 @@ namespace WinPath.Library
                 await File.WriteAllTextAsync((backupDirectory ?? this.BackupDirectory) + (filename ?? this.BackupFilename), path, System.Text.Encoding.UTF8);
             }
         }
+
+        /// <summary>
+        /// Accesses the user <c>Path</c> value in environment variables.
+        /// </summary>
+        /// <returns>The <c>Path</c> variable.</returns>
+        public static string GetPathVariable()
+            => Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+
+        /// <summary>
+        /// Checks whether a given value is already on the path.
+        /// </summary>
+        /// <param name="value">The value to look for in the path.</param>
+        /// <returns>True if it finds the value in the path, false if not.</returns>
+        public static async Task<bool> IsOnPath(string value)
+        {
+            // TBD.
+            return true;
+        }
     }
 }
