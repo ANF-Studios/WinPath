@@ -12,8 +12,8 @@ namespace WinPath.Library
         /// </summary>
         /// <remarks>
         /// The directory to backup the <c>Path</c> variable when creating it. This variable will be used when
-        /// the <see cref="AddToPath(string, bool, string)"/> method is used (instead of
-        /// <see cref="AddToPath(string, string, string, bool)"/>). Its value defaults to <c>%APPDATA%\Path\UserBackups\</c>.
+        /// the <see cref="AddToPath(string, bool, string, bool)"/> method is used (instead of
+        /// <see cref="AddToPath(string, string, string, bool, bool)"/>). Its value defaults to <c>%APPDATA%\Path\UserBackups\</c>.
         /// </remarks>
         string BackupDirectory { get; set; }
 
@@ -31,16 +31,14 @@ namespace WinPath.Library
         /// optionally takes in a <paramref name="backupFilename"/> which is the name of the file
         /// to backup. For the directory, <see cref="BackupDirectory"/> will be used. If you want
         /// to override the directory, either change <see cref="BackupDirectory"/> or use
-        /// <see cref="AddToPath(string, string, string, bool)"/> instead. A backup will not be created
+        /// <see cref="AddToPath(string, string, string, bool, bool)"/> instead. A backup will not be created
         /// if <paramref name="backup"/> is false.
         /// </remarks>
         /// <param name="value">The content of the new value to be added to the <c>Path</c>.</param>
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
-        /// </exception>
-        Task AddToPath(string value, bool backup = false, string backupFilename = null);
+        /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
+        Task AddToPath(string value, bool backup = false, string backupFilename = null, bool force = false);
 
         /// <summary>
         /// Adds a new value to the Path, optionally backing up the initial path.
@@ -56,10 +54,8 @@ namespace WinPath.Library
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="backupDirectory">The directory path to backup to, no need to provide it if you use <see cref="BackupDirectory"/>.</param>
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
-        /// </exception>
-        Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false);
+        /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
+        Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false, bool force = false);
 
         /// <summary>
         /// Backups the <c>Path</c> to a file.

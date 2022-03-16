@@ -18,8 +18,8 @@ namespace WinPath.Library
         /// </summary>
         /// <remarks>
         /// The directory to backup the <c>Path</c> variable when creating it. This variable will be used when
-        /// the <see cref="AddToPath(string, bool, string)"/> method is used (instead of
-        /// <see cref="AddToPath(string, string, string, bool)"/>). Its value defaults to <c>%APPDATA%\Path\UserBackups\</c>.
+        /// the <see cref="AddToPath(string, bool, string, bool)"/> method is used (instead of
+        /// <see cref="AddToPath(string, string, string, bool, bool)"/>). Its value defaults to <c>%APPDATA%\Path\UserBackups\</c>.
         /// </remarks>
         public string BackupDirectory { get; set; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Path\\UserBackups\\";
 
@@ -62,20 +62,26 @@ namespace WinPath.Library
         /// optionally takes in a <paramref name="backupFilename"/> which is the name of the file
         /// to backup. For the directory, <see cref="BackupDirectory"/> will be used. If you want
         /// to override the directory, either change <see cref="BackupDirectory"/> or use
-        /// <see cref="AddToPath(string, string, string, bool)"/> instead. A backup will not be created
+        /// <see cref="AddToPath(string, string, string, bool, bool)"/> instead. A backup will not be created
         /// if <paramref name="backup"/> is false.
         /// </remarks>
         /// <param name="value">The content of the new value to be added to the <c>Path</c>.</param>
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
+        /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
         /// Exception is thrown when <paramref name="value"/> is null or empty.
         /// </exception>
-        public async Task AddToPath(string value, bool backup = false, string backupFilename = null)
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        public async Task AddToPath(string value, bool backup = false, string backupFilename = null, bool force = false)
         {
             if (value != null || value != string.Empty)
             {
                 string initialPath = UserPath.GetPathVariable();
+                if (UserPath.IsOnPath(value) && force == false)
+                    throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename);
                 Environment.SetEnvironmentVariable(
@@ -104,14 +110,20 @@ namespace WinPath.Library
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="backupDirectory">The directory path to backup to, no need to provide it if you use <see cref="BackupDirectory"/>.</param>
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
+        /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
         /// Exception is thrown when <paramref name="value"/> is null or empty.
         /// </exception>
-        public async Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false)
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        public async Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false, bool force = false)
         {
             if (value != null || value != string.Empty)
             {
                 string initialPath = UserPath.GetPathVariable();
+                if (UserPath.IsOnPath(value) && force == false)
+                    throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename, backupDirectory);
                 Environment.SetEnvironmentVariable(
@@ -165,10 +177,7 @@ namespace WinPath.Library
         /// </summary>
         /// <param name="value">The value to look for in the path.</param>
         /// <returns>True if it finds the value in the path, false if not.</returns>
-        public static async Task<bool> IsOnPath(string value)
-        {
-            // TBD.
-            return true;
-        }
+        public static bool IsOnPath(string value)
+            => UserPath.GetPathVariable().Contains(value);
     }
 }
