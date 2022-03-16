@@ -3,6 +3,7 @@ using Xunit.Abstractions;
 using System.Runtime.Versioning;
 
 using WinPath;
+using WinPath.Library;
 
 namespace WinPath.Tests
 {
@@ -19,6 +20,7 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void AddToUserPath()
         {
+            /*
             Program.Main(new string[] {
                 "add",
                 "--user",
@@ -31,10 +33,15 @@ namespace WinPath.Tests
                 "Path",
                 System.EnvironmentVariableTarget.User
             );
+            */
+            UserPath userPath = new UserPath();
+            System.Threading.Tasks.Task.Run(() => userPath.AddToPath("CliTests_AddToUserPath", false, null, true)).Wait();
+
+            string path = UserPath.GetPathVariable();
             output.WriteLine(path);
 
             bool addedToPath = path.Contains("CliTests_AddToUserPath;");
-            Assert.True(addedToPath ? addedToPath : !addedToPath); // Temporary solution to fix this.
+            Assert.True(addedToPath /*? addedToPath : !addedToPath*/); // Temporary solution to fix this.
         }
 
         [Fact]
