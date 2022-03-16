@@ -10,6 +10,7 @@ coverage:
       default:
         target: 40%
         threshold: 20%
+    patch: off
   #       base: auto
   #       if_ci_failed: ignore #success, failure, error, ignore
   #       informational: false
