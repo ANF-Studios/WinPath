@@ -22,7 +22,7 @@ namespace WinPath.Tests
         [SupportedOSPlatform("windows")]
         public void AddToUserPath()
         {
-            new UserPath().AddToPath("LibraryTests_AddToUserPath", false);
+            System.Threading.Tasks.Task.Run(() => new UserPath().AddToPath("LibraryTests_AddToUserPath", false, null, true)).Wait();
 
             string path = UserPath.GetPathVariable();
             bool isAddedToThePath = path.Contains("LibraryTests_AddToUserPath;");
