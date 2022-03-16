@@ -11,7 +11,7 @@ namespace WinPath.Library
     /// </summary>
     [SupportedOSPlatform("windows")]
     [UnsupportedOSPlatform("browser")]
-    public class UserPath
+    public class UserPath : IPath
     {
         /// <summary>
         /// The directory to backup the <c>Path</c> variable when creating it.
@@ -55,7 +55,7 @@ namespace WinPath.Library
         }
 
         /// <summary>
-        /// Adds a new value to the Path, optionally backing up the initial path.
+        /// Adds a new value to the user Path, optionally backing up the initial path.
         /// </summary>
         /// <remarks>
         /// This method takes in a string value which will be added to the <c>Path</c>. It also
@@ -91,7 +91,7 @@ namespace WinPath.Library
         }
 
         /// <summary>
-        /// Adds a new value to the Path, optionally backing up the initial path.
+        /// Adds a new value to the user Path, optionally backing up the initial path.
         /// </summary>
         /// <remarks>
         /// This method takes in a string value which will be added to the <c>Path</c>. It also optionally
@@ -127,7 +127,7 @@ namespace WinPath.Library
         }
 
         /// <summary>
-        /// Backups the <c>Path</c> to a file.
+        /// Backups the user <c>Path</c> to a file.
         /// </summary>
         /// <remarks>
         /// Backups the <c>Path</c> to a file. This method calls <see cref="File.WriteAllTextAsync(string, string?, System.Text.Encoding, CancellationToken)"/>
@@ -138,7 +138,7 @@ namespace WinPath.Library
         /// <param name="filename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="backupDirectory">The directory path to backup to, no need to provide it if you use <see cref="BackupDirectory"/>.</param>
         /// <param name="cancellationToken">This method would not do anything if <see cref="CancellationToken.IsCancellationRequested"/> is true.</param>
-        public virtual async Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null)
+        public async Task BackupPath(string path, string filename = null, string backupDirectory = null, CancellationToken? cancellationToken = null)
         {
             // If cancellationToken is null i.e, it's not provided, continue -- because
             // IsCancellationRequested is null and hence not true which means this code
