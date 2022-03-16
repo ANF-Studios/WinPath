@@ -75,7 +75,7 @@ namespace WinPath.Library
         {
             if (value != null || value != string.Empty)
             {
-                string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+                string initialPath = UserPath.GetPathVariable();
                 if (backup)
                     await BackupPath(initialPath, backupFilename);
                 Environment.SetEnvironmentVariable(
@@ -111,7 +111,7 @@ namespace WinPath.Library
         {
             if (value != null || value != string.Empty)
             {
-                string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+                string initialPath = UserPath.GetPathVariable();
                 if (backup)
                     await BackupPath(initialPath, backupFilename, backupDirectory);
                 Environment.SetEnvironmentVariable(

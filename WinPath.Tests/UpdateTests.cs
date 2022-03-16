@@ -187,7 +187,7 @@ namespace WinPath.Tests
         {
             // TODO.
             /*
-            string initialPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+            string initialPath = UserPath.GetPathVariable();
             if (initialPath.EndsWith(";"))
                 initialPath = initialPath.TrimEnd(';');
 

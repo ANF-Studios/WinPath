@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using WinPath.Library;
 
 namespace WinPath
 {
@@ -237,7 +238,7 @@ namespace WinPath
             if (!options.BackupDirectory.EndsWith("\\") || !options.BackupDirectory.EndsWith("/"))
                 options.BackupDirectory += "\\";
 
-            string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+            string path = UserPath.GetPathVariable();
             string filename = DateTime.Now.ToFileTime().ToString();
             string finalPath = Path.Combine(options.BackupDirectory, filename);
 
@@ -330,7 +331,7 @@ namespace WinPath
 
             string file = Path.Combine(options.BackupDirectory, options.BackupFilename);
             string initialUserPath = options.RestoreUserVariables
-                                        ? Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User)
+                                        ? UserPath.GetPathVariable()
                                         : null;
             string initialSystemPath = options.RestoreSystemVariables
                                         ? Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)
