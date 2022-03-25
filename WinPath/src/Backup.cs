@@ -26,8 +26,7 @@ namespace WinPath
         public Backup() { }
 
         /// <summary>
-        /// List backups, behavoir is
-        /// defined by arguments.
+        /// List backups. Count of backups to display can be altered.
         /// </summary>
         /// <param name="eventType">The type of the event i.e, type of listing to list.</param>
         /// <param name="userBackupDirectory">The directory of user variable backups.</param>
