@@ -22,7 +22,7 @@ namespace WinPath
         /// A default instance of <see cref="UserPath"/> used
         /// across the entire program.
         /// </summary>
-        private static readonly UserPath userPath = new UserPath
+        internal static readonly UserPath UserPath = new UserPath
         {
             BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
         };
@@ -58,22 +58,23 @@ namespace WinPath
                 //    Doesn't react/trigger this section.
                 //    This is because of child verbs.
                 //})
+                .WithParsed<BackupOptions.BackupPrintOptions>(options => Backup.PrintPath(options))
                 .WithParsed<BackupOptions.BackupListOptions>(options =>
                 {
                     if (options.ListAllBackups)
                         Backup.ListBackups(
                             HandleEventType.ListAllBackups,
-                            userPath.BackupDirectory
+                            UserPath.BackupDirectory
                         );
                     else if (options.ListLatest)
                         Backup.ListBackups(
                             HandleEventType.ListLatestBackups,
-                            userPath.BackupDirectory
+                            UserPath.BackupDirectory
                         );
                     else
                         Backup.ListBackups(
                             HandleEventType.ListBackups,
-                            userPath.BackupDirectory,
+                            UserPath.BackupDirectory,
                             null,
                             options.Range
                         );
@@ -142,7 +143,7 @@ namespace WinPath
                     break;
 
                 case HandleEventType.UserPath:
-                    userPath.AddToPath(
+                    UserPath.AddToPath(
                         options.Value,
                         options.BackupPathVariable,
                         DateTime.Now.ToFileTime().ToString()
@@ -177,12 +178,12 @@ namespace WinPath
         /// </summary>
         /// <remarks>
         /// When the application starts, <see cref="Program"/> creates
-        /// an instance of <see cref="UserPath"/> called <see cref="userPath"/>,
+        /// an instance of <see cref="UserPath"/> called <see cref="UserPath"/>,
         /// this method returns this global instance, it contains data that's
         /// later on used.
         /// </remarks>
         /// <returns>The default instance created at the start of the program.</returns>
         public static UserPath GetUserPath()
-            => userPath;
+            => UserPath;
     }
 }

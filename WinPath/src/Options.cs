@@ -20,9 +20,22 @@ namespace WinPath
     }
 
     [Verb("backup", HelpText = "A group of options to manage backups of your Path variable.")]
-    [ChildVerbs(typeof(BackupListOptions), typeof(BackupApplyOptions), typeof(BackupCreateOptions), typeof(BackupRemoveOptions))]
+    [ChildVerbs(typeof(BackupPrintOptions), typeof(BackupListOptions), typeof(BackupApplyOptions), typeof(BackupCreateOptions), typeof(BackupRemoveOptions))]
     public class BackupOptions
     {
+        [Verb("print", HelpText = "Prints a backed up path value or current if --filename is empty.")]
+        public class BackupPrintOptions
+        {
+            [Option('f', "filename", HelpText = "Name of a path backup (run list command for backups).")]
+            public string Filename { get; set; }
+
+            [Option('u', "user", Default = false, Required = false, HelpText = "Print user variables.")]
+            public bool UserPath { get; set; }
+
+            [Option('s', "system", Default = false, Required = false, HelpText = "Print system variables.")]
+            public bool SystemPath { get; set; }
+        }
+
         [Verb("list", HelpText = "Display a list of backups.")]
         public class BackupListOptions
         {

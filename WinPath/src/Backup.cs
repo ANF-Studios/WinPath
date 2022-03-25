@@ -26,6 +26,36 @@ namespace WinPath
         public Backup() { }
 
         /// <summary>
+        /// Print the current path or a backed up value of it.
+        /// </summary>
+        /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
+        public static void PrintPath(BackupOptions.BackupPrintOptions options)
+        {
+            if (options.UserPath)
+            {
+                FileInfo[] userDirFileInfo = new DirectoryInfo(Program.UserPath.BackupDirectory).GetFiles();
+                if (!string.IsNullOrEmpty(options.Filename) && userDirFileInfo.Any(backupFile => backupFile.Name == options.Filename))
+                {
+                    string pathBackup = File.ReadAllText(Path.Combine(Program.UserPath.BackupDirectory, options.Filename));
+                    Console.WriteLine("Backup date: " + DateTime.FromFileTime(Convert.ToInt64(options.Filename)));
+                    Console.WriteLine(UserPath.GetPathVariable() == pathBackup ? "Up to date with current path" : "Not up to date with current path");
+                    Console.WriteLine(pathBackup);
+                }
+                else
+                {
+                    Console.WriteLine("Current:");
+                    Console.WriteLine(UserPath.GetPathVariable());
+                }
+            }
+            else if (options.SystemPath)
+            {
+                // To be implemented.
+            }
+            else
+                Console.WriteLine("Neither --user or --system flags were chosen. Exiting...");
+        }
+
+        /// <summary>
         /// List backups, behavoir is
         /// defined by arguments.
         /// </summary>
