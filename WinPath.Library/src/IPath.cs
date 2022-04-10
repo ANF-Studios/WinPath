@@ -75,7 +75,7 @@ namespace WinPath.Library
         /// Accesses the <c>Path</c> value in environment variables.
         /// </summary>
         /// <returns>The <c>Path</c> variable.</returns>
-        static Task<string> GetPathVariable()
+        static string GetPathVariable()
             => throw new NotImplementedException();
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace WinPath.Library
         /// </summary>
         /// <param name="value">The value to look for in the path.</param>
         /// <returns>True if it finds the value in the path, false if not.</returns>
-        static Task<bool> IsOnPath(string value)
+        static bool IsOnPath(string value)
             => throw new NotImplementedException();
     }
 }

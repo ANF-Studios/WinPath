@@ -1,12 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using CommandLine;
+using System;
 using System.Runtime.Versioning;
-
-using CommandLine;
-
-using WinPath.Library;
 using WinPath.Extensions;
-
+using WinPath.Library;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Runtime = System.Runtime.InteropServices.RuntimeInformation;
 
@@ -19,10 +15,19 @@ namespace WinPath
     public class Program
     {
         /// <summary>
-        /// A default instance of <see cref="UserPath"/> used
+        /// The default instance of <see cref="UserPath"/> used
         /// across the entire program.
         /// </summary>
         private static readonly UserPath userPath = new UserPath
+        {
+            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
+        };
+
+        /// <summary>
+        /// he default instance of <see cref="SystemPath"/> used
+        /// across the entire program.
+        /// </summary>
+        private static readonly SystemPath systemPath = new SystemPath
         {
             BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
         };
@@ -39,7 +44,8 @@ namespace WinPath
             if (!OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException("WinPath is Windows only!");
             Parser.Default.ParseVerbs<AddOptions, BackupOptions, UpdateOptions>(args)
-                .WithParsed<AddOptions>(options => {
+                .WithParsed<AddOptions>(options =>
+                {
                     if (options.Value == null) HandleArgument(HandleEventType.NoValue);
                     else if (options.Value != null)
                     {
@@ -81,7 +87,8 @@ namespace WinPath
                 .WithParsed<BackupOptions.BackupApplyOptions>(options => Backup.ApplyBackup(options))
                 .WithParsed<BackupOptions.BackupCreateOptions>(options => Backup.CreateBackup(options))
                 .WithParsed<BackupOptions.BackupRemoveOptions>(options => Backup.RemoveBackup(options))
-                .WithParsed<UpdateOptions>(options => {
+                .WithParsed<UpdateOptions>(options =>
+                {
                     Console.WriteLine("Updating WinPath...");
                     Update update = new Update
                     (
@@ -94,7 +101,7 @@ namespace WinPath
                     var releases = update.GetReleases();
                     Console.WriteLine("Analyzing data...");
                     Release? release = update.FilterRelease(releases);
-                    
+
                     // To be removed in v1.0.0.
                     if (release is null)
                     {
@@ -127,12 +134,14 @@ namespace WinPath
                 });
         }
 
+
         // TODO: Refactor it soon.
         /// <summary>
         /// Handle arguments relating to the <c>Path</c>.
         /// </summary>
         /// <param name="eventType">The type of the event to handle.</param>
         /// <param name="options">Options for to be used according to <paramref name="eventType"/>.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         static void HandleArgument(HandleEventType eventType, AddOptions options = null)
         {
             switch (eventType)
@@ -142,7 +151,7 @@ namespace WinPath
                     break;
 
                 case HandleEventType.UserPath:
-                    userPath.AddToPath(
+                    _ = userPath.AddToPath(
                         options.Value,
                         options.BackupPathVariable,
                         DateTime.Now.ToFileTime().ToString()
@@ -161,10 +170,49 @@ namespace WinPath
                     break;
 
                 case HandleEventType.SystemPath:
-                    throw new NotImplementedException("Cannot add to System Path as it's not implemented.");
-                
+                    // NOTE:
+                    // Modifying the path from
+                    // Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
+                    // results in success. However, EnvironmentVariableTarget.Machine modifies it in
+                    // Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Environment
+                    _ = systemPath.AddToPath(
+                        options.Value,
+                        options.BackupPathVariable,
+                        DateTime.Now.ToFileTime().ToString()
+                    );
+                    if (Environment.GetEnvironmentVariable(
+                            "Path",
+                            EnvironmentVariableTarget.Machine)
+                        .EndsWith(
+                            $"{options.Value};"
+                        )
+                    ) Console.WriteLine($"Successfully added `{options.Value}` to the Path!");
+                    else
+                        Console.WriteLine(
+                            "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!"
+                        );
+                    break;
+
                 case HandleEventType.UserAndSystemPath:
-                    throw new NotImplementedException("Cannot add to User and System Path as it's not implemented.");
+                    _ = userPath.AddToPath(
+                        options.Value,
+                        options.BackupPathVariable,
+                        DateTime.Now.ToFileTime().ToString()
+                    );
+                    _ = systemPath.AddToPath(
+                        options.Value,
+                        options.BackupPathVariable,
+                        DateTime.Now.ToFileTime().ToString()
+                    );
+                    if (
+                        Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User).EndsWith($"{options.Value};")
+                     && Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine).EndsWith($"{options.Value};")
+                    ) Console.WriteLine($"Successfully added `{options.Value}` to the Path!");
+                    else
+                        Console.WriteLine(
+                            "There seems to be an error, we could not verify if that value is actually added to the Path or not, it's nothing to worry about though!"
+                        );
+                    break;
 
                 case HandleEventType.NoUserOrSystemPath:
                     Console.WriteLine("Did not modify any content, exiting...");

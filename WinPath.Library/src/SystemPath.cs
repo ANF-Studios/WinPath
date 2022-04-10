@@ -3,15 +3,16 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Versioning;
+using Microsoft.Win32;
 
 namespace WinPath.Library
 {
     /// <summary>
-    /// Contains basic methods to add values to user <c>Path</c>.
+    /// Contains basic methods to add values to system <c>Path</c>.
     /// </summary>
     [SupportedOSPlatform("windows")]
     [UnsupportedOSPlatform("browser")]
-    public class UserPath : IPath
+    public class SystemPath : IPath
     {
         /// <summary>
         /// The directory to backup the <c>Path</c> variable when creating it.
@@ -19,9 +20,9 @@ namespace WinPath.Library
         /// <remarks>
         /// The directory to backup the <c>Path</c> variable when creating it. This variable will be used when
         /// the <see cref="AddToPath(string, bool, string, bool)"/> method is used (instead of
-        /// <see cref="AddToPath(string, string, string, bool, bool)"/>). Its value defaults to <c>%APPDATA%\Path\UserBackups\</c>.
+        /// <see cref="AddToPath(string, string, string, bool, bool)"/>). Its value defaults to <c>%APPDATA%\Path\SystemBackups\</c>.
         /// </remarks>
-        public string BackupDirectory { get; set; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Path\\UserBackups\\";
+        public string BackupDirectory { get; set; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Path\\SystemBackups\\";
 
         /// <summary>
         /// The default backup filename. It's used when no filename
@@ -30,15 +31,20 @@ namespace WinPath.Library
         public string BackupFilename { get; set; } = "backup.txt";
 
         /// <summary>
+        /// Registry path to system environment variables.
+        /// </summary>
+        private const string EnvironmentVariablesPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+        
+        /// <summary>
         /// Default empty constructor.
         /// </summary>
-        public UserPath() { }
+        public SystemPath() { }
 
         /// <summary>
         /// Constructor that takes an override for the <see cref="BackupDirectory"/>.
         /// </summary>
         /// <param name="backupDirectory">This variable will be override <see cref="BackupDirectory"/></param>
-        public UserPath(string backupDirectory)
+        public SystemPath(string backupDirectory)
         {
             this.BackupDirectory = backupDirectory;
         }
@@ -48,14 +54,14 @@ namespace WinPath.Library
         /// </summary>
         /// <param name="backupDirectory">This variable will be override <see cref="BackupDirectory"/></param>
         /// <param name="filename"></param>
-        public UserPath(string backupDirectory, string filename)
+        public SystemPath(string backupDirectory, string filename)
         {
             this.BackupDirectory = backupDirectory;
             this.BackupFilename = filename;
         }
 
         /// <summary>
-        /// Adds a new value to the user Path, optionally backing up the initial path.
+        /// Adds a new value to the system Path, optionally backing up the initial path.
         /// </summary>
         /// <remarks>
         /// This method takes in a string value which will be added to the <c>Path</c>. It also
@@ -70,34 +76,34 @@ namespace WinPath.Library
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
+        /// Thrown when <paramref name="value"/> is null or empty.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when SetValue permissions are not granted.
         /// </exception>
         public async Task AddToPath(string value, bool backup = false, string backupFilename = null, bool force = false)
         {
             if (value != null || value != string.Empty)
             {
-                string initialPath = UserPath.GetPathVariable();
-                if (UserPath.IsOnPath(value) && force == false)
+                string initialPath = SystemPath.GetPathVariable();
+                if (SystemPath.IsOnPath(value) && force == false)
                     throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename);
-                Environment.SetEnvironmentVariable(
-                    "Path",
-                    (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
-                        ? (initialPath + value + ";")          // Add the initial path without a semicolon.
-                        : (initialPath + ";" + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
-                    EnvironmentVariableTarget.User
-                );
+                string path = initialPath.EndsWith(";")     // If the initial path does end with a semicolon,
+                    ? (initialPath + value + ";")           // Add the initial path without a semicolon.
+                    : (initialPath + ";" + value + ";");    // Otherwise add it to the Path starting with a semicolon.
+                Registry.SetValue(EnvironmentVariablesPath, "Path", path, RegistryValueKind.ExpandString);
             }
             else
                 throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
-        /// Adds a new value to the user Path, optionally backing up the initial path.
+        /// Adds a new value to the system Path, optionally backing up the initial path.
         /// </summary>
         /// <remarks>
         /// This method takes in a string value which will be added to the <c>Path</c>. It also optionally
@@ -112,34 +118,34 @@ namespace WinPath.Library
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
         /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
+        /// Thrown when <paramref name="value"/> is null or empty.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when SetValue permissions are not granted.
         /// </exception>
         public async Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false, bool force = false)
         {
             if (value != null || value != string.Empty)
             {
-                string initialPath = UserPath.GetPathVariable();
-                if (UserPath.IsOnPath(value) && force == false)
+                string initialPath = SystemPath.GetPathVariable();
+                if (SystemPath.IsOnPath(value) && force == false)
                     throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename, backupDirectory);
-                Environment.SetEnvironmentVariable(
-                    "Path",
-                    (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
-                        ? (initialPath + value + ";")          // Add the initial path without a semicolon.
-                        : (";" + initialPath + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
-                    EnvironmentVariableTarget.User
-                );
+                string path = initialPath.EndsWith(";")     // If the initial path does end with a semicolon,
+                    ? (initialPath + value + ";")           // Add the initial path without a semicolon.
+                    : (initialPath + ";" + value + ";");    // Otherwise add it to the Path starting with a semicolon.
+                Registry.SetValue(EnvironmentVariablesPath, "Path", path, RegistryValueKind.ExpandString);
             }
             else
                 throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
-        /// Backups the user <c>Path</c> to a file.
+        /// Backups the system Path <c>Path</c> to a file.
         /// </summary>
         /// <remarks>
         /// Backups the <c>Path</c> to a file. This method calls <see cref="File.WriteAllTextAsync(string, string?, System.Text.Encoding, CancellationToken)"/>
@@ -166,18 +172,18 @@ namespace WinPath.Library
         }
 
         /// <summary>
-        /// Accesses the user <c>Path</c> value in environment variables.
+        /// Accesses the system <c>Path</c> value in environment variables.
         /// </summary>
         /// <returns>The <c>Path</c> variable.</returns>
-        public static string GetPathVariable()
-            => Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+        static string GetPathVariable()
+            => Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
 
         /// <summary>
-        /// Checks whether a given value is already on the user path.
+        /// Checks whether a given value is already on the system path.
         /// </summary>
         /// <param name="value">The value to look for in the path.</param>
         /// <returns>True if it finds the value in the path, false if not.</returns>
-        public static bool IsOnPath(string value)
-            => UserPath.GetPathVariable().Contains(value);
+        static bool IsOnPath(string value)
+            => SystemPath.GetPathVariable().Contains(value);
     }
 }
