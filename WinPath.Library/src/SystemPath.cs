@@ -76,10 +76,13 @@ namespace WinPath.Library
         /// <param name="backupFilename">The name of the file to backup, no need to provide it if you use <see cref="BackupFilename"/>.</param>
         /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
+        /// Thrown when <paramref name="value"/> is null or empty.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when SetValue permissions are not granted.
         /// </exception>
         public async Task AddToPath(string value, bool backup = false, string backupFilename = null, bool force = false)
         {
@@ -93,7 +96,7 @@ namespace WinPath.Library
                 string path = initialPath.EndsWith(";")     // If the initial path does end with a semicolon,
                     ? (initialPath + value + ";")           // Add the initial path without a semicolon.
                     : (initialPath + ";" + value + ";");    // Otherwise add it to the Path starting with a semicolon.
-                Registry.SetValue(EnvironmentVariablesPath, "Path", path);
+                Registry.SetValue(EnvironmentVariablesPath, "Path", path, RegistryValueKind.ExpandString);
             }
             else
                 throw new ArgumentNullException(nameof(value));
@@ -115,10 +118,13 @@ namespace WinPath.Library
         /// <param name="backup">Whether to backup the initial <c>Path</c> or not.</param>
         /// <param name="force">Ignore if path/value is already added and add the given value regardless. By default (false), it will throw an exception.</param>
         /// <exception cref="ArgumentNullException">
-        /// Exception is thrown when <paramref name="value"/> is null or empty.
+        /// Thrown when <paramref name="value"/> is null or empty.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Thrown when value already exists in the path. Can be ignored by setting <paramref name="force"/> to true.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when SetValue permissions are not granted.
         /// </exception>
         public async Task AddToPath(string value, string backupFilename = null, string backupDirectory = null, bool backup = false, bool force = false)
         {
@@ -129,13 +135,10 @@ namespace WinPath.Library
                     throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename, backupDirectory);
-                Environment.SetEnvironmentVariable(
-                    "Path",
-                    (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
-                        ? (initialPath + value + ";")          // Add the initial path without a semicolon.
-                        : (";" + initialPath + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
-                    EnvironmentVariableTarget.Machine
-                );
+                string path = initialPath.EndsWith(";")     // If the initial path does end with a semicolon,
+                    ? (initialPath + value + ";")           // Add the initial path without a semicolon.
+                    : (initialPath + ";" + value + ";");    // Otherwise add it to the Path starting with a semicolon.
+                Registry.SetValue(EnvironmentVariablesPath, "Path", path, RegistryValueKind.ExpandString);
             }
             else
                 throw new ArgumentNullException(nameof(value));
