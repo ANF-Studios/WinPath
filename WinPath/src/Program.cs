@@ -29,7 +29,7 @@ namespace WinPath
         /// </summary>
         private static readonly SystemPath systemPath = new SystemPath
         {
-            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\UserBackups\\"
+            BackupDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{System.AppDomain.CurrentDomain.FriendlyName}\\SystemBackups\\"
         };
 
         /// <summary>
@@ -69,18 +69,20 @@ namespace WinPath
                     if (options.ListAllBackups)
                         Backup.ListBackups(
                             HandleEventType.ListAllBackups,
-                            userPath.BackupDirectory
+                            userPath.BackupDirectory,
+                            systemPath.BackupDirectory
                         );
                     else if (options.ListLatest)
                         Backup.ListBackups(
                             HandleEventType.ListLatestBackups,
-                            userPath.BackupDirectory
+                            userPath.BackupDirectory,
+                            systemPath.BackupDirectory
                         );
                     else
                         Backup.ListBackups(
                             HandleEventType.ListBackups,
                             userPath.BackupDirectory,
-                            null,
+                            systemPath.BackupDirectory,
                             options.Range
                         );
                 })
@@ -232,5 +234,18 @@ namespace WinPath
         /// <returns>The default instance created at the start of the program.</returns>
         public static UserPath GetUserPath()
             => userPath;
+
+        /// <summary>
+        /// Get the default <see cref="SystemPath"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// When the application starts, <see cref="Program"/> creates
+        /// an instance of <see cref="SystemPath"/> called <see cref="systemPath"/>,
+        /// this method returns this global instance, it contains data that's
+        /// later on used.
+        /// </remarks>
+        /// <returns>The default instance created at the start of the program.</returns>
+        public static SystemPath GetSystemPath()
+            => systemPath;
     }
 }

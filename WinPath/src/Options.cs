@@ -45,14 +45,8 @@ namespace WinPath
             [Option('n', "name", HelpText = "The ilename of the backup file.", Required = true)]
             public string BackupFilename { get; set; }
 
-            [Option('d', "directory", HelpText = "An override of the directory of where to find the filename.")]
-            public string BackupDirectory { get; set; } = Program.GetUserPath().BackupDirectory;
-
-            [Option('u', "user", Default = false, Required = false, HelpText = "Add it to the user variables.")]
-            public bool RestoreUserVariables { get; set; }
-
-            [Option('s', "system", Default = false, Required = false, HelpText = "Add it to the system variables.")]
-            public bool RestoreSystemVariables { get; set; }
+            [Option('u', "user", HelpText = "Search user path? True if user, false if system.")]
+            public bool UserBackup { get; set; } = false;
         }
 
         [Verb("create", HelpText = "Create a new backup of your Path variable.")]
@@ -65,7 +59,7 @@ namespace WinPath
             public bool BackupSystemVariables { get; set; }
 
             [Option('d', "directory", HelpText = "An override of the directory to backup to. Note that the backup list method might not locate this backup.")]
-            public string BackupDirectory { get; set; } = Program.GetUserPath().BackupDirectory;
+            public string BackupDirectory { get; set; } = string.Empty;
 
             // TODO: Might or might not implement it.
             //[Option("encrypt", HelpText = "Encrypt the backup of Path, only possible when --directory is provided.")]
@@ -78,8 +72,8 @@ namespace WinPath
             [Option('n', "name", HelpText = "The filename of the backup file.", Required = true)]
             public string BackupFilename { get; set; }
 
-            [Option('d', "directory", HelpText = "An override of the directory of where to find the filename.")]
-            public string BackupDirectory { get; set; } = Program.GetUserPath().BackupDirectory;
+            [Option('u', "user", HelpText = "Search user path? True if user, false if system.")]
+            public bool UserBackup { get; set; } = false;
         }
     }
 

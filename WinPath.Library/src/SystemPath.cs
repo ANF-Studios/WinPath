@@ -175,7 +175,7 @@ namespace WinPath.Library
         /// Accesses the system <c>Path</c> value in environment variables.
         /// </summary>
         /// <returns>The <c>Path</c> variable.</returns>
-        static string GetPathVariable()
+        public static string GetPathVariable()
             => Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace WinPath.Library
         /// </summary>
         /// <param name="value">The value to look for in the path.</param>
         /// <returns>True if it finds the value in the path, false if not.</returns>
-        static bool IsOnPath(string value)
+        public static bool IsOnPath(string value)
             => SystemPath.GetPathVariable().Contains(value);
     }
 }

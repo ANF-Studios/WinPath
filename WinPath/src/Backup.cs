@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Microsoft.Win32;
 using WinPath.Library;
 
 namespace WinPath
@@ -35,7 +36,7 @@ namespace WinPath
         public static void ListBackups(
             in HandleEventType eventType,
             in string userBackupDirectory,
-            in string systemBackupDirectory = null,
+            in string systemBackupDirectory,
             in int range = 3
         )
         {
@@ -45,19 +46,7 @@ namespace WinPath
             const uint formatIndex = 12;
 
             DirectoryInfo userDirInfo = new DirectoryInfo(userBackupDirectory);
-            DirectoryInfo systemDirInfo = systemBackupDirectory is null
-                                            ? null
-                                            : new DirectoryInfo(systemBackupDirectory);
-
-            if (!userDirInfo.Exists)
-            {
-                Console.WriteLine("No backups found...");
-                return;
-            }
-            //if (!systemDirInfo.Exists)
-            //{
-            // Will be implemented when system backups are supported.
-            //}
+            DirectoryInfo systemDirInfo = new DirectoryInfo(systemBackupDirectory);
 
             FileInfo[] userDirFileInfo = userDirInfo.GetFiles();
             FileInfo[] systemDirFileInfo = systemDirInfo?.GetFiles();
@@ -90,29 +79,30 @@ namespace WinPath
                     Console.WriteLine("Filename" + spaces + " | Date of creation");
                     Console.WriteLine(separator);
 
-                    foreach (FileInfo backupFile in userDirFileInfo)
-                        Console.WriteLine(
-                            backupFile.Name
-                                + " | "
-                                + (
-                                    long.TryParse(
-                                        backupFile.Name,
-                                        out temp
-                                    )
-                                        ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
-                                        : "<Parsing error>"
-                                  )
-                        );
+                    if (userDirFileInfo.Length > 0)
+                        foreach (FileInfo backupFile in userDirFileInfo)
+                            Console.WriteLine(
+                                backupFile.Name
+                                    + " | "
+                                    + (
+                                        long.TryParse(
+                                            backupFile.Name,
+                                            out temp
+                                        )
+                                            ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
+                                            : "<Parsing error>"
+                                      )
+                            );
+                    else
+                        Console.WriteLine("No backups found");
 
                     Console.WriteLine(separator + Console.Out.NewLine);
 
                     Console.WriteLine("System Backups:");
-                    Console.WriteLine("Filename | Date of creation");
+                    Console.WriteLine("Filename" + spaces + " | Date of creation");
                     Console.WriteLine(separator);
 
-                    /*
-                    if (systemDirFileInfo is not null)
-                    {
+                    if (systemDirFileInfo.Length > 0)
                         foreach (FileInfo backupFile in systemDirFileInfo)
                             Console.WriteLine(
                                 backupFile.Name
@@ -126,9 +116,8 @@ namespace WinPath
                                             : "<Parsing error>"
                                       )
                             );
-                    }
-                    else*/
-                    Console.WriteLine("System backups not yet supported by the API.");
+                    else
+                        Console.WriteLine("No backups found");
                     Console.WriteLine(separator);
                     break;
 
@@ -147,34 +136,36 @@ namespace WinPath
                         Console.WriteLine("Filename" + spaces + " | Date of creation");
                         Console.WriteLine(separator);
 
-                        for (int i = 0; i < range; ++i)
-                        {
-                            try
+                        if (reversedUserList.Length > 0)
+                            for (int i = 0; i < range; ++i)
                             {
-                                Console.WriteLine(
-                                    reversedUserList[i].Name
-                                        + " | "
-                                        + (
-                                            long.TryParse(
-                                                reversedUserList[i].Name,
-                                                out temp
-                                            )
-                                                ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
-                                                : "<Parsing error>"
-                                          )
-                                );
+                                try
+                                {
+                                    Console.WriteLine(
+                                        reversedUserList[i].Name
+                                            + " | "
+                                            + (
+                                                long.TryParse(
+                                                    reversedUserList[i].Name,
+                                                    out temp
+                                                )
+                                                    ? DateTime.FromFileTime(temp).GetDateTimeFormats()[formatIndex]
+                                                    : "<Parsing error>"
+                                              )
+                                    );
+                                }
+                                catch (IndexOutOfRangeException) { break; }
                             }
-                            catch (IndexOutOfRangeException) { break; }
-                        }
+                        else
+                            Console.WriteLine("No backups found");
 
                         Console.WriteLine(separator + Console.Out.NewLine);
 
                         Console.WriteLine("System Backups:");
-                        Console.WriteLine("Filename | Date of creation");
+                        Console.WriteLine("Filename" + spaces + " | Date of creation");
                         Console.WriteLine(separator);
 
-                        /*
-                        if (reversedSystemList is not null)
+                        if (reversedSystemList.Length > 0)
                             for (int i = 0; i < range; ++i)
                             {
                                 try
@@ -194,9 +185,8 @@ namespace WinPath
                                 }
                                 catch (IndexOutOfRangeException) { break; }
                             }
-                        else*/
-                        Console.WriteLine("System backups not yet supported by the API.");
-
+                        else
+                            Console.WriteLine("No backups found");
                         Console.WriteLine(separator);
                     }
                     break;
@@ -216,13 +206,6 @@ namespace WinPath
         /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void CreateBackup(in BackupOptions.BackupCreateOptions options)
         {
-            // Seems like this method isn't effected unlike others.
-            //if (options.BackupDirectory.Contains("-u") || options.BackupDirectory.Contains("-s"))
-            //{
-            //    Console.WriteLine("Whoops, seems like there's an error on our end. Please use --user (-u) and --system (-s) flags before --directory (-d).");
-            //    return;
-            //}
-
             if (!options.BackupUserVariables && !options.BackupSystemVariables)
             {
                 Console.WriteLine("Did not modify any content because neither user or system flag is provided, exiting...");
@@ -237,22 +220,23 @@ namespace WinPath
             if (!options.BackupDirectory.EndsWith("\\") || !options.BackupDirectory.EndsWith("/"))
                 options.BackupDirectory += "\\";
 
-            string path = UserPath.GetPathVariable();
             string filename = DateTime.Now.ToFileTime().ToString();
-            string finalPath = Path.Combine(options.BackupDirectory, filename);
+            if (!Path.IsPathFullyQualified(options.BackupDirectory))
+                options.BackupDirectory = null;
 
             if (options.BackupSystemVariables)
-                Console.WriteLine("System variables are not supported by the API.");
-            else if (options.BackupUserVariables)
-                Program.GetUserPath().BackupPath(
-                    path,
-                    filename,
-                    options.BackupDirectory
+                _ = Program.GetSystemPath().BackupPath(
+                    SystemPath.GetPathVariable(),
+                    options.BackupDirectory == null ? filename : "s_" + filename,
+                    options.BackupDirectory ?? Program.GetSystemPath().BackupDirectory
                 );
-            if (File.Exists(finalPath))
-                Console.WriteLine("Successfully backed up Path at: " + finalPath);
-            else
-                Console.WriteLine("Looks like something went wrong!");
+            if (options.BackupUserVariables)
+                _ = Program.GetUserPath().BackupPath(
+                    UserPath.GetPathVariable(),
+                    options.BackupDirectory == null ? filename : "u_" + filename,
+                    options.BackupDirectory ?? Program.GetUserPath().BackupDirectory
+                );
+            Console.WriteLine("Path should be backed up now!");
         }
 
         /// <summary>
@@ -262,27 +246,17 @@ namespace WinPath
         /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void RemoveBackup(in BackupOptions.BackupRemoveOptions options)
         {
-            // Seems like this not needed, but we're not sure just yet.
-            //if (options.BackupDirectory.Contains("-n"))
-            //{
-            //    Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
-            //    return;
-            //}
+            string file = (options.UserBackup ? Program.GetUserPath().BackupDirectory : Program.GetSystemPath().BackupDirectory) + options.BackupFilename;
+            
+            if (!File.Exists(file))
+            {
+                Console.WriteLine("Backup doesn't exist!");
+                return;
+            }
 
-            // Invalid chars that may be in the provided directory.
-            // For example:
-            // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
-            // as a literal escape character which causes the value to be invalid.
-            options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
-
-            string file = Path.Combine(options.BackupDirectory, options.BackupFilename);
             try
             {
                 File.Delete(file);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Console.WriteLine("`" + file + "` was not found!");
             }
             catch (Exception exception)
             {
@@ -292,8 +266,6 @@ namespace WinPath
 
             if (!File.Exists(file))
                 Console.WriteLine("Successfully removed backup!");
-            else
-                Console.WriteLine("Could not remove " + file + "!");
         }
 
         /// <summary>
@@ -303,39 +275,7 @@ namespace WinPath
         /// <param name="options">Configuration for the backup to cutomize parts of it.</param>
         public static void ApplyBackup(in BackupOptions.BackupApplyOptions options)
         {
-            // Seems like this not needed, but we're not sure just yet.
-            //if (options.BackupDirectory.Contains("-n"))
-            //{
-            //    Console.WriteLine("Whoops, seems like there's an issue on our end. Please use the --name (-n) flag before --directory (-d).");
-            //    return;
-            //}
-
-            if (options.RestoreUserVariables && options.RestoreSystemVariables)
-            {
-                Console.WriteLine("Both user and system variables cannot be restored at the same time (this is to protect you).");
-                return;
-            }
-
-            if (options.RestoreSystemVariables)
-            {
-                Console.WriteLine("System variables are not yet supported by the API.");
-                return;
-            }
-
-            // Invalid chars that may be in the provided directory.
-            // For example:
-            // When using a command argument `--directory "D:\backups\path\"` It takes the `\"` part
-            // as a literal escape character which causes the value to be invalid.
-            options.BackupDirectory = options.BackupDirectory.Trim(Path.GetInvalidFileNameChars());
-
-            string file = Path.Combine(options.BackupDirectory, options.BackupFilename);
-            string initialUserPath = options.RestoreUserVariables
-                                        ? UserPath.GetPathVariable()
-                                        : null;
-            string initialSystemPath = options.RestoreSystemVariables
-                                        ? Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)
-                                        : null;
-
+            string file = (options.UserBackup ? Program.GetUserPath().BackupDirectory : Program.GetSystemPath().BackupDirectory) + options.BackupFilename;
             if (!File.Exists(file))
             {
                 Console.WriteLine(file + " not found! Aborting restore.");
@@ -345,38 +285,39 @@ namespace WinPath
             {
                 string newPath = File.ReadAllText(file);
 
-                if (string.IsNullOrEmpty(newPath))
+                if (string.IsNullOrEmpty(newPath) || string.IsNullOrWhiteSpace(newPath))
                 {
                     Console.WriteLine("Given file is empty! Aborting restore.");
                     return;
                 }
 
-                if (options.RestoreUserVariables)
+                if (options.UserBackup)
                 {
-                    string tempDir = Path.Combine(Path.GetTempPath(), "WinPath");
-
-                    try
-                    {
-                        if (!Directory.Exists(tempDir))
-                            Directory.CreateDirectory(tempDir);
-                        File.WriteAllText(userinitialBackup, initialUserPath);
-                    }
-                    catch (UnauthorizedAccessException) { Console.WriteLine("Whoops, we do not have enough permissions to create a backup before replacing, it's okay though!"); }
-                    catch (Exception exception) { Console.WriteLine("There seems to be an error backing up the path before replacing, it's okay though!\nDetails: " + exception.Message); }
-
+                    Backup.CreateBackup(new BackupOptions.BackupCreateOptions { BackupUserVariables = true });
                     Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.User);
 
-                    Console.WriteLine("Successfully restored file as new Path!");
-                    Console.WriteLine("In case if you changed your mind, there is a backup at: " + userinitialBackup);
+                    Console.WriteLine("Successfully applied file as new Path!");
+                    Console.WriteLine("Path has been backed up regardless of success before replacing it.");
                 }
-                if (options.RestoreSystemVariables)
+                else
                 {
-                    File.WriteAllText(systeminitialBackup, initialSystemPath);
+                    Backup.CreateBackup(new BackupOptions.BackupCreateOptions { BackupSystemVariables = true });
 
-                    Environment.SetEnvironmentVariable("Path", newPath, EnvironmentVariableTarget.Machine);
+                    bool success;
+                    try
+                    {
+                        Registry.SetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment", "Path", newPath, RegistryValueKind.ExpandString);
+                        success = true;
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine("Failed to update system path: " + exception.Message);
+                        success = false;
+                    }
 
-                    Console.WriteLine("Successfully restored file as new Path!");
-                    Console.WriteLine("In case if you changed your mind, there is a backup at: " + systeminitialBackup);
+                    if (success == true)
+                        Console.WriteLine("Successfully applied file as new Path!");
+                    Console.WriteLine("Path has been backed up regardless of success before replacing it.");
                 }
             }
         }
