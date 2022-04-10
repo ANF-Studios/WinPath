@@ -88,7 +88,7 @@ namespace WinPath.Library
                     "Path",
                     (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
                         ? (initialPath + value + ";")          // Add the initial path without a semicolon.
-                        : (";" + initialPath + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
+                        : (initialPath + ";" + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
                     EnvironmentVariableTarget.User
                 );
             }
