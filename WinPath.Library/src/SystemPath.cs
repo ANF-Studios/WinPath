@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Versioning;
+using Microsoft.Win32;
 
 namespace WinPath.Library
 {
@@ -29,6 +30,11 @@ namespace WinPath.Library
         /// </summary>
         public string BackupFilename { get; set; } = "backup.txt";
 
+        /// <summary>
+        /// Registry path to system environment variables.
+        /// </summary>
+        private const string EnvironmentVariablesPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+        
         /// <summary>
         /// Default empty constructor.
         /// </summary>
@@ -84,13 +90,10 @@ namespace WinPath.Library
                     throw new InvalidOperationException("Value is already added to the path.");
                 if (backup)
                     await BackupPath(initialPath, backupFilename);
-                Environment.SetEnvironmentVariable(
-                    "Path",
-                    (initialPath.EndsWith(";")                 // If the initial path does end with a semicolon,
-                        ? (initialPath + value + ";")          // Add the initial path without a semicolon.
-                        : (";" + initialPath + value + ";")),  // Otherwise add it to the Path starting with a semicolon.
-                    EnvironmentVariableTarget.Machine
-                );
+                string path = initialPath.EndsWith(";")     // If the initial path does end with a semicolon,
+                    ? (initialPath + value + ";")           // Add the initial path without a semicolon.
+                    : (";" + initialPath + value + ";");    // Otherwise add it to the Path starting with a semicolon.
+                Registry.SetValue(EnvironmentVariablesPath, "Path", path);
             }
             else
                 throw new ArgumentNullException(nameof(value));
